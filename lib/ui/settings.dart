@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:shufflechat/services/authProvider.dart';
 import 'package:shufflechat/services/dbProvider.dart';
 import 'package:shufflechat/ui/settingsIntrests.dart';
-import 'package:shufflechat/ui/settingsPicture.dart';
 
 class Settings extends StatefulWidget {
   @override

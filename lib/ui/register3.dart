@@ -1,13 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_picker_number/date_picker_number.dart';
-import 'package:date_picker_number/date_picker_number_settings.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shufflechat/models/UserData.dart';
 import 'package:provider/provider.dart';
-import 'package:shufflechat/services/authProvider.dart';
-import 'package:shufflechat/services/dbProvider.dart';
 import 'package:shufflechat/ui/register4.dart';
 
 class Register3 extends StatefulWidget {
