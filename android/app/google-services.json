@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "555826442624",
+    "firebase_url": "https://shufflechatapp.firebaseio.com",
+    "project_id": "shufflechatapp",
+    "storage_bucket": "shufflechatapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555826442624:android:f9d7e4a5c42e9f23cbd165",
+        "android_client_info": {
+          "package_name": "com.shufflechatapp.shufflechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555826442624-sasip1739dff7carelbfcgu48snq4fua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmGJnd8JZhdjoTq7l8Y58eWqCrktX1O0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555826442624-sasip1739dff7carelbfcgu48snq4fua.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "555826442624-h6scvq30e3pc64ss4fkt98mb2qogr5m0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.shufflechatapp.shufflechat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
