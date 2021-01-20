@@ -17,10 +17,9 @@ class _ShuffleScreenState extends State<ShuffleScreen> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 5, right: 15),
+                margin: EdgeInsets.only(top: 30, right: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

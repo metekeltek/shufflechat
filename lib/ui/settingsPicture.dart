@@ -6,7 +6,6 @@ import 'package:shufflechat/models/UserData.dart';
 import 'package:provider/provider.dart';
 import 'package:shufflechat/services/authProvider.dart';
 import 'package:shufflechat/services/dbProvider.dart';
-import 'package:shufflechat/ui/shuffleScreen.dart';
 
 class SettingsPicture extends StatefulWidget {
   @override

@@ -11,7 +11,6 @@ class Register3 extends StatefulWidget {
 }
 
 class _Register3State extends State<Register3> {
-  var dayNumber;
   DateTime birthdate;
 
   bool isNotAdult(DateTime birthdate) {
@@ -98,6 +97,9 @@ class _Register3State extends State<Register3> {
                 Container(
                   padding: EdgeInsets.only(top: 110),
                   height: 350,
+                  child: DatePicker((birthDateValue) {
+                    birthdate = birthDateValue;
+                  }),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.6,
@@ -109,17 +111,20 @@ class _Register3State extends State<Register3> {
                   child: MaterialButton(
                     textColor: Colors.white,
                     onPressed: () async {
-                      FocusScope.of(context).unfocus();
                       if (birthdate != null) {
-                        userData.birthday =
-                            Timestamp.fromMillisecondsSinceEpoch(
-                                birthdate.millisecondsSinceEpoch);
-                        context.read<UserData>().setUserDataModel(userData);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Register4(),
-                            ));
+                        if (isNotAdult(birthdate)) {
+                          _showDialog(context);
+                        } else {
+                          userData.birthday =
+                              Timestamp.fromMillisecondsSinceEpoch(
+                                  birthdate.millisecondsSinceEpoch);
+                          context.read<UserData>().setUserDataModel(userData);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Register4(),
+                              ));
+                        }
                       }
                     },
                     child: Text('next'),
@@ -153,6 +158,10 @@ void _showDialog(context) {
 }
 
 class DatePicker extends StatefulWidget {
+  final void Function(DateTime birthDate) onDateCallback;
+
+  DatePicker(this.onDateCallback);
+
   @override
   _DatePickerState createState() => _DatePickerState();
 }
@@ -191,6 +200,26 @@ class _DatePickerState extends State<DatePicker> {
 
   DateTime birthdate;
 
+  bool _errorVisible = false;
+
+  bool _dayFormatError = false;
+  bool _monthFormatError = false;
+  bool _yearFormatError = false;
+
+  void showError() {
+    setState(() {
+      _errorVisible = true;
+    });
+  }
+
+  void hideError() {
+    if (!_dayFormatError && !_monthFormatError && !_yearFormatError) {
+      setState(() {
+        _errorVisible = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -219,242 +248,482 @@ class _DatePickerState extends State<DatePicker> {
     super.dispose();
   }
 
-  void focusNext(String field) {
-    switch (field) {
-      case 'd1':
-        break;
-      case 'd2':
-        break;
-      case 'm1':
-        break;
-      case 'm2':
-        break;
-      case 'y1':
-        break;
-      case 'y2':
-        break;
-      case 'y3':
-        break;
-      case 'y4':
-        break;
+  void focusInput() {
+    if (_day1Controller.text.isEmpty) {
+      day1FocusNode.requestFocus();
+    } else if (_day2Controller.text.isEmpty) {
+      day1FocusNode.requestFocus();
+    } else if (_month1Controller.text.isEmpty) {
+      month1FocusNode.requestFocus();
+    } else if (_month2Controller.text.isEmpty) {
+      month2FocusNode.requestFocus();
+    } else if (_year1Controller.text.isEmpty) {
+      year1FocusNode.requestFocus();
+    } else if (_year2Controller.text.isEmpty) {
+      year2FocusNode.requestFocus();
+    } else if (_year3Controller.text.isEmpty) {
+      year3FocusNode.requestFocus();
+    } else if (_year4Controller.text.isEmpty) {
+      year4FocusNode.requestFocus();
     }
   }
 
-  void changeFocus(String field, String value) {
+  void changeFocusAndValidateValues(String field, String value) {
     switch (field) {
       case 'd1':
-        if (value != '') {
+        if (value == '') {
+          dayNumber = null;
+        } else {
           day2FocusNode.requestFocus();
+          if (_day2Controller.text.isNotEmpty) {
+            dayNumber = int.parse(_day1Controller.text + _day2Controller.text);
+            validateDay();
+            validateDate();
+          }
         }
         break;
       case 'd2':
         if (value == '') {
           day1FocusNode.requestFocus();
+          dayNumber = null;
         } else {
           month1FocusNode.requestFocus();
+          if (_day1Controller.text.isNotEmpty) {
+            dayNumber = int.parse(_day1Controller.text + _day2Controller.text);
+            validateDay();
+            validateDate();
+          }
         }
         break;
       case 'm1':
         if (value == '') {
           day2FocusNode.requestFocus();
+          monthNumber = null;
         } else {
           month2FocusNode.requestFocus();
+          if (_month2Controller.text.isNotEmpty) {
+            monthNumber =
+                int.parse(_month1Controller.text + _month2Controller.text);
+            validateMonth();
+            validateDate();
+          }
         }
         break;
       case 'm2':
         if (value == '') {
           month1FocusNode.requestFocus();
+          monthNumber = null;
         } else {
           year1FocusNode.requestFocus();
+
+          if (_month1Controller.text.isNotEmpty) {
+            monthNumber =
+                int.parse(_month1Controller.text + _month2Controller.text);
+            validateMonth();
+            validateDate();
+          }
         }
         break;
       case 'y1':
         if (value == '') {
           month2FocusNode.requestFocus();
+          yearNumber = null;
         } else {
           year2FocusNode.requestFocus();
+          if (_year2Controller.text.isNotEmpty &&
+              _year3Controller.text.isNotEmpty &&
+              _year4Controller.text.isNotEmpty) {
+            yearNumber = int.parse(_year1Controller.text +
+                _year2Controller.text +
+                _year3Controller.text +
+                _year4Controller.text);
+            validateYear();
+            validateDate();
+          }
         }
         break;
       case 'y2':
         if (value == '') {
           year1FocusNode.requestFocus();
+          yearNumber = null;
         } else {
           year3FocusNode.requestFocus();
+          if (_year1Controller.text.isNotEmpty &&
+              _year3Controller.text.isNotEmpty &&
+              _year4Controller.text.isNotEmpty) {
+            yearNumber = int.parse(_year1Controller.text +
+                _year2Controller.text +
+                _year3Controller.text +
+                _year4Controller.text);
+            validateYear();
+            validateDate();
+          }
         }
         break;
       case 'y3':
         if (value == '') {
           year2FocusNode.requestFocus();
+          yearNumber = null;
         } else {
           year4FocusNode.requestFocus();
+          if (_year1Controller.text.isNotEmpty &&
+              _year2Controller.text.isNotEmpty &&
+              _year4Controller.text.isNotEmpty) {
+            yearNumber = int.parse(_year1Controller.text +
+                _year2Controller.text +
+                _year3Controller.text +
+                _year4Controller.text);
+            validateYear();
+            validateDate();
+          }
         }
         break;
       case 'y4':
         if (value == '') {
-          year2FocusNode.requestFocus();
+          year3FocusNode.requestFocus();
+          yearNumber = null;
         } else {
-          FocusScope.of(context).unfocus();
+          if (_year1Controller.text.isNotEmpty &&
+              _year2Controller.text.isNotEmpty &&
+              _year3Controller.text.isNotEmpty) {
+            yearNumber = int.parse(_year1Controller.text +
+                _year2Controller.text +
+                _year3Controller.text +
+                _year4Controller.text);
+            validateYear();
+            validateDate();
+          }
         }
         break;
     }
   }
 
+  void validateDay() {
+    if (dayNumber > 0 && dayNumber < 32) {
+      _dayFormatError = false;
+      hideError();
+    } else {
+      _dayFormatError = true;
+      showError();
+    }
+  }
+
+  void validateMonth() {
+    if (monthNumber < 1 || monthNumber > 12) {
+      _monthFormatError = true;
+      showError();
+      return;
+    }
+
+    if (monthNumber == 2 && dayNumber > 28) {
+      _monthFormatError = true;
+      showError();
+      return;
+    }
+
+    if ((monthNumber == 4 ||
+            monthNumber == 6 ||
+            monthNumber == 9 ||
+            monthNumber == 11) &&
+        dayNumber > 30) {
+      _monthFormatError = true;
+      showError();
+      return;
+    }
+
+    _monthFormatError = false;
+    hideError();
+  }
+
+  void validateYear() {
+    if (yearNumber < 1900 || yearNumber > DateTime.now().year) {
+      _yearFormatError = true;
+      showError();
+    } else {
+      _yearFormatError = false;
+      hideError();
+    }
+  }
+
+  void validateDate() {
+    if (dayNumber != null &&
+        monthNumber != null &&
+        yearNumber != null &&
+        !_errorVisible) {
+      var birthdate = DateTime.utc(yearNumber, monthNumber, dayNumber);
+      widget.onDateCallback(birthdate);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Row(
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 350,
+      child: Column(
         children: [
-          //*d1
-          TextFormField(
-            onChanged: (value) {
-              changeFocus('d1', value);
-            },
-            focusNode: day1FocusNode,
-            enableInteractiveSelection: false,
-            maxLength: 1,
-            autofocus: true,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 30),
+                child: Column(
+                  children: [
+                    Text('day'),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //*d1
+                        Container(
+                          width: 30,
+                          height: 30,
+                          margin: EdgeInsets.only(right: 8),
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 25),
+                            onChanged: (value) {
+                              changeFocusAndValidateValues('d1', value);
+                            },
+                            focusNode: day1FocusNode,
+                            enableInteractiveSelection: false,
+                            maxLength: 1,
+                            autofocus: true,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            controller: _day1Controller,
+                            decoration: InputDecoration(
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                        //*d2
+                        Container(
+                          width: 30,
+                          height: 30,
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 25),
+                            onChanged: (value) {
+                              changeFocusAndValidateValues('d2', value);
+                            },
+                            focusNode: day2FocusNode,
+                            enableInteractiveSelection: false,
+                            maxLength: 1,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            controller: _day2Controller,
+                            decoration: InputDecoration(
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 28),
+                child: Column(
+                  children: [
+                    Text('month'),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      children: [
+                        //*m1
+                        Container(
+                          width: 30,
+                          height: 30,
+                          margin: EdgeInsets.only(right: 8),
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 25),
+                            onChanged: (value) {
+                              changeFocusAndValidateValues('m1', value);
+                            },
+                            focusNode: month1FocusNode,
+                            enableInteractiveSelection: false,
+                            maxLength: 1,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            controller: _month1Controller,
+                            decoration: InputDecoration(
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                        //*m2
+                        Container(
+                          width: 30,
+                          height: 30,
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 25),
+                            onChanged: (value) {
+                              changeFocusAndValidateValues('m2', value);
+                            },
+                            focusNode: month2FocusNode,
+                            enableInteractiveSelection: false,
+                            maxLength: 1,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            controller: _month2Controller,
+                            decoration: InputDecoration(
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    Text('year'),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      children: [
+                        //*y1
+                        Container(
+                          width: 30,
+                          height: 30,
+                          margin: EdgeInsets.only(right: 8),
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 25),
+                            onChanged: (value) {
+                              changeFocusAndValidateValues('y1', value);
+                            },
+                            focusNode: year1FocusNode,
+                            enableInteractiveSelection: false,
+                            maxLength: 1,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            controller: _year1Controller,
+                            decoration: InputDecoration(
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                        //*y2
+                        Container(
+                          width: 30,
+                          height: 30,
+                          margin: EdgeInsets.only(right: 8),
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 25),
+                            onChanged: (value) {
+                              changeFocusAndValidateValues('y2', value);
+                            },
+                            focusNode: year2FocusNode,
+                            enableInteractiveSelection: false,
+                            maxLength: 1,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            controller: _year2Controller,
+                            decoration: InputDecoration(
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                        //*y3
+                        Container(
+                          width: 30,
+                          height: 30,
+                          margin: EdgeInsets.only(right: 8),
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 25),
+                            onChanged: (value) {
+                              changeFocusAndValidateValues('y3', value);
+                            },
+                            focusNode: year3FocusNode,
+                            enableInteractiveSelection: false,
+                            maxLength: 1,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            controller: _year3Controller,
+                            decoration: InputDecoration(
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                        //*y4
+                        Container(
+                          width: 30,
+                          height: 30,
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 25),
+                            onChanged: (value) {
+                              changeFocusAndValidateValues('y4', value);
+                            },
+                            focusNode: year4FocusNode,
+                            enableInteractiveSelection: false,
+                            maxLength: 1,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            controller: _year4Controller,
+                            decoration: InputDecoration(
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ],
-            controller: _day1Controller,
-            decoration: InputDecoration(
-              counterText: '',
-            ),
           ),
-          //*d2
-          TextFormField(
-            onChanged: (value) {},
-            focusNode: day2FocusNode,
-            enableInteractiveSelection: false,
-            maxLength: 1,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-            ],
-            controller: _day2Controller,
-            decoration: InputDecoration(
-              counterText: '',
-            ),
+          SizedBox(
+            height: 30,
           ),
-          //*m1
-          TextFormField(
-            onChanged: (value) {
-              if (value == '') {
-                month1FocusNode.requestFocus();
-              } else {}
-              month2FocusNode.requestFocus();
-            },
-            focusNode: month1FocusNode,
-            enableInteractiveSelection: false,
-            maxLength: 1,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-            ],
-            controller: _month1Controller,
-            decoration: InputDecoration(
-              counterText: '',
-            ),
-          ),
-          //*m2
-          TextFormField(
-            onChanged: (value) {
-              if (value == '') {
-                month1FocusNode.requestFocus();
-              } else {}
-              year1FocusNode.requestFocus();
-            },
-            focusNode: month2FocusNode,
-            enableInteractiveSelection: false,
-            maxLength: 1,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-            ],
-            controller: _month2Controller,
-            decoration: InputDecoration(
-              counterText: '',
-            ),
-          ),
-          //*y1
-          TextFormField(
-            onChanged: (value) {
-              if (value == '') {
-                month2FocusNode.requestFocus();
-              } else {}
-              year2FocusNode.requestFocus();
-            },
-            focusNode: year1FocusNode,
-            enableInteractiveSelection: false,
-            maxLength: 1,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-            ],
-            controller: _year1Controller,
-            decoration: InputDecoration(
-              counterText: '',
-            ),
-          ),
-          //*y2
-          TextFormField(
-            onChanged: (value) {
-              if (value == '') {
-                year1FocusNode.requestFocus();
-              } else {}
-              year3FocusNode.requestFocus();
-            },
-            focusNode: year2FocusNode,
-            enableInteractiveSelection: false,
-            maxLength: 1,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-            ],
-            controller: _year2Controller,
-            decoration: InputDecoration(
-              counterText: '',
-            ),
-          ),
-          //*y3
-          TextFormField(
-            onChanged: (value) {
-              if (value == '') {
-                year2FocusNode.requestFocus();
-              } else {}
-              year4FocusNode.requestFocus();
-            },
-            focusNode: year3FocusNode,
-            enableInteractiveSelection: false,
-            maxLength: 1,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-            ],
-            controller: _year3Controller,
-            decoration: InputDecoration(
-              counterText: '',
-            ),
-          ),
-          //*y4
-          TextFormField(
-            onChanged: (value) {
-              if (value == '') {
-                year3FocusNode.requestFocus();
-              } else {}
-            },
-            focusNode: year4FocusNode,
-            enableInteractiveSelection: false,
-            maxLength: 1,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-            ],
-            controller: _year4Controller,
-            decoration: InputDecoration(
-              counterText: '',
+          Container(
+            height: 40,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: Visibility(
+                visible: _errorVisible,
+                child: Text(
+                  'The Date is not in the correct Date Format',
+                  style: TextStyle(color: Colors.red, fontSize: 17),
+                ),
+              ),
             ),
           ),
         ],
@@ -462,19 +731,3 @@ class _DatePickerState extends State<DatePicker> {
     );
   }
 }
-
-bool validDay(int day) {
-  if (day > 0 && day < 32) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-void validMonth() {}
-
-void validYear() {}
-
-void validateDate() {}
-
-void focusNext() {}

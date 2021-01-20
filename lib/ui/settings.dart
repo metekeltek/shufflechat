@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shufflechat/services/authProvider.dart';
 import 'package:shufflechat/services/dbProvider.dart';
 import 'package:shufflechat/ui/settingsIntrests.dart';
+import 'package:shufflechat/ui/support.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -62,9 +63,10 @@ class _SettingsState extends State<Settings> {
               Container(
                 height: MediaQuery.of(context).size.height / 6,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0, top: 30.0),
+                  padding:
+                      const EdgeInsets.only(left: 15.0, top: 30.0, right: 15),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SafeArea(
                         child: GestureDetector(
@@ -73,6 +75,22 @@ class _SettingsState extends State<Settings> {
                           },
                           child: Icon(
                             Icons.arrow_back,
+                            color: Colors.black,
+                            size: 35.0,
+                            semanticLabel: 'go back',
+                          ),
+                        ),
+                      ),
+                      SafeArea(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Support()));
+                          },
+                          child: Icon(
+                            Icons.help_outline,
                             color: Colors.black,
                             size: 35.0,
                             semanticLabel: 'go back',
@@ -136,7 +154,7 @@ class _SettingsState extends State<Settings> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 20),
-                width: MediaQuery.of(context).size.width / 1.4,
+                width: MediaQuery.of(context).size.width / 2.1,
                 height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
@@ -162,7 +180,7 @@ class _SettingsState extends State<Settings> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 30),
-                width: MediaQuery.of(context).size.width / 1.4,
+                width: MediaQuery.of(context).size.width / 2.1,
                 height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
@@ -185,7 +203,7 @@ class _SettingsState extends State<Settings> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 30),
-                width: MediaQuery.of(context).size.width / 1.4,
+                width: MediaQuery.of(context).size.width / 2.1,
                 height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),

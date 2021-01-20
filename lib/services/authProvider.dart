@@ -34,6 +34,10 @@ class AuthProvider {
     }
   }
 
+  Future resetPassword(String email) async {
+    await firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
   Future logout() async {
     await firebaseAuth.signOut();
   }
