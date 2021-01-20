@@ -15,6 +15,7 @@ class Register1 extends StatefulWidget {
 class _Register1State extends State<Register1> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  bool isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -125,36 +126,48 @@ class _Register1State extends State<Register1> {
                         ),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 1.6,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: Colors.amberAccent[700],
-                      ),
-                      child: MaterialButton(
-                        textColor: Colors.white,
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            var registerResult = await context
-                                .read<AuthProvider>()
-                                .register(_emailController.text,
-                                    _passwordController.text);
-                            if (registerResult.error = false) {
-                              UserData userData = UserData();
-                              await context
-                                  .read<DatabaseProvider>()
-                                  .setUser(registerResult.uid, userData);
-                            } else {
-                              var errorMessage =
-                                  translateError(registerResult.errorMessage);
-                              showError(errorMessage);
-                            }
-                          }
-                        },
-                        child: Text('continue'),
-                      ),
-                    ),
+                    isLoading
+                        ? CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.amberAccent[700]),
+                            strokeWidth: 4,
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width / 1.6,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.amberAccent[700],
+                            ),
+                            child: MaterialButton(
+                              textColor: Colors.white,
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  var registerResult = await context
+                                      .read<AuthProvider>()
+                                      .register(_emailController.text,
+                                          _passwordController.text);
+                                  if (registerResult.error = false) {
+                                    UserData userData = UserData();
+                                    await context
+                                        .read<DatabaseProvider>()
+                                        .setUser(registerResult.uid, userData);
+                                  } else {
+                                    var errorMessage = translateError(
+                                        registerResult.errorMessage);
+                                    showError(errorMessage);
+                                  }
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                              child: Text('continue'),
+                            ),
+                          ),
                     SizedBox(
                       height: 12,
                     ),

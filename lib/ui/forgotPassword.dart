@@ -10,6 +10,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController _emailController = TextEditingController();
+  bool isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -108,26 +109,38 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 1.6,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      color: Colors.amberAccent[700],
-                    ),
-                    child: MaterialButton(
-                      textColor: Colors.white,
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          await context
-                              .read<AuthProvider>()
-                              .resetPassword(_emailController.text);
-                          showResponse();
-                        }
-                      },
-                      child: Text('confirm'),
-                    ),
-                  ),
+                  isLoading
+                      ? CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.amberAccent[700]),
+                          strokeWidth: 4,
+                        )
+                      : Container(
+                          width: MediaQuery.of(context).size.width / 1.6,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: Colors.amberAccent[700],
+                          ),
+                          child: MaterialButton(
+                            textColor: Colors.white,
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                await context
+                                    .read<AuthProvider>()
+                                    .resetPassword(_emailController.text);
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                showResponse();
+                              }
+                            },
+                            child: Text('confirm'),
+                          ),
+                        ),
                   SizedBox(
                     height: 12,
                   ),

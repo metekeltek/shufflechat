@@ -32,6 +32,9 @@ void main() async {
             create: (context) => context.read<AuthProvider>().authState),
       ],
       child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: Colors.amberAccent[700],
+        ),
         debugShowCheckedModeBanner: false,
         title: 'Shuffle Chat',
         home: Authenticate(),

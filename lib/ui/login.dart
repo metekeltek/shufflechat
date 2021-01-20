@@ -13,6 +13,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  bool isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -114,31 +115,43 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 1.6,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: Colors.amberAccent[700],
-                      ),
-                      child: MaterialButton(
-                        textColor: Colors.white,
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            var result = await context
-                                .read<AuthProvider>()
-                                .login(_emailController.text,
-                                    _passwordController.text);
-                            if (result != 'success') {
-                              var errorMessage = translateError(result);
+                    isLoading
+                        ? CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.amberAccent[700]),
+                            strokeWidth: 4,
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width / 1.6,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.amberAccent[700],
+                            ),
+                            child: MaterialButton(
+                              textColor: Colors.white,
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  var result = await context
+                                      .read<AuthProvider>()
+                                      .login(_emailController.text,
+                                          _passwordController.text);
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  if (result != 'success') {
+                                    var errorMessage = translateError(result);
 
-                              showError(errorMessage);
-                            }
-                          }
-                        },
-                        child: Text('Login'),
-                      ),
-                    ),
+                                    showError(errorMessage);
+                                  }
+                                }
+                              },
+                              child: Text('Login'),
+                            ),
+                          ),
                     SizedBox(
                       height: 20,
                     ),

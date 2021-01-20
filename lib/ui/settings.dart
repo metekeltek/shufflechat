@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,8 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   TextEditingController _nameController = TextEditingController();
-  NetworkImage profileImage;
+  var profileImage;
+  bool isLoading = false;
 
   int calculateAge(Timestamp birthday) {
     if (birthday == null) {
@@ -55,7 +57,7 @@ class _SettingsState extends State<Settings> {
     var settingsWidget = this;
 
     if (userData.profilePictureURL != null) {
-      profileImage = NetworkImage(userData.profilePictureURL);
+      profileImage = CachedNetworkImageProvider(userData.profilePictureURL);
     }
 
     return Scaffold(
@@ -110,31 +112,35 @@ class _SettingsState extends State<Settings> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 13,
               ),
-              Center(
-                child: (() {
-                  if (userData.profilePictureURL != null) {
-                    return GestureDetector(
-                      onTap: () async {
-                        await showDialog(
-                            context: context,
-                            builder: (_) => ImageDialog(profileImage));
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        backgroundImage: profileImage,
-                        radius: 75.0,
+              isLoading
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 40),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.amberAccent[700]),
+                          strokeWidth: 4,
+                        ),
                       ),
-                    );
-                  } else {
-                    return Icon(
-                      Icons.account_circle_sharp,
-                      color: Colors.black,
-                      size: 150,
-                      semanticLabel: 'Settings',
-                    );
-                  }
-                }()),
-              ),
+                    )
+                  : Center(
+                      child: (() {
+                        if (userData.profilePictureURL != null) {
+                          return GestureDetector(
+                            onTap: () async {
+                              await showDialog(
+                                  context: context,
+                                  builder: (_) => ImageDialog(profileImage));
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              backgroundImage: profileImage,
+                              radius: 80.0,
+                            ),
+                          );
+                        }
+                      }()),
+                    ),
               SizedBox(
                 height: 15,
               ),
@@ -268,9 +274,9 @@ Future<File> compressFile(File file) async {
 }
 
 class ImageDialog extends StatelessWidget {
-  NetworkImage image;
+  var profileImage;
 
-  ImageDialog(this.image);
+  ImageDialog(this.profileImage);
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -285,7 +291,7 @@ class ImageDialog extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(500.0),
               image: DecorationImage(
-                image: image,
+                image: profileImage,
                 fit: BoxFit.cover,
                 alignment: FractionalOffset.center,
               )),
@@ -410,7 +416,7 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
     ),
     context: context,
     builder: (builder) {
-      return new Container(
+      return Container(
         padding: EdgeInsets.only(
           left: 5.0,
           right: 5.0,
@@ -445,9 +451,12 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
                   imageQuality: 0,
                 );
                 if (pickedFile != null) {
+                  settingsWidget.isLoading = true;
+                  settingsWidget.refresh();
                   var imageFile = await compressFile(File(pickedFile.path));
                   await uploadPicture(userData, authProvider, databaseProvider,
                       userDataProvider, imageFile);
+                  settingsWidget.isLoading = false;
                   settingsWidget.refresh();
                 }
 
@@ -482,9 +491,12 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
                   imageQuality: 0,
                 );
                 if (pickedFile != null) {
+                  settingsWidget.isLoading = true;
+                  settingsWidget.refresh();
                   var imageFile = await compressFile(File(pickedFile.path));
                   await uploadPicture(userData, authProvider, databaseProvider,
                       userDataProvider, imageFile);
+                  settingsWidget.isLoading = false;
                   settingsWidget.refresh();
                 }
                 Navigator.of(context).pop();
