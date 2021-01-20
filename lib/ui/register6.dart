@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shufflechat/models/UserData.dart';
 import 'package:provider/provider.dart';
@@ -140,6 +141,14 @@ class _Register6State extends State<Register6> {
   }
 }
 
+Future<File> compressFile(File file) async {
+  File compressedFile = await FlutterNativeImage.compressImage(
+    file.path,
+    quality: 5,
+  );
+  return compressedFile;
+}
+
 void _showImageBottomSheet(context, _Register6State settingsWidget) {
   ImagePicker picker = ImagePicker();
   PickedFile pickedFile;
@@ -184,7 +193,9 @@ void _showImageBottomSheet(context, _Register6State settingsWidget) {
                   source: ImageSource.camera,
                   imageQuality: 0,
                 );
-                _toUploadFile = File(pickedFile.path);
+                if (pickedFile != null) {
+                  _toUploadFile = await compressFile(File(pickedFile.path));
+                }
                 settingsWidget.refresh();
                 Navigator.of(context).pop();
               },
@@ -216,7 +227,10 @@ void _showImageBottomSheet(context, _Register6State settingsWidget) {
                   source: ImageSource.gallery,
                   imageQuality: 0,
                 );
-                _toUploadFile = File(pickedFile.path);
+                if (pickedFile != null) {
+                  _toUploadFile = await compressFile(File(pickedFile.path));
+                }
+
                 settingsWidget.refresh();
                 Navigator.of(context).pop();
               },

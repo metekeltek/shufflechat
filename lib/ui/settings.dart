@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shufflechat/models/UserData.dart';
@@ -19,6 +20,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   TextEditingController _nameController = TextEditingController();
+  NetworkImage profileImage;
 
   int calculateAge(Timestamp birthday) {
     if (birthday == null) {
@@ -51,6 +53,10 @@ class _SettingsState extends State<Settings> {
     var userData = context.watch<UserData>();
     _nameController.text = userData.name;
     var settingsWidget = this;
+
+    if (userData.profilePictureURL != null) {
+      profileImage = NetworkImage(userData.profilePictureURL);
+    }
 
     return Scaffold(
       body: Container(
@@ -107,11 +113,17 @@ class _SettingsState extends State<Settings> {
               Center(
                 child: (() {
                   if (userData.profilePictureURL != null) {
-                    return CircleAvatar(
-                      backgroundColor: Colors.white,
-                      backgroundImage:
-                          new NetworkImage(userData.profilePictureURL),
-                      radius: 75.0,
+                    return GestureDetector(
+                      onTap: () async {
+                        await showDialog(
+                            context: context,
+                            builder: (_) => ImageDialog(profileImage));
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        backgroundImage: profileImage,
+                        radius: 75.0,
+                      ),
                     );
                   } else {
                     return Icon(
@@ -245,6 +257,42 @@ Future uploadPicture(
   await databaseProvider.uploadFile(uid, file);
   userDataProvider.profilePictureURL = await databaseProvider.getFile(uid);
   await databaseProvider.setUser(uid, userData);
+}
+
+Future<File> compressFile(File file) async {
+  File compressedFile = await FlutterNativeImage.compressImage(
+    file.path,
+    quality: 0,
+  );
+  return compressedFile;
+}
+
+class ImageDialog extends StatelessWidget {
+  NetworkImage image;
+
+  ImageDialog(this.image);
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(500.0),
+      ),
+      child: AspectRatio(
+        aspectRatio: 1 / 1,
+        child: Container(
+          width: 500,
+          height: 500,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(500.0),
+              image: DecorationImage(
+                image: image,
+                fit: BoxFit.cover,
+                alignment: FractionalOffset.center,
+              )),
+        ),
+      ),
+    );
+  }
 }
 
 void _showBottomSheet(context, UserData userData, authProvider,
@@ -396,9 +444,13 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
                   source: ImageSource.camera,
                   imageQuality: 0,
                 );
-                await uploadPicture(userData, authProvider, databaseProvider,
-                    userDataProvider, File(pickedFile.path));
-                settingsWidget.refresh();
+                if (pickedFile != null) {
+                  var imageFile = await compressFile(File(pickedFile.path));
+                  await uploadPicture(userData, authProvider, databaseProvider,
+                      userDataProvider, imageFile);
+                  settingsWidget.refresh();
+                }
+
                 Navigator.of(context).pop();
               },
             ),
@@ -429,9 +481,12 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
                   source: ImageSource.gallery,
                   imageQuality: 0,
                 );
-                await uploadPicture(userData, authProvider, databaseProvider,
-                    userDataProvider, File(pickedFile.path));
-                settingsWidget.refresh();
+                if (pickedFile != null) {
+                  var imageFile = await compressFile(File(pickedFile.path));
+                  await uploadPicture(userData, authProvider, databaseProvider,
+                      userDataProvider, imageFile);
+                  settingsWidget.refresh();
+                }
                 Navigator.of(context).pop();
               },
             ),
