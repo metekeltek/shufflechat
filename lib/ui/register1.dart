@@ -6,6 +6,7 @@ import 'package:shufflechat/services/authProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shufflechat/services/dbProvider.dart';
 import 'package:shufflechat/ui/register2.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Register1 extends StatefulWidget {
   @override

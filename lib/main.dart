@@ -11,41 +11,61 @@ import 'package:shufflechat/ui/shuffleScreen.dart';
 import 'ui/login.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
   ]);
   await Firebase.initializeApp();
-  runApp(Phoenix(
-    child: MultiProvider(
-      providers: [
-        Provider<AuthProvider>(
-            create: (_) => AuthProvider(FirebaseAuth.instance)),
-        Provider<DatabaseProvider>(
-            create: (_) => DatabaseProvider(
-                FirebaseFirestore.instance, FirebaseStorage.instance)),
-        FutureProvider<UserData>(
-          initialData: UserData(),
-          create: (_) => DatabaseProvider(
-                  FirebaseFirestore.instance, FirebaseStorage.instance)
-              .getUserData(FirebaseAuth.instance.currentUser.uid),
-        ),
-        StreamProvider(
-            create: (context) => context.read<AuthProvider>().authState),
+  runApp(
+    EasyLocalization(
+      supportedLocales: [
+        Locale('en'),
+        Locale('de'),
       ],
-      child: MaterialApp(
-        theme: ThemeData(
-          primaryColor: const Color(0xffff9600),
+      path: 'assets/translations',
+      fallbackLocale: Locale('en', 'US'),
+      child: Phoenix(
+        child: MultiProvider(
+          providers: [
+            Provider<AuthProvider>(
+                create: (_) => AuthProvider(FirebaseAuth.instance)),
+            Provider<DatabaseProvider>(
+                create: (_) => DatabaseProvider(
+                    FirebaseFirestore.instance, FirebaseStorage.instance)),
+            FutureProvider<UserData>(
+              initialData: UserData(),
+              create: (_) => DatabaseProvider(
+                      FirebaseFirestore.instance, FirebaseStorage.instance)
+                  .getUserData(FirebaseAuth.instance.currentUser.uid),
+            ),
+            StreamProvider(
+                create: (context) => context.read<AuthProvider>().authState),
+          ],
+          child: Main(),
         ),
-        debugShowCheckedModeBanner: false,
-        title: 'Shuffle Chat',
-        home: Authenticate(),
       ),
     ),
-  ));
+  );
+}
+
+class Main extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      theme: ThemeData(
+        primaryColor: const Color(0xffff9600),
+      ),
+      debugShowCheckedModeBanner: false,
+      title: 'Shuffle Chat',
+      home: Authenticate(),
+    );
+  }
 }
 
 class Authenticate extends StatelessWidget {

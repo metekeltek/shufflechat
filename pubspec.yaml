@@ -28,6 +28,7 @@ dependencies:
   cloud_firestore: ^0.14.3+1
   cupertino_icons: ^1.0.1
   custom_radio_grouped_button: ^1.0.6+1
+  easy_localization: ^2.3.3+1
   firebase_auth: ^0.18.3+1
   firebase_core: ^0.5.2+1
   firebase_storage: ^5.2.0
@@ -41,6 +42,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+dependency_overrides:
+  intl: ^0.17.0-nullsafety.2
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
@@ -53,7 +57,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+    - assets/translations/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

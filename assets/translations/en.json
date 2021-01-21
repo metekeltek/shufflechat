@@ -1,0 +1,23 @@
+{
+    "welcome": "Welcome to",
+    "required": "* Required",
+    "email": "email",
+    "validMail": "Enter valid email id",
+    "password": "password",
+    "passwordMin": "Password should be atleast 6 characters",
+    "passwordMax": "Password should not be greater than 40 characters",
+    "login": "Login",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Have no Account? ",
+    "registerHere": "Register here",
+    "invalidMail": "invalid email address",
+    "noUserWithMail": "There is no user with the given email",
+    "wrongPassword": "wrong password",
+
+    "resetPasswordTitle": "Reset your password",
+    "resetPasswordMail": "We have send you a email to reset your password",
+    "resetPassword": "Reset Password"
+
+
+
+}

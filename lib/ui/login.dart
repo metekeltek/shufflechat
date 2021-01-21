@@ -4,6 +4,7 @@ import 'package:shufflechat/services/authProvider.dart';
 import 'package:shufflechat/ui/forgotPassword.dart';
 import 'package:shufflechat/ui/register1.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -44,10 +45,23 @@ class _LoginState extends State<Login> {
                   children: [
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Text(
-                        'Welcome to Shuffle Chat',
-                        style: TextStyle(
-                            fontSize: 78.0, fontWeight: FontWeight.w800),
+                      child: Column(
+                        children: [
+                          FittedBox(
+                            child: Text(
+                              'welcome'.tr(),
+                              style: TextStyle(
+                                  fontSize: 78.0, fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                          FittedBox(
+                            child: Text(
+                              'Shufflechat',
+                              style: TextStyle(
+                                  fontSize: 78.0, fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(
@@ -60,15 +74,15 @@ class _LoginState extends State<Login> {
                         controller: _emailController,
                         decoration: InputDecoration(
                           counterText: '',
-                          labelText: 'email',
+                          labelText: 'email'.tr(),
                           labelStyle: TextStyle(
                             color: Colors.black,
                           ),
                           fillColor: Colors.black,
                         ),
                         validator: MultiValidator([
-                          RequiredValidator(errorText: "* Required"),
-                          EmailValidator(errorText: "Enter valid email id"),
+                          RequiredValidator(errorText: 'required'.tr()),
+                          EmailValidator(errorText: 'validMail'.tr()),
                         ]),
                       ),
                     ),
@@ -83,20 +97,16 @@ class _LoginState extends State<Login> {
                         obscureText: true,
                         decoration: InputDecoration(
                           counterText: '',
-                          labelText: 'password',
+                          labelText: 'password'.tr(),
                           labelStyle: TextStyle(
                             color: Colors.black,
                           ),
                           fillColor: Colors.black,
                         ),
                         validator: MultiValidator([
-                          RequiredValidator(errorText: "* Required"),
-                          MinLengthValidator(6,
-                              errorText:
-                                  "Password should be atleast 6 characters"),
-                          MaxLengthValidator(40,
-                              errorText:
-                                  "Password should not be greater than 15 characters")
+                          RequiredValidator(errorText: 'required'.tr()),
+                          MinLengthValidator(6, errorText: 'passwordMin'),
+                          MaxLengthValidator(40, errorText: 'passwordMax')
                         ]),
                       ),
                     ),
@@ -149,7 +159,7 @@ class _LoginState extends State<Login> {
                                   }
                                 }
                               },
-                              child: Text('Login'),
+                              child: Text('login'.tr()),
                             ),
                           ),
                     SizedBox(
@@ -166,7 +176,7 @@ class _LoginState extends State<Login> {
                                     builder: (context) => ForgotPassword()));
                           },
                           child: Text(
-                            'Forgot password?',
+                            'forgotPassword'.tr(),
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 fontSize: 14),
@@ -183,7 +193,7 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Have no Account? ',
+                            'noAccount'.tr(),
                             style: TextStyle(fontSize: 15),
                           ),
                           GestureDetector(
@@ -196,7 +206,7 @@ class _LoginState extends State<Login> {
                               );
                             },
                             child: Text(
-                              'Register here',
+                              'registerHere'.tr(),
                               style: TextStyle(
                                   decoration: TextDecoration.underline,
                                   fontSize: 15),
@@ -219,13 +229,13 @@ class _LoginState extends State<Login> {
 String translateError(errorMessage) {
   switch (errorMessage) {
     case 'invalid-email':
-      errorMessage = 'invalid email address';
+      errorMessage = 'invalidMail'.tr();
       break;
     case 'user-not-found':
-      errorMessage = 'There is no user with the given email';
+      errorMessage = 'noUserWithMail'.tr();
       break;
     case 'wrong-password':
-      errorMessage = 'wrong password';
+      errorMessage = 'wrongPassword'.tr();
       break;
     default:
       errorMessage = 'error';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shufflechat/services/authProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -51,7 +52,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 Icons.arrow_back,
                                 color: Colors.black,
                                 size: 35.0,
-                                semanticLabel: 'go back',
                               ),
                             ),
                           ),
@@ -66,7 +66,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.only(left: 8),
                     child: Text(
-                      'Reset your password',
+                      'resetPasswordTitle'.tr(),
                       style: TextStyle(
                           fontSize: 70.0, fontWeight: FontWeight.w800),
                       textAlign: TextAlign.left,
@@ -89,8 +89,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         fillColor: Colors.black,
                       ),
                       validator: MultiValidator([
-                        RequiredValidator(errorText: "* Required"),
-                        EmailValidator(errorText: "Enter valid email id"),
+                        RequiredValidator(errorText: 'required'.tr()),
+                        EmailValidator(errorText: 'validMail'.tr()),
                       ]),
                     ),
                   ),
@@ -103,7 +103,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       child: Visibility(
                         visible: _isVisible,
                         child: Text(
-                          'We have send you a email to reset your password',
+                          'resetPasswordMail'.tr(),
                           style: TextStyle(color: Colors.green, fontSize: 17),
                         ),
                       ),
@@ -138,7 +138,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 showResponse();
                               }
                             },
-                            child: Text('confirm'),
+                            child: Text('resetPassword'.tr()),
                           ),
                         ),
                   SizedBox(
