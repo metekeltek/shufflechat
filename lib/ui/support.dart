@@ -61,9 +61,6 @@ class _SupportState extends State<Support> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     width: MediaQuery.of(context).size.width,
@@ -78,7 +75,7 @@ class _SupportState extends State<Support> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: EdgeInsets.only(top: 5),
                     width: MediaQuery.of(context).size.width,
                     child: Center(
                       child: SelectableText(

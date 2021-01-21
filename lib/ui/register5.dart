@@ -83,7 +83,7 @@ class _Register5State extends State<Register5> {
             ),
             Container(
               width: MediaQuery.of(context).size.width / 1.02,
-              height: MediaQuery.of(context).size.height / 1.6,
+              height: MediaQuery.of(context).size.height / 2,
               child: CustomCheckBoxGroup(
                 buttonTextStyle: ButtonTextStyle(
                   selectedColor: Colors.white,

@@ -307,7 +307,8 @@ void _showBottomSheet(context, UserData userData, authProvider,
     databaseProvider, userDataProvider, _SettingsState settingsWidget) {
   showModalBottomSheet(
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(25),
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10), topRight: Radius.circular(10)),
     ),
     context: context,
     builder: (builder) {
@@ -427,7 +428,9 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
         ),
         height: MediaQuery.of(context).size.height / 6,
         decoration: new BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(50)),
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         child: Wrap(
           runAlignment: WrapAlignment.spaceEvenly,
           children: [
