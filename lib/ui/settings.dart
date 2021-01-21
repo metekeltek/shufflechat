@@ -118,7 +118,7 @@ class _SettingsState extends State<Settings> {
                       child: Center(
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.amberAccent[700]),
+                              const Color(0xffff9600)),
                           strokeWidth: 4,
                         ),
                       ),
@@ -178,7 +178,7 @@ class _SettingsState extends State<Settings> {
                 height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  color: Colors.amberAccent[700],
+                  color: const Color(0xffff9600),
                 ),
                 child: MaterialButton(
                   textColor: Colors.white,
@@ -204,7 +204,7 @@ class _SettingsState extends State<Settings> {
                 height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  color: Colors.amberAccent[700],
+                  color: const Color(0xffff9600),
                 ),
                 child: MaterialButton(
                   textColor: Colors.white,
@@ -329,7 +329,7 @@ void _showBottomSheet(context, UserData userData, authProvider,
                   width: 4.0,
                   child: Icon(
                     Icons.photo,
-                    color: Colors.amberAccent[700],
+                    color: const Color(0xffff9600),
                     size: 24.0,
                   ),
                 ),
@@ -357,7 +357,7 @@ void _showBottomSheet(context, UserData userData, authProvider,
                 width: 4.0,
                 child: Icon(
                   Icons.text_fields_outlined,
-                  color: Colors.amberAccent[700],
+                  color: const Color(0xffff9600),
                   size: 24.0,
                 ),
               ),
@@ -383,7 +383,7 @@ void _showBottomSheet(context, UserData userData, authProvider,
                 width: 4.0,
                 child: Icon(
                   Icons.sports_tennis,
-                  color: Colors.amberAccent[700],
+                  color: const Color(0xffff9600),
                   size: 24.0,
                 ),
               ),

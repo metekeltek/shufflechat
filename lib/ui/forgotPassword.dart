@@ -112,7 +112,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   isLoading
                       ? CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.amberAccent[700]),
+                              const Color(0xffff9600)),
                           strokeWidth: 4,
                         )
                       : Container(
@@ -120,7 +120,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           height: 45,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
-                            color: Colors.amberAccent[700],
+                            color: const Color(0xffff9600),
                           ),
                           child: MaterialButton(
                             textColor: Colors.white,

@@ -116,8 +116,8 @@ class _SettingsIntrestsState extends State<SettingsIntrests> {
                 defaultSelected: userData.interests,
                 unSelectedColor: Theme.of(context).canvasColor,
                 unSelectedBorderColor: Colors.black,
-                selectedColor: Colors.amberAccent[700],
-                selectedBorderColor: Colors.amberAccent[700],
+                selectedColor: const Color(0xffff9600),
+                selectedBorderColor: const Color(0xffff9600),
                 checkBoxButtonValues: (values) {
                   userData.interests = values;
                   if (values.length > 5) {

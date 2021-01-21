@@ -35,7 +35,7 @@ class _Register6State extends State<Register6> {
             child: isLoading
                 ? CircularProgressIndicator(
                     valueColor:
-                        AlwaysStoppedAnimation<Color>(Colors.amberAccent[700]),
+                        AlwaysStoppedAnimation<Color>(const Color(0xffff9600)),
                     strokeWidth: 4,
                   )
                 : Column(
@@ -120,7 +120,7 @@ class _Register6State extends State<Register6> {
                         height: 45,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
-                          color: Colors.amberAccent[700],
+                          color: const Color(0xffff9600),
                         ),
                         child: MaterialButton(
                           textColor: Colors.white,

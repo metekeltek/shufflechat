@@ -107,7 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   tooltip: 'Show User',
                   onPressed: () {},
                 ),
-                backgroundColor: Colors.amberAccent[700],
+                backgroundColor: const Color(0xffff9600),
                 actions: [
                   IconButton(
                     padding: EdgeInsets.only(right: 40),
@@ -215,7 +215,7 @@ class _ChatScreenState extends State<ChatScreen> {
             }
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.amberAccent[700],
+                backgroundColor: const Color(0xffff9600),
                 actions: [
                   IconButton(
                     icon: const Icon(Icons.arrow_left),
@@ -259,7 +259,7 @@ class MessageTile extends StatelessWidget {
             gradient: LinearGradient(
                 colors: isSendByMe
                     ? [Colors.grey[300], Colors.grey[300]]
-                    : [Colors.amber[400], Colors.amberAccent[700]]),
+                    : [Colors.amber[400], const Color(0xffff9600)]),
             borderRadius: BorderRadius.circular(22.0)),
         child: Text(
           message,

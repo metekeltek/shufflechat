@@ -6,6 +6,7 @@ class Support extends StatefulWidget {
 }
 
 class _SupportState extends State<Support> {
+  var backgroundColor = const Color(0xffffe8c9);
   final mail = 'support@shufflechat.com';
   TextEditingController mailController = TextEditingController();
 
@@ -85,7 +86,7 @@ class _SupportState extends State<Support> {
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                            color: Colors.amberAccent[700]),
+                            color: const Color(0xffff9600)),
                       ),
                     ),
                   ),
@@ -101,7 +102,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Was ist Shufflechat?',
                       overflow: TextOverflow.visible,
@@ -129,7 +130,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Kann ich Shufflechat überall in der Welt benutzen?',
                       overflow: TextOverflow.visible,
@@ -157,7 +158,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Wo kann ich über Neuigkeiten und zukünftige Updates von Shufflechat erfahren?',
                       overflow: TextOverflow.visible,
@@ -185,7 +186,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Welche Daten werden von mir gespeichert?',
                       overflow: TextOverflow.visible,
@@ -213,7 +214,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Werden meine Daten an dritte weitergegeben?',
                       overflow: TextOverflow.visible,
@@ -241,7 +242,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Wie kann ich meine Daten löschen lassen?',
                       overflow: TextOverflow.visible,
@@ -269,7 +270,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Ist Shuffle Chat kostenlos?',
                       overflow: TextOverflow.visible,
@@ -297,7 +298,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Was beinhaltet das Premium Abo?',
                       overflow: TextOverflow.visible,
@@ -325,7 +326,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Wie kann ich mein Abo kündigen?',
                       overflow: TextOverflow.visible,
@@ -353,7 +354,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Ich bin unzufrieden, wie kriege ich mein Geld zurück?',
                       overflow: TextOverflow.visible,
@@ -381,7 +382,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Kommen noch neue Features für diese App?',
                       overflow: TextOverflow.visible,
@@ -409,7 +410,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Was sollte ich bei meinem Foto beachten?',
                       overflow: TextOverflow.visible,
@@ -437,7 +438,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Wer darf alles Shuffle Chat benutzen?',
                       overflow: TextOverflow.visible,
@@ -465,7 +466,7 @@ class _SupportState extends State<Support> {
                   ExpansionTile(
                     tilePadding:
                         const EdgeInsets.only(left: 15, right: 15, bottom: 20),
-                    backgroundColor: Colors.amber[100],
+                    backgroundColor: backgroundColor,
                     title: Text(
                       'Was soll ich tun wenn ich technische Probleme mit der App habe?',
                       overflow: TextOverflow.visible,

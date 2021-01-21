@@ -106,7 +106,7 @@ class _Register3State extends State<Register3> {
                   height: 45,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
-                    color: Colors.amberAccent[700],
+                    color: const Color(0xffff9600),
                   ),
                   child: MaterialButton(
                     textColor: Colors.white,

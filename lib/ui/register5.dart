@@ -94,8 +94,8 @@ class _Register5State extends State<Register5> {
                 ),
                 unSelectedColor: Theme.of(context).canvasColor,
                 unSelectedBorderColor: Colors.black,
-                selectedColor: Colors.amberAccent[700],
-                selectedBorderColor: Colors.amberAccent[700],
+                selectedColor: const Color(0xffff9600),
+                selectedBorderColor: const Color(0xffff9600),
                 checkBoxButtonValues: (values) {
                   userData.interests = values;
                   if (values.length > 5) {
@@ -236,7 +236,7 @@ class _Register5State extends State<Register5> {
               height: 45,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
-                color: Colors.amberAccent[700],
+                color: const Color(0xffff9600),
               ),
               child: MaterialButton(
                 textColor: Colors.white,

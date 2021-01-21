@@ -38,7 +38,7 @@ void main() async {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: Colors.amberAccent[700],
+          primaryColor: const Color(0xffff9600),
         ),
         debugShowCheckedModeBanner: false,
         title: 'Shuffle Chat',

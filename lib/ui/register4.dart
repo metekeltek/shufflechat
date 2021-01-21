@@ -89,8 +89,8 @@ class _Register4State extends State<Register4> {
                       ),
                       unSelectedColor: Theme.of(context).canvasColor,
                       unSelectedBorderColor: Colors.black,
-                      selectedColor: Colors.amberAccent[700],
-                      selectedBorderColor: Colors.amberAccent[700],
+                      selectedColor: const Color(0xffff9600),
+                      selectedBorderColor: const Color(0xffff9600),
                       radioButtonValue: (value) {
                         selected = value;
                       },
@@ -121,7 +121,7 @@ class _Register4State extends State<Register4> {
               height: 45,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
-                color: Colors.amberAccent[700],
+                color: const Color(0xffff9600),
               ),
               child: MaterialButton(
                 textColor: Colors.white,

@@ -118,7 +118,7 @@ class _LoginState extends State<Login> {
                     isLoading
                         ? CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.amberAccent[700]),
+                                const Color(0xffff9600)),
                             strokeWidth: 4,
                           )
                         : Container(
@@ -126,7 +126,7 @@ class _LoginState extends State<Login> {
                             height: 45,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0),
-                              color: Colors.amberAccent[700],
+                              color: const Color(0xffff9600),
                             ),
                             child: MaterialButton(
                               textColor: Colors.white,
