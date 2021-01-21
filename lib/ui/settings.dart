@@ -138,6 +138,8 @@ class _SettingsState extends State<Settings> {
                               radius: 80.0,
                             ),
                           );
+                        } else {
+                          return SizedBox(height: 90);
                         }
                       }()),
                     ),
