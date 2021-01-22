@@ -60,7 +60,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 7,
+                    height: MediaQuery.of(context).size.height / 6,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -68,7 +68,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: Text(
                       'resetPasswordTitle'.tr(),
                       style: TextStyle(
-                          fontSize: 70.0, fontWeight: FontWeight.w800),
+                          fontSize: 56.0, fontWeight: FontWeight.w800),
                       textAlign: TextAlign.left,
                     ),
                   ),
@@ -98,16 +98,23 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     height: 10,
                   ),
                   Container(
-                    height: 40,
+                    height: 60,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Center(
                       child: Visibility(
                         visible: _isVisible,
                         child: Text(
                           'resetPasswordMail'.tr(),
-                          style: TextStyle(color: Colors.green, fontSize: 17),
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   isLoading
                       ? CircularProgressIndicator(

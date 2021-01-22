@@ -11,7 +11,7 @@
     "noAccount": "Kein Account? ",
     "registerHere": "Registriere dich hier",
     "invalidMail": "Unzulässsige Email Adresse",
-    "noUserWithMail": "Es existiert kein User unter der angegebenen Email Adresse",
+    "noUserWithMail": "Es existiert kein User mit der Email Adresse",
     "wrongPassword": "falsches Passwort",
 
     "resetPasswordTitle": "Passwort zurücksetzen",
@@ -29,8 +29,8 @@
     "privacyTitle": "Datenschutzerklärung",
     "cancel": "abbrechen",
     "back": "zurück",
-    "agree": "Zustimmen",
-    "agreeAndContinue": "Zustimmen & weiter",
+    "agree": "zustimmen",
+    "agreeAndContinue": "zustimmen & weiter",
 
     "name": "Dein Name",
     "enterName": "Gib einen Namen für dein Profil ein",
@@ -46,9 +46,9 @@
     "dateFormatError": "Das Datum ist nicht im korrekten Datums-Format",
 
     "youAre": "Du bist...",
-    "chooseYourGender": "Wähl dein Geschlecht",
-    "female": "Weiblich",
-    "male": "Männlich",
+    "chooseYourGender": "Wähle dein Geschlecht",
+    "female": "Frau",
+    "male": "Mann",
     "others": "Andere",
 
     "yourIntrests": "Deine Interessen",
@@ -61,7 +61,7 @@
     "fitness": "Fitness",
     "jogging": "Joggen",
     "cooking": "Kochen",
-    "baking": "Baken",
+    "baking": "Backen",
     "videogames": "Videospiele",
     "seriesAndMovies": "Serien und Filme",
     "hiking": "Wandern",
@@ -108,12 +108,12 @@
     "collections": "Sammeln",
     "extremeSports": "Extremsportarten",
 
-    "profilePicture": "Profil Bild",
-    "clickImage": "Klick auf das Zeichen um ein Profil Bild auszusuchen",
+    "profilePicture": "Profilbild",
+    "clickImage": "Klick auf das Zeichen um ein Profilbild auszusuchen",
     "picture": "Bild",
     "completeRegistration": "Registrierung abschließen",
     "takeImage": "Bild aufnehmen",
-    "chooseGallery": "Aus der Gallery wählen",
+    "chooseGallery": "Aus der Gallerie wählen",
 
     "editProfile": "Profil bearbeiten",
     "logout": "ausloggen",

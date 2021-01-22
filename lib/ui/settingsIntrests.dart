@@ -85,16 +85,20 @@ class _SettingsIntrestsState extends State<SettingsIntrests> {
               padding: EdgeInsets.only(right: 15),
               width: MediaQuery.of(context).size.width,
               child: Center(
-                child: Text(
-                  'yourIntrests'.tr(),
-                  style: TextStyle(fontSize: 60.0, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.left,
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Text(
+                    'yourIntrests'.tr(),
+                    style:
+                        TextStyle(fontSize: 60.0, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
               ),
             ),
             Container(
               height: 25,
-              padding: EdgeInsets.only(left: 30),
+              padding: EdgeInsets.only(left: 5),
               width: MediaQuery.of(context).size.width,
               child: Text(
                 'chooseIntrests'.tr(),

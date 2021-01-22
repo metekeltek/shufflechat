@@ -542,7 +542,7 @@ void _showNameDialog(context, userData, authProvider, databaseProvider,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
               ),
-              width: 80,
+              width: 90,
               child: MaterialButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),

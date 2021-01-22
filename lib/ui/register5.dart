@@ -64,16 +64,20 @@ class _Register5State extends State<Register5> {
               padding: EdgeInsets.only(right: 15),
               width: MediaQuery.of(context).size.width,
               child: Center(
-                child: Text(
-                  'yourIntrests'.tr(),
-                  style: TextStyle(fontSize: 60.0, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.left,
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Text(
+                    'yourIntrests'.tr(),
+                    style:
+                        TextStyle(fontSize: 60.0, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
               ),
             ),
             Container(
               height: 25,
-              padding: EdgeInsets.only(left: 30),
+              padding: EdgeInsets.only(left: 5),
               width: MediaQuery.of(context).size.width,
               child: Text(
                 'chooseIntrests'.tr(),
@@ -217,6 +221,9 @@ class _Register5State extends State<Register5> {
                 padding: 5,
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
             Container(
               height: 25,
               child: Center(
@@ -224,10 +231,16 @@ class _Register5State extends State<Register5> {
                   visible: _isVisible,
                   child: Text(
                     'choose3Intrests'.tr(),
-                    style: TextStyle(color: Colors.red, fontSize: 17),
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
+            ),
+            SizedBox(
+              height: 5,
             ),
             Container(
               width: MediaQuery.of(context).size.width / 1.6,

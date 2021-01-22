@@ -114,16 +114,23 @@ class _LoginState extends State<Login> {
                       height: 10,
                     ),
                     Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
                       height: 40,
                       child: Center(
                         child: Visibility(
                           visible: _isVisible,
                           child: Text(
                             errorMessage,
-                            style: TextStyle(color: Colors.red, fontSize: 17),
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     isLoading
                         ? CircularProgressIndicator(
@@ -179,7 +186,7 @@ class _LoginState extends State<Login> {
                             'forgotPassword'.tr(),
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
-                                fontSize: 14),
+                                fontSize: 15),
                           ),
                         ),
                       ),

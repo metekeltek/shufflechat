@@ -81,13 +81,15 @@ class _Register6State extends State<Register6> {
                       ),
                       Container(
                         height: 27,
-                        padding: EdgeInsets.only(left: 24),
+                        padding: EdgeInsets.symmetric(horizontal: 9),
                         width: MediaQuery.of(context).size.width,
-                        child: Text(
-                          'clickImage'.tr(),
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.w400),
-                          textAlign: TextAlign.left,
+                        child: FittedBox(
+                          child: Text(
+                            'clickImage'.tr(),
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.left,
+                          ),
                         ),
                       ),
                       Container(

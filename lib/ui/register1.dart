@@ -62,12 +62,16 @@ class _Register1State extends State<Register1> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(left: 8),
-                            child: Text(
-                              'register'.tr(),
-                              style: TextStyle(
-                                  fontSize: 78.0, fontWeight: FontWeight.w800),
-                              textAlign: TextAlign.left,
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                'register'.tr(),
+                                style: TextStyle(
+                                    fontSize: 78.0,
+                                    fontWeight: FontWeight.w800),
+                                textAlign: TextAlign.left,
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -119,6 +123,9 @@ class _Register1State extends State<Register1> {
                               ]),
                             ),
                           ),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Container(
                             height: 40,
                             child: Center(
@@ -127,10 +134,15 @@ class _Register1State extends State<Register1> {
                                 child: Text(
                                   errorMessage,
                                   style: TextStyle(
-                                      color: Colors.red, fontSize: 17),
+                                      color: Colors.red,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ),
+                          ),
+                          SizedBox(
+                            height: 5,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width / 1.6,
@@ -174,10 +186,7 @@ class _Register1State extends State<Register1> {
                             ),
                           ),
                           SizedBox(
-                            height: 5,
-                          ),
-                          SizedBox(
-                            height: 20,
+                            height: 25,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
