@@ -92,7 +92,7 @@ class _LoginState extends State<Login> {
                     Container(
                       width: MediaQuery.of(context).size.width / 1.1,
                       child: TextFormField(
-                        maxLength: 40,
+                        maxLength: 30,
                         controller: _passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
@@ -105,8 +105,8 @@ class _LoginState extends State<Login> {
                         ),
                         validator: MultiValidator([
                           RequiredValidator(errorText: 'required'.tr()),
-                          MinLengthValidator(6, errorText: 'passwordMin'),
-                          MaxLengthValidator(40, errorText: 'passwordMax')
+                          MinLengthValidator(6, errorText: 'passwordMin'.tr()),
+                          MaxLengthValidator(30, errorText: 'passwordMax'.tr())
                         ]),
                       ),
                     ),

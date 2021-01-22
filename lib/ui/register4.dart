@@ -4,6 +4,7 @@ import 'package:shufflechat/Packages/CustomRadioButtonFixed.dart';
 import 'package:shufflechat/models/UserData.dart';
 import 'package:provider/provider.dart';
 import 'package:shufflechat/ui/register5.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Register4 extends StatefulWidget {
   @override
@@ -39,7 +40,6 @@ class _Register4State extends State<Register4> {
                           Icons.arrow_back,
                           color: Colors.black,
                           size: 35.0,
-                          semanticLabel: 'go back',
                         ),
                       ),
                     ),
@@ -55,7 +55,7 @@ class _Register4State extends State<Register4> {
               padding: EdgeInsets.only(right: 10),
               width: MediaQuery.of(context).size.width / 1.06,
               child: Text(
-                'You are...',
+                'youAre'.tr(),
                 style: TextStyle(fontSize: 60.0, fontWeight: FontWeight.w500),
                 textAlign: TextAlign.left,
               ),
@@ -65,7 +65,7 @@ class _Register4State extends State<Register4> {
               padding: EdgeInsets.only(left: 20),
               width: MediaQuery.of(context).size.width,
               child: Text(
-                'Choose your gender',
+                'chooseYourGender'.tr(),
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
                 textAlign: TextAlign.left,
               ),
@@ -95,9 +95,9 @@ class _Register4State extends State<Register4> {
                         selected = value;
                       },
                       buttonLables: [
-                        "Female",
-                        "Male",
-                        "Others",
+                        'female'.tr(),
+                        'male'.tr(),
+                        'others'.tr(),
                       ],
                       buttonValues: [
                         0,
@@ -137,7 +137,7 @@ class _Register4State extends State<Register4> {
                   }
                 },
                 child: Text(
-                  'next',
+                  'next'.tr(),
                 ),
               ),
             )

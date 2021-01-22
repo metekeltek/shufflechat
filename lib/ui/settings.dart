@@ -13,6 +13,7 @@ import 'package:shufflechat/services/authProvider.dart';
 import 'package:shufflechat/services/dbProvider.dart';
 import 'package:shufflechat/ui/settingsIntrests.dart';
 import 'package:shufflechat/ui/support.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -85,7 +86,6 @@ class _SettingsState extends State<Settings> {
                             Icons.arrow_back,
                             color: Colors.black,
                             size: 35.0,
-                            semanticLabel: 'go back',
                           ),
                         ),
                       ),
@@ -101,7 +101,6 @@ class _SettingsState extends State<Settings> {
                             Icons.help_outline,
                             color: Colors.black,
                             size: 35.0,
-                            semanticLabel: 'go back',
                           ),
                         ),
                       ),
@@ -190,7 +189,7 @@ class _SettingsState extends State<Settings> {
                         databaseProvider, userDataProvider, settingsWidget);
                   },
                   child: Text(
-                    'edit profile',
+                    'editProfile'.tr(),
                     style: TextStyle(
                       fontSize: 17.0,
                       fontWeight: FontWeight.w500,
@@ -213,7 +212,7 @@ class _SettingsState extends State<Settings> {
                     Phoenix.rebirth(context);
                   },
                   child: Text(
-                    'logout',
+                    'logout'.tr(),
                     style: TextStyle(
                       fontSize: 17.0,
                       fontWeight: FontWeight.w500,
@@ -235,7 +234,7 @@ class _SettingsState extends State<Settings> {
                     _showDeleteDialog(context);
                   },
                   child: Text(
-                    'delete account',
+                    'deleteAccount'.tr(),
                     style: TextStyle(
                       fontSize: 17.0,
                       fontWeight: FontWeight.w500,
@@ -334,8 +333,8 @@ void _showBottomSheet(context, UserData userData, authProvider,
                     size: 24.0,
                   ),
                 ),
-                title: const Text(
-                  'Change profile picture',
+                title: Text(
+                  'changePicture'.tr(),
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
@@ -362,8 +361,8 @@ void _showBottomSheet(context, UserData userData, authProvider,
                   size: 24.0,
                 ),
               ),
-              title: const Text(
-                'Change name',
+              title: Text(
+                'changeName'.tr(),
                 style: TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.w600,
@@ -388,8 +387,8 @@ void _showBottomSheet(context, UserData userData, authProvider,
                   size: 24.0,
                 ),
               ),
-              title: const Text(
-                'Change Intrests',
+              title: Text(
+                'changeIntrests'.tr(),
                 style: TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.w600,
@@ -443,8 +442,8 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
                   size: 24.0,
                 ),
               ),
-              title: const Text(
-                'Take Image',
+              title: Text(
+                'takeImage'.tr(),
                 style: TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.w600,
@@ -482,8 +481,8 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
                   size: 24.0,
                 ),
               ),
-              title: const Text(
-                'Choose from Gallery',
+              title: Text(
+                'chooseGallery'.tr(),
                 style: TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.w500,
@@ -549,7 +548,7 @@ void _showNameDialog(context, userData, authProvider, databaseProvider,
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Text(
-                    'save',
+                    'save'.tr(),
                     style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () async {
@@ -576,11 +575,11 @@ void _showDeleteDialog(context) {
           borderRadius: BorderRadius.circular(15),
         ),
         title: Text(
-          "Are you sure?",
+          'sure?'.tr(),
           textAlign: TextAlign.center,
         ),
         content: Text(
-          "There are a lot of people out there that want to talk with you!",
+          'dontGo'.tr(),
           style: TextStyle(fontSize: 18),
         ),
         contentPadding: EdgeInsets.only(left: 21, right: 20, top: 20),
@@ -589,7 +588,7 @@ void _showDeleteDialog(context) {
             margin: EdgeInsets.only(right: 20),
             child: MaterialButton(
               child: Text(
-                "Yes, delete my account",
+                'yesDelete'.tr(),
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () async {
@@ -603,7 +602,7 @@ void _showDeleteDialog(context) {
           Container(
             margin: EdgeInsets.only(right: 20),
             child: MaterialButton(
-              child: new Text("No, go back"),
+              child: new Text('goBack'.tr()),
               onPressed: () {
                 Navigator.of(context).pop();
               },

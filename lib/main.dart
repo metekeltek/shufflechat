@@ -20,14 +20,14 @@ void main() async {
   ]);
   await Firebase.initializeApp();
   runApp(
-    EasyLocalization(
-      supportedLocales: [
-        Locale('en'),
-        Locale('de'),
-      ],
-      path: 'assets/translations',
-      fallbackLocale: Locale('en', 'US'),
-      child: Phoenix(
+    Phoenix(
+      child: EasyLocalization(
+        supportedLocales: [
+          Locale('en'),
+          Locale('de'),
+        ],
+        path: 'assets/translations',
+        fallbackLocale: Locale('en'),
         child: MultiProvider(
           providers: [
             Provider<AuthProvider>(

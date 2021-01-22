@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:shufflechat/models/UserData.dart';
 import 'package:provider/provider.dart';
 import 'package:shufflechat/ui/register4.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Register3 extends StatefulWidget {
   @override
@@ -57,7 +58,6 @@ class _Register3State extends State<Register3> {
                               Icons.arrow_back,
                               color: Colors.black,
                               size: 35.0,
-                              semanticLabel: 'go back',
                             ),
                           ),
                         ),
@@ -74,7 +74,7 @@ class _Register3State extends State<Register3> {
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
-                      'Birthdate',
+                      'birthdate'.tr(),
                       style: TextStyle(
                           fontSize: 60.0, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.left,
@@ -87,7 +87,7 @@ class _Register3State extends State<Register3> {
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
-                      'Enter your birthdate',
+                      'enterBirthdate'.tr(),
                       style: TextStyle(
                           fontSize: 20.0, fontWeight: FontWeight.w400),
                       textAlign: TextAlign.left,
@@ -127,7 +127,7 @@ class _Register3State extends State<Register3> {
                         }
                       }
                     },
-                    child: Text('next'),
+                    child: Text('next'.tr()),
                   ),
                 )
               ],
@@ -149,7 +149,7 @@ void _showDialog(context) {
           borderRadius: BorderRadius.circular(15),
         ),
         title: Text(
-          "You must be 18 or over to use this app",
+          'over18'.tr(),
           textAlign: TextAlign.center,
         ),
       );
@@ -469,7 +469,7 @@ class _DatePickerState extends State<DatePicker> {
                 margin: EdgeInsets.only(right: 30),
                 child: Column(
                   children: [
-                    Text('day'),
+                    Text('day'.tr()),
                     SizedBox(
                       height: 15,
                     ),
@@ -535,7 +535,7 @@ class _DatePickerState extends State<DatePicker> {
                 margin: EdgeInsets.only(right: 28),
                 child: Column(
                   children: [
-                    Text('month'),
+                    Text('month'.tr()),
                     SizedBox(
                       height: 15,
                     ),
@@ -598,7 +598,7 @@ class _DatePickerState extends State<DatePicker> {
               Container(
                 child: Column(
                   children: [
-                    Text('year'),
+                    Text('year'.tr()),
                     SizedBox(
                       height: 15,
                     ),
@@ -720,7 +720,7 @@ class _DatePickerState extends State<DatePicker> {
               child: Visibility(
                 visible: _errorVisible,
                 child: Text(
-                  'The Date is not in the correct Date Format',
+                  'dateFormatError'.tr(),
                   style: TextStyle(color: Colors.red, fontSize: 17),
                 ),
               ),

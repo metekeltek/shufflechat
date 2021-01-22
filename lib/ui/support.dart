@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Support extends StatefulWidget {
   @override
@@ -40,7 +41,6 @@ class _SupportState extends State<Support> {
                                 Icons.arrow_back,
                                 color: Colors.black,
                                 size: 35.0,
-                                semanticLabel: 'go back',
                               ),
                             ),
                           ),
@@ -54,7 +54,7 @@ class _SupportState extends State<Support> {
                     child: Center(
                       child: FittedBox(
                         child: Text(
-                          'FAQ',
+                          'FAQ'.tr(),
                           style: TextStyle(
                               fontSize: 60.0, fontWeight: FontWeight.w500),
                         ),
@@ -66,7 +66,7 @@ class _SupportState extends State<Support> {
                     width: MediaQuery.of(context).size.width,
                     child: Center(
                       child: Text(
-                        'If you have Questions, Problems or Feedback, send a email to:',
+                        'anyQuestions'.tr(),
                         overflow: TextOverflow.visible,
                         style: TextStyle(
                             fontSize: 19.0, fontWeight: FontWeight.w400),
@@ -101,7 +101,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Was ist Shufflechat?',
+                      'whatIsShufflechatQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -114,7 +114,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Shufflechat ist eine App mit der du neue Leute kennen lernen kannst oder mit Leuten die du noch nicht kennst die Möglichkeit hast zu chatten.',
+                          'whatIsShufflechatAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -129,7 +129,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Kann ich Shufflechat überall in der Welt benutzen?',
+                      'shuffleChatWorldWideQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -142,7 +142,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Ja solange du Internet hast, kannst du Shufflechat von wo du willst benutzten. Momentan gibt es Shufflechat in 2 Sprachen, aber weitere kommen noch hinzu.',
+                          'shuffleChatWorldWideAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -157,7 +157,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Wo kann ich über Neuigkeiten und zukünftige Updates von Shufflechat erfahren?',
+                      'shuffleChatNewsQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -170,7 +170,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Auf Instagram unter dem Account Shufflechat und bald auch auf der Shufflechat Webseite.',
+                          'shuffleChatNewsAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -185,7 +185,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Welche Daten werden von mir gespeichert?',
+                      'dataQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -198,7 +198,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Nur die Daten die du bei deinem Account angegeben hast! Und diesen kannst du jederzeit löschen.',
+                          'dataAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -213,7 +213,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Werden meine Daten an dritte weitergegeben?',
+                      'dataThirdPartyQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -226,7 +226,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Nein. Shufflechat gibt deine Daten an niemanden weiter.',
+                          'dataThirdPartyAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -241,7 +241,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Wie kann ich meine Daten löschen lassen?',
+                      'dataDeleteQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -254,7 +254,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Auf dem großen roten Knopf auf deiner Profil Seite.',
+                          'dataDeleteAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -269,7 +269,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Ist Shuffle Chat kostenlos?',
+                      'freeQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -282,7 +282,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Ja, die Hauptfunktion ist komplett kostenlos, du kannst mit so vielen Leuten chatten wie du willst ohne einen Cent auszugeben. Nur die Premiumfunktion kosten was.',
+                          'freeAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -297,7 +297,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Was beinhaltet das Premium Abo?',
+                      'premiumQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -310,7 +310,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Das Premiumabo beinhaltet momentan 3 Filter (Alter, Geschlecht und Intressen) und weitere Filter werden dazu kommen, wie z.B. der Filter, "Region". Damit kannst du mit Leuten aus deinem Wunschland reden und schonmal deren Sprache und Kultur kennenlernen.',
+                          'premiumAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -325,7 +325,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Wie kann ich mein Abo kündigen?',
+                      'cancelQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -338,7 +338,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Dein Abo kannst du jederzeit kündigen. \n\nIOS:\nÖffne die Einstellungen-App.\nTippe auf deinen Namen.\nTippe auf "Abonnements".\nTippe auf das Abonnement, das du verwalten möchtest\nTippe auf "Abo kündigen". Wenn du "Abo kündigen" nicht siehst, wurde das Abonnement bereits gekündigt und wird nicht verlängert.\n\nAndroid:\nÖffnen Sie auf Ihrem Smartphone oder Tablet den Google Play Store .\nPrüfen Sie, ob Sie im richtigen Google-Konto angemeldet sind.\nTippen Sie auf das Dreistrich-Menü Abos.\nWählen Sie das Abo aus, das Sie kündigen möchten.\nTippen Sie auf Abo kündigen.\n',
+                          'cancelAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -353,7 +353,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Ich bin unzufrieden, wie kriege ich mein Geld zurück?',
+                      'moneyBackQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -366,7 +366,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Schreib eine Email an support@shufflechat.com, mit passendem Betreff und dem Grund warum du den Kauf stornieren willst. Wir werden dann auf dich zuück kommen.',
+                          'moneyBackAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -381,7 +381,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Kommen noch neue Features für diese App?',
+                      'newUpdatesQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -394,7 +394,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Ja jede Menge sind geplant, falls du Ideen hast gerne an die oben angegebene Email schicken.',
+                          'newUpdatesAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -409,7 +409,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Was sollte ich bei meinem Foto beachten?',
+                      'photoQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -422,7 +422,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Das Foto muss den Nutzungsrichtlinien entsprechen.\nAccounts mit sexuellen, rassistischen oder Hass-erfüllten Bild oder Namen werden gesperrt.',
+                          'photoAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -437,7 +437,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Wer darf alles Shuffle Chat benutzen?',
+                      'userQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -450,7 +450,8 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 10),
                         child: Text(
-                          'Jeder der über 18 Jahre alt ist',
+                          'userAnswer'.tr(),
+                          textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -465,7 +466,7 @@ class _SupportState extends State<Support> {
                         const EdgeInsets.only(left: 15, right: 15, bottom: 20),
                     backgroundColor: backgroundColor,
                     title: Text(
-                      'Was soll ich tun wenn ich technische Probleme mit der App habe?',
+                      'technicalQuestion'.tr(),
                       overflow: TextOverflow.visible,
                       style: TextStyle(
                         color: Colors.black,
@@ -478,7 +479,7 @@ class _SupportState extends State<Support> {
                         padding:
                             EdgeInsets.only(left: 15, right: 15, bottom: 30),
                         child: Text(
-                          'An die oben angebene Email eine Nachicht mit dem passenden Betreff schicken schicken.\nIn der Nachricht beschreiben was das Problem ist und welches Gerät du benutzt (z.B. "Iphone 11").',
+                          'technicalAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
                         ),
                       ),

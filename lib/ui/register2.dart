@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shufflechat/services/authProvider.dart';
 import 'package:shufflechat/services/dbProvider.dart';
 import 'package:shufflechat/ui/register3.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Register2 extends StatefulWidget {
   @override
@@ -51,7 +52,6 @@ class _Register2State extends State<Register2> {
                               Icons.arrow_back,
                               color: Colors.black,
                               size: 35.0,
-                              semanticLabel: 'go back',
                             ),
                           ),
                         ),
@@ -68,7 +68,7 @@ class _Register2State extends State<Register2> {
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
-                      'Your Name',
+                      'name'.tr(),
                       style: TextStyle(
                           fontSize: 60.0, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.left,
@@ -81,7 +81,7 @@ class _Register2State extends State<Register2> {
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
-                      'Enter a name for your pofile',
+                      'enterName'.tr(),
                       style: TextStyle(
                           fontSize: 20.0, fontWeight: FontWeight.w400),
                       textAlign: TextAlign.left,
@@ -100,7 +100,7 @@ class _Register2State extends State<Register2> {
                         userData.name = name;
                       },
                       decoration: InputDecoration(
-                        hintText: 'Type here...',
+                        hintText: 'type'.tr(),
                         hintStyle: TextStyle(
                           color: Colors.black,
                         ),
@@ -127,7 +127,7 @@ class _Register2State extends State<Register2> {
                             builder: (context) => Register3(),
                           ));
                     },
-                    child: Text('next'),
+                    child: Text('next'.tr()),
                   ),
                 )
               ],

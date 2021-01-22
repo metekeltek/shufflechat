@@ -82,7 +82,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       controller: _emailController,
                       decoration: InputDecoration(
                         counterText: '',
-                        labelText: 'email',
+                        labelText: 'email'.tr(),
                         labelStyle: TextStyle(
                           color: Colors.black,
                         ),

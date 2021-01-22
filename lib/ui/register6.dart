@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shufflechat/services/authProvider.dart';
 import 'package:shufflechat/services/dbProvider.dart';
 import 'package:shufflechat/ui/shuffleScreen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Register6 extends StatefulWidget {
   @override
@@ -55,7 +56,6 @@ class _Register6State extends State<Register6> {
                                     Icons.arrow_back,
                                     color: Colors.black,
                                     size: 35.0,
-                                    semanticLabel: 'go back',
                                   ),
                                 ),
                               ),
@@ -72,7 +72,7 @@ class _Register6State extends State<Register6> {
                         width: MediaQuery.of(context).size.width,
                         child: Center(
                           child: Text(
-                            'Profile Picture',
+                            'profilePicture'.tr(),
                             style: TextStyle(
                                 fontSize: 55.0, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.left,
@@ -84,7 +84,7 @@ class _Register6State extends State<Register6> {
                         padding: EdgeInsets.only(left: 24),
                         width: MediaQuery.of(context).size.width,
                         child: Text(
-                          'Click on the Image to choose a profile picture',
+                          'clickImage'.tr(),
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.w400),
                           textAlign: TextAlign.left,
@@ -108,7 +108,7 @@ class _Register6State extends State<Register6> {
                                   Icons.add_photo_alternate_outlined,
                                   color: Colors.black,
                                   size: 110,
-                                  semanticLabel: 'Picture',
+                                  semanticLabel: 'picture'.tr(),
                                 );
                               }
                             }()),
@@ -151,7 +151,7 @@ class _Register6State extends State<Register6> {
                                   builder: (context) => ShuffleScreen(),
                                 ));
                           },
-                          child: Text('Complete Registration'),
+                          child: Text('completeRegistration'.tr()),
                         ),
                       )
                     ],
@@ -203,8 +203,8 @@ void _showImageBottomSheet(context, _Register6State settingsWidget) {
                   size: 24.0,
                 ),
               ),
-              title: const Text(
-                'Take Image',
+              title: Text(
+                'takeImage'.tr(),
                 style: TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.w600,
@@ -237,8 +237,8 @@ void _showImageBottomSheet(context, _Register6State settingsWidget) {
                   size: 24.0,
                 ),
               ),
-              title: const Text(
-                'Choose from Gallery',
+              title: Text(
+                'chooseGallery'.tr(),
                 style: TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.w500,
