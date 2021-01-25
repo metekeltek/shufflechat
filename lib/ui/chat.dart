@@ -63,7 +63,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
     uid = firebaseUser.uid;
-    context.watch<DatabaseProvider>().getShuffleUser(firebaseUser.uid);
+    context.watch<DatabaseProvider>().getShuffleUser(
+        firebaseUser.uid); // delete this when cloud functions handle matching
     Stream<ChatRoom> chatRoomStream =
         context.watch<DatabaseProvider>().streamChatRooms(firebaseUser.uid);
 
@@ -71,16 +72,19 @@ class _ChatScreenState extends State<ChatScreen> {
         stream: chatRoomStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            Provider.of<DatabaseProvider>(context)
-                .deleteShuffleUser(firebaseUser.uid);
+            Provider.of<DatabaseProvider>(context).deleteShuffleUser(
+                firebaseUser
+                    .uid); // delete this when cloud functions handle matching
             chatMessagesStream =
                 chatFunctions.getConversationMessages(snapshot.data.chatRoomId);
-            var chatPartnerId = snapshot.data.users
-                .where((element) => element != uid)
-                .toList()
-                .first
-                .toString();
-            chatPartner = Provider.of<DatabaseProvider>(context)
+            var chatPartnerId = snapshot.data.user0 == uid
+                ? snapshot.data.user1
+                : snapshot.data.user0;
+            var chatPartnerTypingState = snapshot.data.user0 == uid
+                ? snapshot.data.user1Typing
+                : snapshot.data.user0Typing;
+
+            var chatPartner = Provider.of<DatabaseProvider>(context)
                 .getUserData(chatPartnerId);
             return Scaffold(
               appBar: AppBar(
@@ -97,30 +101,39 @@ class _ChatScreenState extends State<ChatScreen> {
                     Navigator.pop(context);
                   },
                 ),
-                title: IconButton(
-                  icon: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    //TODO:
-                    backgroundImage: new NetworkImage(''),
-                    radius: 30.0,
-                  ),
-                  tooltip: 'Show User',
-                  onPressed: () {},
+                title: Column(
+                  children: [
+                    IconButton(
+                      icon: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        backgroundImage: new NetworkImage(''),
+                        radius: 30.0,
+                      ),
+                      tooltip: 'Show User',
+                      onPressed: () {},
+                    ),
+                    Text('') //chatPartnerName
+                  ],
                 ),
                 backgroundColor: const Color(0xffff9600),
                 actions: [
-                  IconButton(
-                    padding: EdgeInsets.only(right: 40),
-                    icon: const Icon(Icons.shuffle),
-                    tooltip: 'Next Shuffle',
-                    onPressed: () {
-                      context
-                          .read<DatabaseProvider>()
-                          .deleteChat(snapshot.data.chatRoomId);
-                      context
-                          .read<DatabaseProvider>()
-                          .deleteChatRoom(snapshot.data.chatRoomId);
-                    },
+                  Column(
+                    children: [
+                      IconButton(
+                        padding: EdgeInsets.only(right: 40),
+                        icon: const Icon(Icons.shuffle_rounded),
+                        tooltip: 'Next Shuffle',
+                        onPressed: () {
+                          context
+                              .read<DatabaseProvider>()
+                              .deleteChat(snapshot.data.chatRoomId);
+                          context
+                              .read<DatabaseProvider>()
+                              .deleteChatRoom(snapshot.data.chatRoomId);
+                        },
+                      ),
+                      Text('Next Shuffle')
+                    ],
                   ),
                 ],
               ),
@@ -216,18 +229,6 @@ class _ChatScreenState extends State<ChatScreen> {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: const Color(0xffff9600),
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_left),
-                    tooltip: 'Go back',
-                    onPressed: () {
-                      context
-                          .read<DatabaseProvider>()
-                          .deleteShuffleUser(firebaseUser.uid);
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
               ),
               body: Center(
                 child: Container(

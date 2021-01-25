@@ -98,11 +98,11 @@ class DatabaseProvider {
 
   //*ChatRoom Methods
 
-  String createChatRoom(String uid1, String uid2) {
-    String docId = uid1 + '_' + uid2;
-    List<String> users = [uid1, uid2];
+  String createChatRoom(String uid0, String uid1) {
+    String docId = uid0 + '_' + uid1;
     ChatRoom chatRoom = ChatRoom();
-    chatRoom.users = users;
+    chatRoom.user0 = uid0;
+    chatRoom.user1 = uid1;
     chatRoom.chatRoomId = docId;
     _db.collection('chatRoom').doc(docId).set(chatRoom.toJson());
     return chatRoom.chatRoomId;

@@ -12,15 +12,16 @@ class Register5 extends StatefulWidget {
 }
 
 class _Register5State extends State<Register5> {
-  bool _isVisible = false;
+  bool _isVisible = true;
+  bool _isError = false;
 
-  void showError() {
+  void showField() {
     setState(() {
       _isVisible = true;
     });
   }
 
-  void hideError() {
+  void hideField() {
     setState(() {
       _isVisible = false;
     });
@@ -61,11 +62,10 @@ class _Register5State extends State<Register5> {
             ),
             Container(
               height: 65,
-              padding: EdgeInsets.only(right: 15),
               width: MediaQuery.of(context).size.width,
               child: Center(
                 child: FittedBox(
-                  fit: BoxFit.fill,
+                  fit: BoxFit.fitWidth,
                   child: Text(
                     'yourIntrests'.tr(),
                     style:
@@ -77,148 +77,156 @@ class _Register5State extends State<Register5> {
             ),
             Container(
               height: 25,
-              padding: EdgeInsets.only(left: 5),
               width: MediaQuery.of(context).size.width,
-              child: Text(
-                'chooseIntrests'.tr(),
-                style: TextStyle(fontSize: 23.0, fontWeight: FontWeight.w400),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width / 1.02,
-              height: MediaQuery.of(context).size.height / 2,
-              child: CustomCheckBoxGroup(
-                buttonTextStyle: ButtonTextStyle(
-                  selectedColor: Colors.white,
-                  unSelectedColor: Colors.black,
-                  textStyle: TextStyle(
-                    fontSize: 16,
+              child: Center(
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    'chooseIntrests'.tr(),
+                    style:
+                        TextStyle(fontSize: 23.0, fontWeight: FontWeight.w400),
+                    textAlign: TextAlign.left,
                   ),
                 ),
-                unSelectedColor: Theme.of(context).canvasColor,
-                unSelectedBorderColor: Colors.black,
-                selectedColor: const Color(0xffff9600),
-                selectedBorderColor: const Color(0xffff9600),
-                checkBoxButtonValues: (values) {
-                  userData.interests = values;
-                  if (values.length > 5) {
-                    values.removeLast();
-                  }
-                },
-                buttonLables: [
-                  'music'.tr(),
-                  'sport'.tr(),
-                  'fitness'.tr(),
-                  'jogging'.tr(),
-                  'cooking'.tr(),
-                  'baking'.tr(),
-                  'videogames'.tr(),
-                  'seriesAndMovies'.tr(),
-                  'hiking'.tr(),
-                  'dancing'.tr(),
-                  'photography'.tr(),
-                  'technology'.tr(),
-                  'programming'.tr(),
-                  'basketball'.tr(),
-                  'football'.tr(),
-                  'fashion'.tr(),
-                  'singing'.tr(),
-                  'art'.tr(),
-                  'guitar'.tr(),
-                  'instruments'.tr(),
-                  'chess'.tr(),
-                  'animations'.tr(),
-                  'fishing'.tr(),
-                  'martialArts'.tr(),
-                  'reading'.tr(),
-                  'writing'.tr(),
-                  'drawing'.tr(),
-                  'travel'.tr(),
-                  'astrologicalSigns'.tr(),
-                  'yoga'.tr(),
-                  'meditation'.tr(),
-                  'vegan'.tr(),
-                  'vegetarian'.tr(),
-                  'alcohol'.tr(),
-                  'politics'.tr(),
-                  'feminism'.tr(),
-                  'lgbtq+'.tr(),
-                  'environmentalism'.tr(),
-                  'golf'.tr(),
-                  'skiSnowboard'.tr(),
-                  'skating'.tr(),
-                  'dogs'.tr(),
-                  'cats'.tr(),
-                  'gardening'.tr(),
-                  'penPaper'.tr(),
-                  'boardGames'.tr(),
-                  'cycling'.tr(),
-                  'climbing'.tr(),
-                  'craftsmanship'.tr(),
-                  'collections'.tr(),
-                  'extremeSports'.tr(),
-                ],
-                buttonValuesList: [
-                  'music',
-                  'sport',
-                  'fitness',
-                  'jogging',
-                  'cooking',
-                  'baking',
-                  'videogames',
-                  'seriesAndMovies',
-                  'hiking',
-                  'dancing',
-                  'photography',
-                  'technology',
-                  'programming',
-                  'basketball',
-                  'footballSoccer',
-                  'fashion',
-                  'singing',
-                  'art',
-                  'guitar',
-                  'instruments',
-                  'chess',
-                  'animations',
-                  'fishing',
-                  'martialArts',
-                  'reading',
-                  'writing',
-                  'drawing',
-                  'travel',
-                  'astrologicalSigns',
-                  'yoga',
-                  'meditation',
-                  'vegan',
-                  'vegetarian',
-                  'alcohol',
-                  'politics',
-                  'feminism',
-                  'lgbtq+',
-                  'environmentalism',
-                  'golf',
-                  'skiSnowboard',
-                  'skating',
-                  'dogs',
-                  'cats',
-                  'gardening',
-                  'penPaper',
-                  'boardGames',
-                  'cycling',
-                  'climbing',
-                  'craftsmanship',
-                  'collections',
-                  'extremeSports',
-                ],
-                spacing: 0,
-                horizontal: true,
-                enableButtonWrap: false,
-                enableShape: true,
-                width: 40,
-                absoluteZeroSpacing: false,
-                padding: 5,
+              ),
+            ),
+            GestureDetector(
+              onTapDown: (_) => hideField(),
+              child: Container(
+                width: MediaQuery.of(context).size.width / 1.02,
+                height: MediaQuery.of(context).size.height / 2,
+                child: CustomCheckBoxGroup(
+                  buttonTextStyle: ButtonTextStyle(
+                    selectedColor: Colors.white,
+                    unSelectedColor: Colors.black,
+                    textStyle: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  unSelectedColor: Theme.of(context).canvasColor,
+                  unSelectedBorderColor: Colors.black,
+                  selectedColor: const Color(0xffff9600),
+                  selectedBorderColor: const Color(0xffff9600),
+                  checkBoxButtonValues: (values) {
+                    userData.interests = values;
+                    if (values.length > 5) {
+                      values.removeLast();
+                    }
+                  },
+                  buttonLables: [
+                    'music'.tr(),
+                    'sport'.tr(),
+                    'fitness'.tr(),
+                    'jogging'.tr(),
+                    'cooking'.tr(),
+                    'baking'.tr(),
+                    'videogames'.tr(),
+                    'seriesAndMovies'.tr(),
+                    'hiking'.tr(),
+                    'dancing'.tr(),
+                    'photography'.tr(),
+                    'technology'.tr(),
+                    'programming'.tr(),
+                    'basketball'.tr(),
+                    'football'.tr(),
+                    'fashion'.tr(),
+                    'singing'.tr(),
+                    'art'.tr(),
+                    'guitar'.tr(),
+                    'instruments'.tr(),
+                    'chess'.tr(),
+                    'animations'.tr(),
+                    'fishing'.tr(),
+                    'martialArts'.tr(),
+                    'reading'.tr(),
+                    'writing'.tr(),
+                    'drawing'.tr(),
+                    'travel'.tr(),
+                    'astrologicalSigns'.tr(),
+                    'yoga'.tr(),
+                    'meditation'.tr(),
+                    'vegan'.tr(),
+                    'vegetarian'.tr(),
+                    'alcohol'.tr(),
+                    'politics'.tr(),
+                    'feminism'.tr(),
+                    'lgbtq+'.tr(),
+                    'environmentalism'.tr(),
+                    'golf'.tr(),
+                    'skiSnowboard'.tr(),
+                    'skating'.tr(),
+                    'dogs'.tr(),
+                    'cats'.tr(),
+                    'gardening'.tr(),
+                    'penPaper'.tr(),
+                    'boardGames'.tr(),
+                    'cycling'.tr(),
+                    'climbing'.tr(),
+                    'craftsmanship'.tr(),
+                    'collections'.tr(),
+                    'extremeSports'.tr(),
+                  ],
+                  buttonValuesList: [
+                    'music',
+                    'sport',
+                    'fitness',
+                    'jogging',
+                    'cooking',
+                    'baking',
+                    'videogames',
+                    'seriesAndMovies',
+                    'hiking',
+                    'dancing',
+                    'photography',
+                    'technology',
+                    'programming',
+                    'basketball',
+                    'footballSoccer',
+                    'fashion',
+                    'singing',
+                    'art',
+                    'guitar',
+                    'instruments',
+                    'chess',
+                    'animations',
+                    'fishing',
+                    'martialArts',
+                    'reading',
+                    'writing',
+                    'drawing',
+                    'travel',
+                    'astrologicalSigns',
+                    'yoga',
+                    'meditation',
+                    'vegan',
+                    'vegetarian',
+                    'alcohol',
+                    'politics',
+                    'feminism',
+                    'lgbtq+',
+                    'environmentalism',
+                    'golf',
+                    'skiSnowboard',
+                    'skating',
+                    'dogs',
+                    'cats',
+                    'gardening',
+                    'penPaper',
+                    'boardGames',
+                    'cycling',
+                    'climbing',
+                    'craftsmanship',
+                    'collections',
+                    'extremeSports',
+                  ],
+                  spacing: 0,
+                  horizontal: true,
+                  enableButtonWrap: false,
+                  enableShape: true,
+                  width: 40,
+                  absoluteZeroSpacing: false,
+                  padding: 5,
+                ),
               ),
             ),
             SizedBox(
@@ -230,9 +238,9 @@ class _Register5State extends State<Register5> {
                 child: Visibility(
                   visible: _isVisible,
                   child: Text(
-                    'choose3Intrests'.tr(),
+                    _isError ? 'choose3Intrests'.tr() : 'scroll'.tr(),
                     style: TextStyle(
-                        color: Colors.red,
+                        color: _isError ? Colors.red : Color(0xffff9600),
                         fontSize: 17,
                         fontWeight: FontWeight.w500),
                   ),
@@ -254,7 +262,7 @@ class _Register5State extends State<Register5> {
                 onPressed: () {
                   if (userData.interests != null &&
                       userData.interests.length > 2) {
-                    hideError();
+                    _isError = false;
                     context.read<UserData>().setUserDataModel(userData);
 
                     Navigator.push(
@@ -263,7 +271,8 @@ class _Register5State extends State<Register5> {
                           builder: (context) => Register6(),
                         ));
                   } else {
-                    showError();
+                    _isError = true;
+                    showField();
                   }
                 },
                 child: Text('next'.tr()),
