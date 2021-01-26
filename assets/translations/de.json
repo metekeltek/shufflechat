@@ -49,7 +49,11 @@
     "chooseYourGender": "Wähle dein Geschlecht",
     "female": "Frau",
     "male": "Mann",
+    "any": "Alle",
     "others": "Andere",
+    "genderFilter": "Geschlecht-Filter",
+    "ageFilter": "Alter-Filter",
+    "intrestFilter": "Intressen-Filter",
 
     "yourIntrests": "Deine Interessen",
     "chooseIntrests": "Wähle 3 bis 5 Interessen",
