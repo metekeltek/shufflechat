@@ -53,7 +53,11 @@
     "others": "Andere",
     "genderFilter": "Geschlecht-Filter",
     "ageFilter": "Alter-Filter",
-    "intrestFilter": "Intressen-Filter",
+    "intrestFilter": "Interessen-Filter",
+
+    "intrestFilterHeader": "Wähle die Interessen deines Chat-Partners",
+    "intrestFilterSubHeader": "Intrest-Filter",
+
 
     "yourIntrests": "Deine Interessen",
     "chooseIntrests": "Wähle 3 bis 5 Interessen",

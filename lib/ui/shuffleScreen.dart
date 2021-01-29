@@ -112,6 +112,7 @@ class _ShuffleScreenState extends State<ShuffleScreen> {
                               child: CustomRadioButton(
                                 wrapAlignment: WrapAlignment.center,
                                 elevation: 0,
+                                height: 40,
                                 width: 80,
                                 buttonTextStyle: ButtonTextStyle(
                                   selectedColor: Colors.white,
@@ -145,7 +146,6 @@ class _ShuffleScreenState extends State<ShuffleScreen> {
                                 horizontal: false,
                                 enableButtonWrap: false,
                                 enableShape: true,
-                                height: 40,
                                 absoluteZeroSpacing: false,
                                 padding: 1,
                               ),
@@ -196,6 +196,56 @@ class _ShuffleScreenState extends State<ShuffleScreen> {
                               'intrestFilter'.tr(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 18),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 38,
+                                  width: 75,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    color: const Color(0xffff9600),
+                                  ),
+                                  child: Center(
+                                    child: MaterialButton(
+                                      textColor: Colors.white,
+                                      onPressed: () {},
+                                      child: Text(
+                                        'edit',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Container(
+                                  height: 38,
+                                  width: 75,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    color: const Color(0xffff9600),
+                                  ),
+                                  child: Center(
+                                    child: MaterialButton(
+                                      textColor: Colors.white,
+                                      onPressed: () {},
+                                      child: Text(
+                                        'clear',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

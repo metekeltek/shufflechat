@@ -55,6 +55,10 @@
     "ageFilter": "Age-Filter",
     "intrestFilter": "Intrest-Filter",
 
+    "intrestFilterHeader": "Choose the Intrests of your Chat Partner",
+    "intrestFilterSubHeader": "Intrest-Filter",
+
+
 
     "yourIntrests": "Your Intrests",
     "chooseIntrests": "Choose 3 to 5 Intrests",
