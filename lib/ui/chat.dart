@@ -63,8 +63,6 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
     uid = firebaseUser.uid;
-    context.watch<DatabaseProvider>().getShuffleUser(
-        firebaseUser.uid); // delete this when cloud functions handle matching
     Stream<ChatRoom> chatRoomStream =
         context.watch<DatabaseProvider>().streamChatRooms(firebaseUser.uid);
 
@@ -72,9 +70,6 @@ class _ChatScreenState extends State<ChatScreen> {
         stream: chatRoomStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            Provider.of<DatabaseProvider>(context).deleteShuffleUser(
-                firebaseUser
-                    .uid); // delete this when cloud functions handle matching
             chatMessagesStream =
                 chatFunctions.getConversationMessages(snapshot.data.chatRoomId);
             var chatPartnerId = snapshot.data.user0 == uid
@@ -110,9 +105,11 @@ class _ChatScreenState extends State<ChatScreen> {
                         radius: 30.0,
                       ),
                       tooltip: 'Show User',
-                      onPressed: () {},
+                      onPressed: () {
+                        //TODO: chatpartner info
+                      },
                     ),
-                    Text('') //chatPartnerName
+                    Text('') //TODO: chatPartnerName
                   ],
                 ),
                 backgroundColor: const Color(0xffff9600),
@@ -222,8 +219,6 @@ class _ChatScreenState extends State<ChatScreen> {
           } else {
             if (chatRoomStream != null) {
               Provider.of<DatabaseProvider>(context)
-                  .getShuffleUser(firebaseUser.uid);
-              Provider.of<DatabaseProvider>(context)
                   .createShuffleUser(firebaseUser.uid, '');
             }
             return Scaffold(
@@ -231,8 +226,17 @@ class _ChatScreenState extends State<ChatScreen> {
                 backgroundColor: const Color(0xffff9600),
               ),
               body: Center(
-                child: Container(
-                  child: Text('looking for chat partners'),
+                child: Column(
+                  children: [
+                    CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          const Color(0xffff9600)),
+                      strokeWidth: 4,
+                    ),
+                    Container(
+                      child: Text('looking for chat partners'),
+                    ),
+                  ],
                 ),
               ),
             );
