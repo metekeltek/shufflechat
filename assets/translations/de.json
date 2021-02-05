@@ -50,7 +50,7 @@
     "female": "Frau",
     "male": "Mann",
     "any": "Alle",
-    "others": "Andere",
+    "diverse": "Divers",
     "genderFilter": "Geschlecht-Filter",
     "ageFilter": "Alter-Filter",
     "intrestFilter": "Interessen-Filter",
@@ -165,8 +165,9 @@
     "userQuestion": "Wer darf alles Shufflechat benutzen?",
     "userAnswer": "Jeder der über 18 Jahre alt ist",
     "technicalQuestion": "Was soll ich tun wenn ich technische Probleme mit der App habe?",
-    "technicalAnswer": "An die oben angebene Email eine Nachicht mit dem passenden Betreff schicken schicken.\nIn der Nachricht beschreiben was das Problem ist und welches Gerät du benutzt (z.B. \"Iphone 11\")."    
+    "technicalAnswer": "An die oben angebene Email eine Nachicht mit dem passenden Betreff schicken schicken.\nIn der Nachricht beschreiben was das Problem ist und welches Gerät du benutzt (z.B. \"Iphone 11\").",    
 
-
-
+    "clear": "entfernen",
+    "edit": "bearbeiten",
+    "chooseMax5": "Wähle bis zu 5 Interessen"
 }

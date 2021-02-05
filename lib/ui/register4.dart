@@ -97,7 +97,7 @@ class _Register4State extends State<Register4> {
                       buttonLables: [
                         'female'.tr(),
                         'male'.tr(),
-                        'others'.tr(),
+                        'diverse'.tr(),
                       ],
                       buttonValues: [
                         0,

@@ -7,6 +7,10 @@ import 'package:shufflechat/services/chatFunctions.dart';
 import 'package:shufflechat/services/dbProvider.dart';
 
 class ChatScreen extends StatefulWidget {
+  final List<String> filterArray;
+  final List<String> userDataArray;
+
+  ChatScreen(this.filterArray, this.userDataArray);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -62,9 +66,11 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
+    var databaseProvider = context.watch<DatabaseProvider>();
     uid = firebaseUser.uid;
+
     Stream<ChatRoom> chatRoomStream =
-        context.watch<DatabaseProvider>().streamChatRooms(firebaseUser.uid);
+        databaseProvider.streamChatRooms(firebaseUser.uid);
 
     return StreamBuilder<ChatRoom>(
         stream: chatRoomStream,
@@ -72,27 +78,18 @@ class _ChatScreenState extends State<ChatScreen> {
           if (snapshot.hasData) {
             chatMessagesStream =
                 chatFunctions.getConversationMessages(snapshot.data.chatRoomId);
-            var chatPartnerId = snapshot.data.user0 == uid
-                ? snapshot.data.user1
-                : snapshot.data.user0;
-            var chatPartnerTypingState = snapshot.data.user0 == uid
-                ? snapshot.data.user1Typing
-                : snapshot.data.user0Typing;
+            var chatPartnerId = snapshot.data.users[0] == uid
+                ? snapshot.data.users[0]
+                : snapshot.data.users[1];
 
-            var chatPartner = Provider.of<DatabaseProvider>(context)
-                .getUserData(chatPartnerId);
+            var chatPartner = databaseProvider.getUserData(chatPartnerId);
             return Scaffold(
               appBar: AppBar(
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () {
                     chatRoomStream = null;
-                    context
-                        .read<DatabaseProvider>()
-                        .deleteChat(snapshot.data.chatRoomId);
-                    context
-                        .read<DatabaseProvider>()
-                        .deleteChatRoom(snapshot.data.chatRoomId);
+                    databaseProvider.deleteChatRoom(snapshot.data.chatRoomId);
                     Navigator.pop(context);
                   },
                 ),
@@ -105,11 +102,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         radius: 30.0,
                       ),
                       tooltip: 'Show User',
-                      onPressed: () {
-                        //TODO: chatpartner info
-                      },
+                      onPressed: () {},
                     ),
-                    Text('') //TODO: chatPartnerName
+                    Text('')
                   ],
                 ),
                 backgroundColor: const Color(0xffff9600),
@@ -121,11 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         icon: const Icon(Icons.shuffle_rounded),
                         tooltip: 'Next Shuffle',
                         onPressed: () {
-                          context
-                              .read<DatabaseProvider>()
-                              .deleteChat(snapshot.data.chatRoomId);
-                          context
-                              .read<DatabaseProvider>()
+                          databaseProvider
                               .deleteChatRoom(snapshot.data.chatRoomId);
                         },
                       ),
@@ -218,25 +209,25 @@ class _ChatScreenState extends State<ChatScreen> {
             );
           } else {
             if (chatRoomStream != null) {
-              Provider.of<DatabaseProvider>(context)
-                  .createShuffleUser(firebaseUser.uid, '');
+              databaseProvider.createShuffleUser(firebaseUser.uid, '',
+                  widget.filterArray, widget.userDataArray);
             }
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: const Color(0xffff9600),
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () {
+                    context.read<DatabaseProvider>().deleteShuffleUser(uid);
+                    Navigator.pop(context);
+                  },
+                ),
               ),
               body: Center(
-                child: Column(
-                  children: [
-                    CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          const Color(0xffff9600)),
-                      strokeWidth: 4,
-                    ),
-                    Container(
-                      child: Text('looking for chat partners'),
-                    ),
-                  ],
+                child: CircularProgressIndicator(
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(const Color(0xffff9600)),
+                  strokeWidth: 4,
                 ),
               ),
             );

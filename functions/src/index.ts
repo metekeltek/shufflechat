@@ -55,11 +55,11 @@ document('shuffleUser/{id}').onCreate(async (snap, context) => {
 
         //create ChatRoom
         const docId = shuffleUser.shuffleUserId + '_' + shufflePartner.shuffleUserId;
+        const users: Array<string> = [shuffleUser.shuffleUserId, shufflePartner.shuffleUserId];
+        const usersTyping: Array<boolean> = [false, false];
         const chatRoom : ChatRoom = {
-            user0 : shuffleUser.shuffleUserId,
-            user1 : shufflePartner.shuffleUserId,
-            user0Typing : false,
-            user1Typing : false,
+            users : users,
+            usersTyping : usersTyping,
             chatRoomId : docId
         };
         firestore
@@ -72,6 +72,27 @@ document('shuffleUser/{id}').onCreate(async (snap, context) => {
         console.log('Matching Error: ' + e);
       }
   
+});
+
+export const onDeleteChatRoom = 
+functions.region('europe-west3').firestore.
+document('chatRoom/{id}').onDelete(async (snap, context) => { 
+    const firestore = admin.firestore();
+    await firestore
+            .collection('shuffleUser')
+            .doc(snap.id)
+            .collection('chat')
+            .get()
+            .then((value) => value.docs.forEach( async (doc) => {
+                await firestore
+                .collection('shuffleUser')
+                .doc(doc.id).delete()
+                .catch(err => console.log('[delete message] error catch:' + err)).then((value2)=> value2);
+                console.log('deleted message');
+            }
+            ))
+            .catch(err => console.log('[delete chat] error catch:' + err)).then((value3)=> value3);
+            console.log('deleted chat');
 });
 
   class ShuffleUser {
@@ -188,18 +209,14 @@ document('shuffleUser/{id}').onCreate(async (snap, context) => {
   }
 
 class ChatRoom {
-    user0: string;
-    user1: string;
-    user0Typing: boolean;
-    user1Typing: boolean;
+    users: Array<string>;
+    usersTyping: Array<boolean>;
     chatRoomId: string;
 
-    constructor(user0: string, user1: string, user0Typing: boolean, user1Typing: boolean, chatRoomId: string){
-        this.user0 = user0;
-        this.user1 = user1;
-        this.user0Typing = user0Typing;
-        this.user1Typing = user1Typing;
+    constructor(users: Array<string>, usersTyping: Array<boolean>, chatRoomId: string){
+        this.users = users;
+        this.usersTyping = usersTyping;
         this.chatRoomId = chatRoomId;
     }
   }
-  
+

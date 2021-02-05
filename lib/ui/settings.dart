@@ -275,7 +275,7 @@ Future<File> compressFile(File file) async {
 }
 
 class ImageDialog extends StatelessWidget {
-  var profileImage;
+  final profileImage;
 
   ImageDialog(this.profileImage);
   @override

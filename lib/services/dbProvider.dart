@@ -61,66 +61,72 @@ class DatabaseProvider {
 
   //*ShuffleUser Methods
 
-  Future<void> createShuffleUser(String uid, String lastShuffle) {
+  Future<void> createShuffleUser(String uid, String lastShuffle,
+      List<String> filter, List<String> userData) {
     ShuffleUser shuffleUser = ShuffleUser();
-    shuffleUser.lastShuffle = lastShuffle;
     shuffleUser.shuffleUserId = uid;
+    shuffleUser.lastShuffle = lastShuffle;
+    shuffleUser.filter = filter;
+    shuffleUser.userData = userData;
     return _db.collection('shuffleUser').doc(uid).set(shuffleUser.toJson());
   }
 
-  Future<void> deleteShuffleUser(String uid) {
-    return _db.collection('shuffleUser').doc(uid).delete();
-  }
-
-  void getShuffleUser(String uid) async {
+  void deleteShuffleUser(String uid) async {
     try {
-      var thisId = await _db
-          .collection('shuffleUser')
-          .where('shuffleUserId', isNotEqualTo: uid)
-          .limit(1)
-          .get();
-
-      createChatRoom(uid, thisId.docs.first.id);
-    } catch (e) {
-      createShuffleUser(uid, '');
-    }
+      await _db.collection('shuffleUser').doc(uid).delete();
+    } catch (e) {}
   }
+
+////Delete this
+  // void getShuffleUser(String uid) async {
+  //   try {
+  //     var thisId = await _db
+  //         .collection('shuffleUser')
+  //         .where('shuffleUserId', isNotEqualTo: uid)
+  //         .limit(1)
+  //         .get();
+
+  //     createChatRoom(uid, thisId.docs.first.id);
+  //   } catch (e) {
+  //     createShuffleUser(uid, '');
+  //   }
+  // }
+
+  //*ChatRoom Methods
 
   Stream<ChatRoom> streamChatRooms(String uid) {
     var chatRoom = _db
         .collection('chatRoom')
         .where('users', arrayContains: uid)
         .snapshots()
-        .map((event) => ChatRoom.queryfromFirestore(event));
+        .map((value) => ChatRoom.queryfromFirestore(value));
 
     return chatRoom;
   }
 
-  //*ChatRoom Methods
-
-  String createChatRoom(String uid0, String uid1) {
-    String docId = uid0 + '_' + uid1;
-    ChatRoom chatRoom = ChatRoom();
-    chatRoom.user0 = uid0;
-    chatRoom.user1 = uid1;
-    chatRoom.chatRoomId = docId;
-    _db.collection('chatRoom').doc(docId).set(chatRoom.toJson());
-    return chatRoom.chatRoomId;
-  }
+  // String createChatRoom(String uid0, String uid1) {
+  //   String docId = uid0 + '_' + uid1;
+  //   ChatRoom chatRoom = ChatRoom();
+  //   chatRoom.user0 = uid0;
+  //   chatRoom.user1 = uid1;
+  //   chatRoom.chatRoomId = docId;
+  //   _db.collection('chatRoom').doc(docId).set(chatRoom.toJson());
+  //   return chatRoom.chatRoomId;
+  // }
 
   deleteChatRoom(String docId) {
     _db.collection('chatRoom').doc(docId).delete();
   }
 
-  deleteChat(String docId) {
-    //!Consider deleting this method, if too many db requests
-    _db
-        .collection('chatRoom')
-        .doc(docId)
-        .collection('chat')
-        .get()
-        .then((value) => value.docs.forEach((doc) {
-              doc.reference.delete();
-            }));
-  }
+  // deleteChat(String docId) {
+  //   //Consider deleting this method and moving to cloud functions, if too many db requests
+  //   _db
+  //       .collection('chatRoom')
+  //       .doc(docId)
+  //       .collection('chat')
+  //       .get()
+  //       .then((value) => value.docs.forEach((doc) {
+  //             doc.reference.delete();
+  //           }));
+  // }
 }

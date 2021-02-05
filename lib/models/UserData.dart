@@ -30,14 +30,14 @@ class UserData {
   UserData.fromMap(Map map)
       : name = map['name'] ?? '',
         birthday = map['birthday'] ?? '',
-        gender = map['gender'] ?? null,
-        interests = map['interests'] ?? null,
+        gender = map['gender'] ?? 2,
+        interests = map['interests'] ?? [],
         profilePictureURL = map['profilePictureURL'] ?? '';
 
   UserData.fromFirestore(DocumentSnapshot snap)
       : name = snap['name'] ?? '',
         birthday = snap['birthday'] ?? '',
-        gender = snap['gender'] ?? null,
-        interests = snap['interests'] ?? null,
+        gender = snap['gender'] ?? 2,
+        interests = snap['interests'] ?? [],
         profilePictureURL = snap['profilePictureURL'] ?? '';
 }
