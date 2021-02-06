@@ -99,7 +99,7 @@ class DatabaseProvider {
         .collection('chatRoom')
         .where('users', arrayContains: uid)
         .snapshots()
-        .map((value) => ChatRoom.queryfromFirestore(value));
+        .map((event) => ChatRoom.queryfromFirestore(event));
 
     return chatRoom;
   }

@@ -134,14 +134,13 @@ class _ShuffleScreenState extends State<ShuffleScreen> {
                                 width: 80,
                                 buttonTextStyle: ButtonTextStyle(
                                   selectedColor: Colors.white,
-                                  unSelectedColor: Colors.black,
+                                  unSelectedColor: Colors.white,
                                   textStyle: TextStyle(
                                     fontSize: 13,
                                   ),
                                 ),
-                                unSelectedColor: Theme.of(context).canvasColor,
-                                unSelectedBorderColor:
-                                    Theme.of(context).canvasColor,
+                                unSelectedColor: const Color(0xffffc069),
+                                unSelectedBorderColor: const Color(0xffffc069),
                                 selectedColor: const Color(0xffff9600),
                                 selectedBorderColor: const Color(0xffff9600),
                                 radioButtonValue: (value) {
@@ -177,13 +176,16 @@ class _ShuffleScreenState extends State<ShuffleScreen> {
                               height: 40,
                               child: FlutterSlider(
                                 rangeSlider: true,
-                                values: [18, 60],
+                                values: [
+                                  selectedMinAge.toDouble(),
+                                  selectedMaxAge.toDouble()
+                                ],
                                 min: 18,
                                 max: 60,
                                 onDragCompleted:
                                     (handlerIndex, lowerValue, upperValue) {
-                                  selectedMinAge = lowerValue;
-                                  selectedMaxAge = upperValue;
+                                  selectedMinAge = lowerValue.round();
+                                  selectedMaxAge = upperValue.round();
                                 },
                                 trackBar: FlutterSliderTrackBar(
                                     activeTrackBar: BoxDecoration(
@@ -304,15 +306,15 @@ List<String> buildFilterArray(int selectedGender, int selectedMinAge,
 
   if (selectedMinAge != 18 || selectedMaxAge != 60) {
     filterArray[1] =
-        selectedMinAge.toString() + '-' + selectedMinAge.toString();
+        selectedMinAge.toString() + '-' + selectedMaxAge.toString();
   }
 
   if (selectedIntrests.isNotEmpty) {
-    String intrestsString;
+    String intrestsString = '';
     for (var selectedIntrest in selectedIntrests) {
       intrestsString += selectedIntrest.toString() + ',';
     }
-    intrestsString.substring(0, intrestsString.length - 1);
+    intrestsString = intrestsString.substring(0, intrestsString.length - 1);
     filterArray[2] = intrestsString;
   }
 

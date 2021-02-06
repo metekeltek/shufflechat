@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shufflechat/models/UserData.dart';
 import 'package:shufflechat/services/chatFunctions.dart';
 import 'package:shufflechat/services/dbProvider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ChatScreen extends StatefulWidget {
   final List<String> filterArray;
@@ -19,9 +20,12 @@ class _ChatScreenState extends State<ChatScreen> {
   ChatFunctions chatFunctions = ChatFunctions();
   TextEditingController _chatMessageController = TextEditingController();
   ScrollController _scrollController = ScrollController();
-  dynamic chatPartner = UserData();
-  Stream chatMessagesStream;
   String uid;
+  UserData chatPartner;
+  String chatPartnerId = '';
+  Stream chatMessagesStream;
+  final clickHereForMoreInfo = 'clickHereForMore'.tr();
+  final chatPartnerWritingInfo = 'userWriting'.tr();
 
   Widget chatMessageList() {
     return StreamBuilder(
@@ -43,9 +47,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   sendMessage(String chatRoomId) {
-    if (_chatMessageController.text.isNotEmpty) {
+    if (_chatMessageController.text.trim().isNotEmpty) {
       Map<String, dynamic> messageMap = {
-        'message': _chatMessageController.text,
+        'message': _chatMessageController.text.trim(),
         'sendBy': uid,
         'time': DateTime.now().microsecondsSinceEpoch
       };
@@ -66,25 +70,30 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
-    var databaseProvider = context.watch<DatabaseProvider>();
+    final databaseProvider = context.watch<DatabaseProvider>();
     uid = firebaseUser.uid;
+    bool isTyping = false;
 
-    Stream<ChatRoom> chatRoomStream =
-        databaseProvider.streamChatRooms(firebaseUser.uid);
+    Stream<ChatRoom> chatRoomStream = databaseProvider.streamChatRooms(uid);
 
     return StreamBuilder<ChatRoom>(
         stream: chatRoomStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            if (chatPartner != null) {
+              //show "chat Partner left chat"
+            }
+
             chatMessagesStream =
                 chatFunctions.getConversationMessages(snapshot.data.chatRoomId);
-            var chatPartnerId = snapshot.data.users[0] == uid
-                ? snapshot.data.users[0]
-                : snapshot.data.users[1];
+            var userNumber = snapshot.data.users[0] == uid ? 1 : 0;
+            chatPartnerId = snapshot.data.users[0] == uid
+                ? snapshot.data.users[userNumber]
+                : snapshot.data.users[userNumber];
 
-            var chatPartner = databaseProvider.getUserData(chatPartnerId);
             return Scaffold(
               appBar: AppBar(
+                toolbarHeight: 85,
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () {
@@ -93,35 +102,130 @@ class _ChatScreenState extends State<ChatScreen> {
                     Navigator.pop(context);
                   },
                 ),
-                title: Column(
-                  children: [
-                    IconButton(
-                      icon: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        backgroundImage: new NetworkImage(''),
-                        radius: 30.0,
-                      ),
-                      tooltip: 'Show User',
-                      onPressed: () {},
-                    ),
-                    Text('')
-                  ],
-                ),
+                title: FutureBuilder(
+                    future: databaseProvider.getUserData(chatPartnerId),
+                    builder: (context, userDataSnapshot) {
+                      if (userDataSnapshot.connectionState ==
+                          ConnectionState.done) {
+                        if (userDataSnapshot.hasError) {
+                          return Container();
+                        }
+                        chatPartner = userDataSnapshot.data;
+                        if (chatPartner.profilePictureURL != null &&
+                            chatPartner.name != null) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.white,
+                                backgroundImage:
+                                    NetworkImage(chatPartner.profilePictureURL),
+                                radius: 20.0,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(chatPartner.name,
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600)),
+                                  ),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Text(
+                                      snapshot.data.usersTyping[userNumber]
+                                          ? chatPartnerWritingInfo
+                                          : clickHereForMoreInfo,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600)),
+                                ],
+                              ),
+                            ],
+                          );
+                        } else if (chatPartner.name != null) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(chatPartner.name,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600)),
+                              SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                  snapshot.data.usersTyping[userNumber]
+                                      ? chatPartnerWritingInfo
+                                      : clickHereForMoreInfo,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600)),
+                            ],
+                          );
+                        }
+                        return Container(
+                          child: Text(
+                              snapshot.data.usersTyping[userNumber] ??
+                                  chatPartnerWritingInfo,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600)),
+                        );
+                      } else {
+                        return CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              const Color(0xffff9600)),
+                          strokeWidth: 4,
+                        );
+                      }
+                    }),
                 backgroundColor: const Color(0xffff9600),
                 actions: [
-                  Column(
-                    children: [
-                      IconButton(
-                        padding: const EdgeInsets.only(right: 40),
-                        icon: const Icon(Icons.shuffle_rounded),
-                        tooltip: 'Next Shuffle',
-                        onPressed: () {
-                          databaseProvider
-                              .deleteChatRoom(snapshot.data.chatRoomId);
-                        },
-                      ),
-                      Text('Next Shuffle')
-                    ],
+                  Container(
+                    padding: const EdgeInsets.only(right: 15, top: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          padding: const EdgeInsets.only(top: 13),
+                          icon: const Icon(
+                            Icons.shuffle_rounded,
+                            size: 35,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            databaseProvider
+                                .deleteChatRoom(snapshot.data.chatRoomId);
+                          },
+                        ),
+                        Text(
+                          'next',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -139,11 +243,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height / 10,
                       alignment: Alignment.bottomCenter,
                       child: Container(
                         padding: const EdgeInsets.only(
-                            left: 15, right: 12, bottom: 20),
+                            left: 18, right: 12, bottom: 30),
                         child: Row(
                           children: [
                             Expanded(
@@ -160,23 +263,34 @@ class _ChatScreenState extends State<ChatScreen> {
                                     )
                                   ],
                                 ),
-                                child: TextFormField(
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  controller: _chatMessageController,
-                                  style: TextStyle(color: Colors.black),
-                                  decoration: InputDecoration(
-                                    hintText: 'Send a message...',
-                                    focusColor: Colors.black,
-                                    fillColor: Colors.black,
-                                    hintStyle: TextStyle(color: Colors.black),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(width: 0.4),
-                                      borderRadius: BorderRadius.circular(27.0),
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: const BorderSide(width: 0.4),
-                                      borderRadius: BorderRadius.circular(27.0),
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(maxHeight: 250),
+                                  child: Container(
+                                    child: TextFormField(
+                                      maxLines: null,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      controller: _chatMessageController,
+                                      style: TextStyle(color: Colors.black),
+                                      decoration: InputDecoration(
+                                        hintText: 'Send a message...',
+                                        focusColor: Colors.black,
+                                        fillColor: Colors.black,
+                                        hintStyle:
+                                            TextStyle(color: Colors.black),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide:
+                                              const BorderSide(width: 0.4),
+                                          borderRadius:
+                                              BorderRadius.circular(27.0),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide:
+                                              const BorderSide(width: 0.4),
+                                          borderRadius:
+                                              BorderRadius.circular(27.0),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -209,8 +323,13 @@ class _ChatScreenState extends State<ChatScreen> {
             );
           } else {
             if (chatRoomStream != null) {
-              databaseProvider.createShuffleUser(firebaseUser.uid, '',
-                  widget.filterArray, widget.userDataArray);
+              if (chatPartnerId != '') {
+                databaseProvider.createShuffleUser(uid, chatPartnerId,
+                    widget.filterArray, widget.userDataArray);
+              } else {
+                databaseProvider.createShuffleUser(
+                    uid, '', widget.filterArray, widget.userDataArray);
+              }
             }
             return Scaffold(
               appBar: AppBar(
@@ -251,7 +370,7 @@ class MessageTile extends StatelessWidget {
       alignment: isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 7, horizontal: 13),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: isSendByMe
