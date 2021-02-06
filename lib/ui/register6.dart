@@ -25,8 +25,8 @@ class _Register6State extends State<Register6> {
 
   @override
   Widget build(BuildContext context) {
-    var userData = Provider.of<UserData>(context);
-    var register6Widget = this;
+    final userData = Provider.of<UserData>(context);
+    final register6Widget = this;
 
     return Scaffold(
       body: Container(
@@ -68,7 +68,7 @@ class _Register6State extends State<Register6> {
                       ),
                       Container(
                         height: 60,
-                        padding: EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.only(right: 10),
                         width: MediaQuery.of(context).size.width,
                         child: Center(
                           child: Text(
@@ -81,7 +81,7 @@ class _Register6State extends State<Register6> {
                       ),
                       Container(
                         height: 27,
-                        padding: EdgeInsets.symmetric(horizontal: 9),
+                        padding: const EdgeInsets.symmetric(horizontal: 9),
                         width: MediaQuery.of(context).size.width,
                         child: FittedBox(
                           child: Text(
@@ -127,26 +127,21 @@ class _Register6State extends State<Register6> {
                         child: MaterialButton(
                           textColor: Colors.white,
                           onPressed: () async {
+                            final databaseProvider =
+                                context.read<DatabaseProvider>();
                             setState(() {
                               isLoading = true;
                             });
                             final uid = context.read<AuthProvider>().getUID();
                             if (toUploadFile != null) {
-                              context
-                                  .read<UserData>()
-                                  .setUserDataModel(userData);
-                              await context
-                                  .read<DatabaseProvider>()
-                                  .uploadFile(uid, toUploadFile);
-                              context.read<UserData>().profilePictureURL =
-                                  await context
-                                      .read<DatabaseProvider>()
-                                      .getFile(uid);
+                              userData.setUserDataModel(userData);
+                              await databaseProvider.uploadFile(
+                                  uid, toUploadFile);
+                              userData.profilePictureURL =
+                                  await databaseProvider.getFile(uid);
                               toUploadFile = null;
                             }
-                            await context
-                                .read<DatabaseProvider>()
-                                .setUser(uid, userData);
+                            await databaseProvider.setUser(uid, userData);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -182,7 +177,7 @@ void _showImageBottomSheet(context, _Register6State settingsWidget) {
     context: context,
     builder: (builder) {
       return new Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: 5.0,
           right: 5.0,
           top: 5.0,

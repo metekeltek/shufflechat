@@ -29,7 +29,7 @@ class _Register5State extends State<Register5> {
 
   @override
   Widget build(BuildContext context) {
-    var userData = Provider.of<UserData>(context);
+    final userData = Provider.of<UserData>(context);
 
     return Scaffold(
       body: Container(
@@ -263,7 +263,7 @@ class _Register5State extends State<Register5> {
                   if (userData.interests != null &&
                       userData.interests.length > 2) {
                     _isError = false;
-                    context.read<UserData>().setUserDataModel(userData);
+                    userData.setUserDataModel(userData);
 
                     Navigator.push(
                         context,

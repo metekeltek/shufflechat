@@ -33,7 +33,7 @@ class _SettingsIntrestsState extends State<SettingsIntrests> {
 
   @override
   Widget build(BuildContext context) {
-    var userData = Provider.of<UserData>(context);
+    final userData = Provider.of<UserData>(context);
     _intrestField.text = '';
 
     return Scaffold(
@@ -117,7 +117,7 @@ class _SettingsIntrestsState extends State<SettingsIntrests> {
               dragStartBehavior: DragStartBehavior.start,
               onTapDown: (_) => hideField(),
               child: Container(
-                width: MediaQuery.of(context).size.width / 1.02,
+                width: MediaQuery.of(context).size.width / 1.1,
                 height: MediaQuery.of(context).size.height / 1.6,
                 child: CustomCheckBoxGroup(
                   buttonTextStyle: ButtonTextStyle(

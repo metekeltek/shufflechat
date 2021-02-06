@@ -64,7 +64,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.only(left: 8),
+                    padding: const EdgeInsets.only(left: 8),
                     child: Text(
                       'resetPasswordTitle'.tr(),
                       style: TextStyle(
@@ -99,7 +99,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                   Container(
                     height: 60,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Center(
                       child: Visibility(
                         visible: _isVisible,

@@ -18,7 +18,7 @@ class _Register2State extends State<Register2> {
 
   @override
   Widget build(BuildContext context) {
-    var userData = Provider.of<UserData>(context);
+    final userData = Provider.of<UserData>(context);
     _nameController.text = userData.name;
 
     return Scaffold(
@@ -64,7 +64,7 @@ class _Register2State extends State<Register2> {
                 ),
                 Container(
                   height: 70,
-                  padding: EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 10),
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
@@ -77,7 +77,7 @@ class _Register2State extends State<Register2> {
                 ),
                 Container(
                   height: 25,
-                  padding: EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 10),
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
@@ -91,7 +91,7 @@ class _Register2State extends State<Register2> {
                 Container(
                   width: MediaQuery.of(context).size.width / 2,
                   height: 350,
-                  padding: EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.only(bottom: 20),
                   child: Center(
                     child: TextFormField(
                       maxLength: 20,
@@ -119,7 +119,7 @@ class _Register2State extends State<Register2> {
                   child: MaterialButton(
                     textColor: Colors.white,
                     onPressed: () {
-                      context.read<UserData>().setUserDataModel(userData);
+                      userData.setUserDataModel(userData);
                       _nameController.text = '';
                       Navigator.push(
                           context,

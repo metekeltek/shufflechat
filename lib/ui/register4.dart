@@ -16,7 +16,7 @@ class _Register4State extends State<Register4> {
 
   @override
   Widget build(BuildContext context) {
-    var userData = Provider.of<UserData>(context);
+    final userData = Provider.of<UserData>(context);
 
     return Scaffold(
       body: Container(
@@ -52,7 +52,7 @@ class _Register4State extends State<Register4> {
             ),
             Container(
               height: 70,
-              padding: EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 10),
               width: MediaQuery.of(context).size.width / 1.06,
               child: Text(
                 'youAre'.tr(),
@@ -62,7 +62,7 @@ class _Register4State extends State<Register4> {
             ),
             Container(
               height: 25,
-              padding: EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20),
               width: MediaQuery.of(context).size.width,
               child: Text(
                 'chooseYourGender'.tr(),
@@ -71,7 +71,7 @@ class _Register4State extends State<Register4> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: 10),
               height: 350,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +128,7 @@ class _Register4State extends State<Register4> {
                 onPressed: () async {
                   if (selected != null) {
                     userData.gender = selected;
-                    context.read<UserData>().setUserDataModel(userData);
+                    userData.setUserDataModel(userData);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

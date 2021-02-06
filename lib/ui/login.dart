@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: Column(
                         children: [
                           FittedBox(
@@ -114,7 +114,7 @@ class _LoginState extends State<Login> {
                       height: 10,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
                       height: 40,
                       child: Center(
                         child: Visibility(

@@ -172,7 +172,7 @@ class _SettingsState extends State<Settings> {
                 height: 30,
               ),
               Container(
-                margin: EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 20),
                 width: MediaQuery.of(context).size.width / 2.1,
                 height: 50,
                 decoration: BoxDecoration(
@@ -182,9 +182,9 @@ class _SettingsState extends State<Settings> {
                 child: MaterialButton(
                   textColor: Colors.white,
                   onPressed: () {
-                    var authProvider = context.read<AuthProvider>();
-                    var databaseProvider = context.read<DatabaseProvider>();
-                    var userDataProvider = context.read<UserData>();
+                    final authProvider = context.read<AuthProvider>();
+                    final databaseProvider = context.read<DatabaseProvider>();
+                    final userDataProvider = context.read<UserData>();
                     _showBottomSheet(context, userData, authProvider,
                         databaseProvider, userDataProvider, settingsWidget);
                   },
@@ -198,7 +198,7 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 30),
+                margin: const EdgeInsets.only(top: 30),
                 width: MediaQuery.of(context).size.width / 2.1,
                 height: 50,
                 decoration: BoxDecoration(
@@ -221,7 +221,7 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 30),
+                margin: const EdgeInsets.only(top: 30),
                 width: MediaQuery.of(context).size.width / 2.1,
                 height: 50,
                 decoration: BoxDecoration(
@@ -313,7 +313,7 @@ void _showBottomSheet(context, UserData userData, authProvider,
     builder: (builder) {
       return new Container(
         height: MediaQuery.of(context).size.height / 4,
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: 5.0,
           right: 5.0,
           top: 5.0,
@@ -419,7 +419,7 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
     context: context,
     builder: (builder) {
       return Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: 5.0,
           right: 5.0,
           top: 5.0,
@@ -457,7 +457,7 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
                 if (pickedFile != null) {
                   settingsWidget.isLoading = true;
                   settingsWidget.refresh();
-                  var imageFile = await compressFile(File(pickedFile.path));
+                  final imageFile = await compressFile(File(pickedFile.path));
                   await uploadPicture(userData, authProvider, databaseProvider,
                       userDataProvider, imageFile);
                   settingsWidget.isLoading = false;
@@ -497,7 +497,7 @@ void _showImageBottomSheet(context, UserData userData, authProvider,
                 if (pickedFile != null) {
                   settingsWidget.isLoading = true;
                   settingsWidget.refresh();
-                  var imageFile = await compressFile(File(pickedFile.path));
+                  final imageFile = await compressFile(File(pickedFile.path));
                   await uploadPicture(userData, authProvider, databaseProvider,
                       userDataProvider, imageFile);
                   settingsWidget.isLoading = false;
@@ -536,7 +536,7 @@ void _showNameDialog(context, userData, authProvider, databaseProvider,
             controller: _nameController,
             maxLength: 20,
           ),
-          contentPadding: EdgeInsets.only(top: 20, left: 20, right: 20),
+          contentPadding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           actions: [
             Container(
               decoration: BoxDecoration(
@@ -582,10 +582,10 @@ void _showDeleteDialog(context) {
           'dontGo'.tr(),
           style: TextStyle(fontSize: 18),
         ),
-        contentPadding: EdgeInsets.only(left: 21, right: 20, top: 20),
+        contentPadding: const EdgeInsets.only(left: 21, right: 20, top: 20),
         actions: [
           Container(
-            margin: EdgeInsets.only(right: 20),
+            margin: const EdgeInsets.only(right: 20),
             child: MaterialButton(
               child: Text(
                 'yesDelete'.tr(),
@@ -600,7 +600,7 @@ void _showDeleteDialog(context) {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(right: 20),
+            margin: const EdgeInsets.only(right: 20),
             child: MaterialButton(
               child: new Text('goBack'.tr()),
               onPressed: () {

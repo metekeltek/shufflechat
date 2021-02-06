@@ -7,8 +7,8 @@ class Support extends StatefulWidget {
 }
 
 class _SupportState extends State<Support> {
-  var backgroundColor = const Color(0xffffe8c9);
-  final mail = 'support@shufflechat.com';
+  static const backgroundColor = const Color(0xffffe8c9);
+  static const mail = 'support@shufflechat.com';
   TextEditingController mailController = TextEditingController();
 
   @override
@@ -62,7 +62,7 @@ class _SupportState extends State<Support> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     width: MediaQuery.of(context).size.width,
                     child: Center(
                       child: Text(
@@ -75,11 +75,11 @@ class _SupportState extends State<Support> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 5),
+                    margin: const EdgeInsets.only(top: 5),
                     width: MediaQuery.of(context).size.width,
                     child: Center(
                       child: SelectableText(
-                        'support@shufflechat.com',
+                        mail,
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
@@ -111,8 +111,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'whatIsShufflechatAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -139,8 +139,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'shuffleChatWorldWideAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -167,8 +167,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'shuffleChatNewsAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -195,8 +195,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'dataAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -223,8 +223,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'dataThirdPartyAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -251,8 +251,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'dataDeleteAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -279,8 +279,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'freeAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -307,8 +307,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'premiumAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -335,8 +335,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'cancelAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -363,8 +363,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'moneyBackAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -391,8 +391,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'newUpdatesAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -419,8 +419,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'photoAnswer'.tr(),
                           style: TextStyle(fontSize: 17),
@@ -447,8 +447,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 10),
                         child: Text(
                           'userAnswer'.tr(),
                           textAlign: TextAlign.left,
@@ -476,8 +476,8 @@ class _SupportState extends State<Support> {
                     ),
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 30),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 30),
                         child: Text(
                           'technicalAnswer'.tr(),
                           style: TextStyle(fontSize: 17),

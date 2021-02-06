@@ -29,7 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
         builder: (context, snapshot) {
           return snapshot.hasData
               ? ListView.builder(
-                  padding: EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.only(top: 8.0),
                   reverse: true,
                   controller: _scrollController,
                   itemCount: snapshot.data.documents.length,
@@ -112,7 +112,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   Column(
                     children: [
                       IconButton(
-                        padding: EdgeInsets.only(right: 40),
+                        padding: const EdgeInsets.only(right: 40),
                         icon: const Icon(Icons.shuffle_rounded),
                         tooltip: 'Next Shuffle',
                         onPressed: () {
@@ -142,8 +142,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       height: MediaQuery.of(context).size.height / 10,
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 12, bottom: 20),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 12, bottom: 20),
                         child: Row(
                           children: [
                             Expanded(
@@ -192,7 +192,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                 ),
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Icon(
                                   Icons.keyboard_arrow_up_sharp,
                                   size: 40,
@@ -244,13 +244,14 @@ class MessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:
-          isSendByMe ? EdgeInsets.only(left: 50) : EdgeInsets.only(right: 20),
+      margin: isSendByMe
+          ? const EdgeInsets.only(left: 50)
+          : const EdgeInsets.only(right: 20),
       width: MediaQuery.of(context).size.width,
       alignment: isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 7, horizontal: 13),
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        margin: const EdgeInsets.symmetric(vertical: 7, horizontal: 13),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: isSendByMe

@@ -62,7 +62,7 @@ class _Register1State extends State<Register1> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(left: 5, right: 5),
+                            padding: const EdgeInsets.only(left: 5, right: 5),
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
@@ -304,7 +304,7 @@ Future<bool> _showTermsDialog(context) async {
   return returnValue;
 }
 
-final String termsTextGerman = """
+const String termsTextGerman = """
     Deutsch blablabla
     Zuletzt überarbeitet am 0.1.08.2020
 
@@ -350,7 +350,7 @@ Um Tinder zu verwenden, können Sie sich mit Ihrem Facebook-Login anmelden. Wenn
 Sie sind dafür verantwortlich, die Zugangsdaten, die Sie zur Anmeldung bei Tinder verwenden, vertraulich zu behandeln, und tragen die alleinige Verantwortung für sämtliche Aktivitäten, die unter diesen Zugangsdaten auftreten. Wenn Sie denken, dass sich jemand Zugriff auf Ihr Konto verschafft hat, kontaktieren Sie uns bitte unverzüglich über unser Kontaktformular.
     """;
 
-final String termsTextEnglish = """
+const String termsTextEnglish = """
     Englisch blablabla
     Zuletzt überarbeitet am 0.1.08.2020
 

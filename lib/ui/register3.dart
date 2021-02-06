@@ -15,8 +15,8 @@ class _Register3State extends State<Register3> {
   DateTime birthdate;
 
   bool isNotAdult(DateTime birthdate) {
-    DateTime now = DateTime.now();
-    DateTime adultDate = DateTime(
+    final now = DateTime.now();
+    final adultDate = DateTime(
       now.year - 18,
       now.month,
       now.day,
@@ -32,7 +32,7 @@ class _Register3State extends State<Register3> {
 
   @override
   Widget build(BuildContext context) {
-    var userData = Provider.of<UserData>(context);
+    final userData = Provider.of<UserData>(context);
 
     return Scaffold(
       body: GestureDetector(
@@ -70,7 +70,7 @@ class _Register3State extends State<Register3> {
                 ),
                 Container(
                   height: 70,
-                  padding: EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 10),
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
@@ -83,7 +83,7 @@ class _Register3State extends State<Register3> {
                 ),
                 Container(
                   height: 25,
-                  padding: EdgeInsets.only(right: 20),
+                  padding: const EdgeInsets.only(right: 20),
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
@@ -95,7 +95,7 @@ class _Register3State extends State<Register3> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 110),
+                  padding: const EdgeInsets.only(top: 110),
                   height: 350,
                   child: DatePicker((birthDateValue) {
                     birthdate = birthDateValue;
@@ -118,7 +118,7 @@ class _Register3State extends State<Register3> {
                           userData.birthday =
                               Timestamp.fromMillisecondsSinceEpoch(
                                   birthdate.millisecondsSinceEpoch);
-                          context.read<UserData>().setUserDataModel(userData);
+                          userData.setUserDataModel(userData);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -466,7 +466,7 @@ class _DatePickerState extends State<DatePicker> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.only(right: 30),
+                margin: const EdgeInsets.only(right: 30),
                 child: Column(
                   children: [
                     Text('day'.tr()),
@@ -480,7 +480,7 @@ class _DatePickerState extends State<DatePicker> {
                         Container(
                           width: 30,
                           height: 30,
-                          margin: EdgeInsets.only(right: 8),
+                          margin: const EdgeInsets.only(right: 8),
                           child: TextFormField(
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 25),
@@ -532,7 +532,7 @@ class _DatePickerState extends State<DatePicker> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(right: 28),
+                margin: const EdgeInsets.only(right: 28),
                 child: Column(
                   children: [
                     Text('month'.tr()),
@@ -545,7 +545,7 @@ class _DatePickerState extends State<DatePicker> {
                         Container(
                           width: 30,
                           height: 30,
-                          margin: EdgeInsets.only(right: 8),
+                          margin: const EdgeInsets.only(right: 8),
                           child: TextFormField(
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 25),
@@ -608,7 +608,7 @@ class _DatePickerState extends State<DatePicker> {
                         Container(
                           width: 30,
                           height: 30,
-                          margin: EdgeInsets.only(right: 8),
+                          margin: const EdgeInsets.only(right: 8),
                           child: TextFormField(
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 25),
@@ -633,7 +633,7 @@ class _DatePickerState extends State<DatePicker> {
                         Container(
                           width: 30,
                           height: 30,
-                          margin: EdgeInsets.only(right: 8),
+                          margin: const EdgeInsets.only(right: 8),
                           child: TextFormField(
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 25),
@@ -658,7 +658,7 @@ class _DatePickerState extends State<DatePicker> {
                         Container(
                           width: 30,
                           height: 30,
-                          margin: EdgeInsets.only(right: 8),
+                          margin: const EdgeInsets.only(right: 8),
                           child: TextFormField(
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 25),
