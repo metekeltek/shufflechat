@@ -1,7 +1,7 @@
 name: shufflechat
 description: A new Flutter project.
 
-publish_to: 'none' 
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -27,6 +27,7 @@ dependencies:
   form_field_validator: ^1.0.1
   image_picker: ^0.6.7+14
   provider: ^4.3.2+2
+  true_time: ^0.1.0
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +41,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/translations/
-    - assets/images/shuffleCoin.png
-    - assets/images/shuffleCoin+.png
-
+    - assets/images/

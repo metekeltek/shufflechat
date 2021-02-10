@@ -342,6 +342,10 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
+  - true_time (0.0.1):
+    - Flutter
+    - TrueTime
+  - TrueTime (5.0.3)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -355,6 +359,7 @@ DEPENDENCIES:
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - true_time (from `.symlinks/plugins/true_time/ios`)
 
 SPEC REPOS:
   trunk:
@@ -375,6 +380,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - TrueTime
 
 EXTERNAL SOURCES:
   cloud_firestore:
@@ -399,6 +405,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  true_time:
+    :path: ".symlinks/plugins/true_time/ios"
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -429,6 +437,8 @@ SPEC CHECKSUMS:
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  true_time: 4540a43cc9b123bf3daa1dc81456a70c4634b88e
+  TrueTime: b49551ffafb28a9dee04e51b226f42a416010842
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

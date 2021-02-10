@@ -242,21 +242,27 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
               ),
-              userData.premium
-                  ? Column(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Row(
-                          children: [
-                            Text('premium till: '),
-                            Text(userData.premiumTill.toDate().toString()),
-                          ],
-                        ),
-                      ],
-                    )
-                  : Container(),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'premium till: ' +
+                            userData.premiumTill
+                                .toDate()
+                                .toString()
+                                .substring(0, 10),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ),

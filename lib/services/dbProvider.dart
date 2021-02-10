@@ -41,6 +41,20 @@ class DatabaseProvider {
     return _db.collection('userData').doc(uid).set(userData.toJson());
   }
 
+  Future<void> setShuffleCoins(String uid, int shuffleCoins) {
+    return _db
+        .collection('userData')
+        .doc(uid)
+        .update({'shuffleCoins': shuffleCoins});
+  }
+
+  Future<void> setPremiumTill(String uid, Timestamp premiumTill) {
+    return _db
+        .collection('userData')
+        .doc(uid)
+        .update({'premiumTill': premiumTill});
+  }
+
   //*FirebaseStorage Methods
 
   Future<void> uploadFile(String uid, File file) async {

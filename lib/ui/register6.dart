@@ -140,7 +140,6 @@ class _Register6State extends State<Register6> {
                               userData.profilePictureURL =
                                   await databaseProvider.getFile(uid);
                               toUploadFile = null;
-                              userData.premium = false;
                               userData.premiumTill = null;
                               userData.shuffleCoins = 0;
                             }
