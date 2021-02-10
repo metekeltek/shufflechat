@@ -24,6 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
   UserData chatPartner;
   String chatPartnerId = '';
   Stream chatMessagesStream;
+  bool isTyping = false;
   final clickHereForMoreInfo = 'clickHereForMore'.tr();
   final chatPartnerWritingInfo = 'userWriting'.tr();
 
@@ -58,6 +59,23 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  void checkIfIsTyping(DatabaseProvider databaseProvider, usersTyping,
+      userNumber, String chatRoomId) {
+    if (_chatMessageController.text == '') {
+      if (isTyping) {
+        isTyping = false;
+        usersTyping[userNumber] = false;
+        databaseProvider.updateWritingState(chatRoomId, usersTyping);
+      }
+    } else {
+      if (!isTyping) {
+        isTyping = true;
+        usersTyping[userNumber] = true;
+        databaseProvider.updateWritingState(chatRoomId, usersTyping);
+      }
+    }
+  }
+
   void scrollToBottom() {
     final bottomOffset = _scrollController.position.maxScrollExtent;
     _scrollController.animateTo(
@@ -72,7 +90,6 @@ class _ChatScreenState extends State<ChatScreen> {
     final firebaseUser = context.watch<User>();
     final databaseProvider = context.watch<DatabaseProvider>();
     uid = firebaseUser.uid;
-    bool isTyping = false;
 
     Stream<ChatRoom> chatRoomStream = databaseProvider.streamChatRooms(uid);
 
@@ -80,19 +97,18 @@ class _ChatScreenState extends State<ChatScreen> {
         stream: chatRoomStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (chatPartner != null) {
-              //show "chat Partner left chat"
-            }
-
             chatMessagesStream =
                 chatFunctions.getConversationMessages(snapshot.data.chatRoomId);
-            var userNumber = snapshot.data.users[0] == uid ? 1 : 0;
+            var partnerUserNumber = snapshot.data.users[0] == uid ? 1 : 0;
+            var userNumber = snapshot.data.users[0] == uid ? 0 : 1;
+
             chatPartnerId = snapshot.data.users[0] == uid
-                ? snapshot.data.users[userNumber]
-                : snapshot.data.users[userNumber];
+                ? snapshot.data.users[partnerUserNumber]
+                : snapshot.data.users[partnerUserNumber];
 
             return Scaffold(
               appBar: AppBar(
+                backgroundColor: const Color(0xffff9600),
                 toolbarHeight: 85,
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -113,46 +129,56 @@ class _ChatScreenState extends State<ChatScreen> {
                         chatPartner = userDataSnapshot.data;
                         if (chatPartner.profilePictureURL != null &&
                             chatPartner.name != null) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.white,
-                                backgroundImage:
-                                    NetworkImage(chatPartner.profilePictureURL),
-                                radius: 20.0,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Text(chatPartner.name,
+                          var image =
+                              NetworkImage(chatPartner.profilePictureURL);
+                          return GestureDetector(
+                            onTap: () async {
+                              await showDialog(
+                                  context: context,
+                                  builder: (_) => ImageIntrestsDialog(
+                                      image, chatPartner.interests));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  backgroundImage: image,
+                                  radius: 20.0,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(chatPartner.name,
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600)),
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    Text(
+                                        snapshot.data
+                                                .usersTyping[partnerUserNumber]
+                                            ? chatPartnerWritingInfo
+                                            : clickHereForMoreInfo,
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 12,
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600)),
-                                  ),
-                                  SizedBox(
-                                    height: 3,
-                                  ),
-                                  Text(
-                                      snapshot.data.usersTyping[userNumber]
-                                          ? chatPartnerWritingInfo
-                                          : clickHereForMoreInfo,
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600)),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           );
                         } else if (chatPartner.name != null) {
                           return Column(
@@ -168,7 +194,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 height: 3,
                               ),
                               Text(
-                                  snapshot.data.usersTyping[userNumber]
+                                  snapshot.data.usersTyping[partnerUserNumber]
                                       ? chatPartnerWritingInfo
                                       : clickHereForMoreInfo,
                                   textAlign: TextAlign.center,
@@ -181,7 +207,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         }
                         return Container(
                           child: Text(
-                              snapshot.data.usersTyping[userNumber] ??
+                              snapshot.data.usersTyping[partnerUserNumber] ??
                                   chatPartnerWritingInfo,
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -197,7 +223,6 @@ class _ChatScreenState extends State<ChatScreen> {
                         );
                       }
                     }),
-                backgroundColor: const Color(0xffff9600),
                 actions: [
                   Container(
                     padding: const EdgeInsets.only(right: 15, top: 8),
@@ -217,7 +242,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           },
                         ),
                         Text(
-                          'next',
+                          'next'.tr(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 15,
@@ -267,13 +292,18 @@ class _ChatScreenState extends State<ChatScreen> {
                                   constraints: BoxConstraints(maxHeight: 250),
                                   child: Container(
                                     child: TextFormField(
+                                      onChanged: (_) => checkIfIsTyping(
+                                          databaseProvider,
+                                          snapshot.data.usersTyping,
+                                          userNumber,
+                                          snapshot.data.chatRoomId),
                                       maxLines: null,
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       controller: _chatMessageController,
                                       style: TextStyle(color: Colors.black),
                                       decoration: InputDecoration(
-                                        hintText: 'Send a message...',
+                                        hintText: 'sendMessage'.tr(),
                                         focusColor: Colors.black,
                                         fillColor: Colors.black,
                                         hintStyle:
@@ -299,6 +329,11 @@ class _ChatScreenState extends State<ChatScreen> {
                             GestureDetector(
                               onTap: () {
                                 sendMessage(snapshot.data.chatRoomId);
+                                checkIfIsTyping(
+                                    databaseProvider,
+                                    snapshot.data.usersTyping,
+                                    userNumber,
+                                    snapshot.data.chatRoomId);
                               },
                               child: Container(
                                 height: 50,
@@ -384,4 +419,70 @@ class MessageTile extends StatelessWidget {
       ),
     );
   }
+}
+
+class ImageIntrestsDialog extends StatelessWidget {
+  final profileImage;
+  final intrests;
+
+  ImageIntrestsDialog(this.profileImage, this.intrests);
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: const Color(0xffff9600),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(500.0),
+      ),
+      child: Container(
+        height: 400,
+        width: 400,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 240,
+              height: 240,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(400.0),
+                  image: DecorationImage(
+                    image: profileImage,
+                    fit: BoxFit.cover,
+                    alignment: FractionalOffset.center,
+                  )),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text('intrests'.tr(),
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600)),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: 200,
+              child: Text(listToString(intrests),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600)),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+String listToString(List<dynamic> intrests) {
+  var intrestsString = '';
+  for (var intrest in intrests) {
+    intrestsString += intrest.toString().tr() + ', ';
+  }
+
+  intrestsString = intrestsString.substring(0, intrestsString.length - 2);
+  return intrestsString;
 }

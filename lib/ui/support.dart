@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:shufflechat/ui/legal.dart';
 
 class Support extends StatefulWidget {
   @override
@@ -39,6 +40,21 @@ class _SupportState extends State<Support> {
                               },
                               child: Icon(
                                 Icons.arrow_back,
+                                color: Colors.black,
+                                size: 35.0,
+                              ),
+                            ),
+                          ),
+                          SafeArea(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Legal()));
+                              },
+                              child: Icon(
+                                Icons.info_outline_rounded,
                                 color: Colors.black,
                                 size: 35.0,
                               ),

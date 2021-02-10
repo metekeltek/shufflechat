@@ -6,6 +6,9 @@ class UserData {
   int gender;
   List<dynamic> interests;
   String profilePictureURL;
+  bool premium = false;
+  int shuffleCoins = 0;
+  Timestamp premiumTill;
 
   UserData();
 
@@ -16,6 +19,9 @@ class UserData {
       this.name = userData.name;
       this.interests = userData.interests;
       this.profilePictureURL = userData.profilePictureURL;
+      this.premium = userData.premium;
+      this.shuffleCoins = userData.shuffleCoins;
+      this.premiumTill = userData.premiumTill;
     }
   }
 
@@ -25,6 +31,9 @@ class UserData {
         'gender': gender,
         'interests': interests,
         'profilePictureURL': profilePictureURL,
+        'premium': premium,
+        'shuffleCoins': shuffleCoins,
+        'premiumTill': premiumTill,
       };
 
   UserData.fromMap(Map map)
@@ -32,12 +41,18 @@ class UserData {
         birthday = map['birthday'] ?? '',
         gender = map['gender'] ?? 2,
         interests = map['interests'] ?? [],
-        profilePictureURL = map['profilePictureURL'] ?? '';
+        profilePictureURL = map['profilePictureURL'] ?? '',
+        premium = map['premium'] ?? false,
+        shuffleCoins = map['shuffleCoins'] ?? 0,
+        premiumTill = map['premiumTill'] ?? null;
 
   UserData.fromFirestore(DocumentSnapshot snap)
       : name = snap['name'] ?? '',
         birthday = snap['birthday'] ?? '',
         gender = snap['gender'] ?? 2,
         interests = snap['interests'] ?? [],
-        profilePictureURL = snap['profilePictureURL'] ?? '';
+        profilePictureURL = snap['profilePictureURL'] ?? '',
+        premium = snap['premium'] ?? false,
+        shuffleCoins = snap['shuffleCoins'] ?? 0,
+        premiumTill = snap['premiumTill'] ?? null;
 }

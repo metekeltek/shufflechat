@@ -104,6 +104,13 @@ class DatabaseProvider {
     return chatRoom;
   }
 
+  void updateWritingState(String chatRoomId, List<dynamic> usersTyping) {
+    _db
+        .collection('chatRoom')
+        .doc(chatRoomId)
+        .update({'usersTyping': usersTyping});
+  }
+
   // String createChatRoom(String uid0, String uid1) {
   //   String docId = uid0 + '_' + uid1;
   //   ChatRoom chatRoom = ChatRoom();

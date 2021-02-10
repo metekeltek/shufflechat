@@ -172,8 +172,13 @@
     "edit": "edit",
     "chooseMax5": "Choose up to 5 intrests",
     "clickHereForMore": "Click here to see more",
-    "userWriting": "writing..."
+    "userWriting": "writing...",
 
+    "sendMessage": "Send a message...",
+    "intrests": "Intrests:",
+    "terms": "Terms and Conditions / Legal Notice",
+    "privacy": "Privacy Policy",
+    "communityGuidlines": "Community Guidlines"
 
 
 

@@ -171,7 +171,14 @@
     "edit": "bearbeiten",
     "chooseMax5": "Wähle bis zu 5 Interessen",
     "clickHereForMore": "Hier klicken um mehr zu sehen",
-    "userWriting": "schreibt..."
+    "userWriting": "schreibt...",
+
+    "sendMessage": "Sende eine Nachricht...",
+    "intrests": "Interessen:",
+    "terms": "AGB / Impressum",
+    "privacy": "Datenschutzerklärung",
+    "communityGuidlines": "Community Richtlinien"
+
 
 
 }
