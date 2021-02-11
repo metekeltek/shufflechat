@@ -5,7 +5,6 @@ import 'package:custom_radio_grouped_button/CustomButtons/CustomRadioButton.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:shufflechat/models/UserData.dart';
-import 'package:shufflechat/services/authProvider.dart';
 import 'package:shufflechat/services/dbProvider.dart';
 import 'package:shufflechat/ui/chat.dart';
 import 'package:shufflechat/ui/settings.dart' as Settings;
@@ -22,10 +21,10 @@ class _ShuffleScreenState extends State<ShuffleScreen> {
   int selectedGender = 9;
   int selectedMinAge = 18;
   int selectedMaxAge = 60;
-  List<dynamic> selectedIntrests = [];
+  List<dynamic> selectedInterests = [];
   UserData userData;
+  bool premium;
 
-  bool premium = false;
   bool _initialized = false;
   DateTime _currentTime;
 
@@ -56,251 +55,307 @@ class _ShuffleScreenState extends State<ShuffleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    userData = Provider.of<UserData>(context);
     final databaseProvider = Provider.of<DatabaseProvider>(context);
-    final uid = Provider.of<AuthProvider>(context).getUID();
+    Stream<UserData> userDataStream = databaseProvider.userDataStream;
 
     final shuffleScreenWidget = this;
 
-    if (userData.premiumTill != null) {
-      if (_currentTime.millisecondsSinceEpoch <
-          userData.premiumTill.millisecondsSinceEpoch) {
-        premium = true;
-      }
-    }
-
-    return Scaffold(
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 30, right: 15, left: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SafeArea(
-                        child: GestureDetector(
-                          onTap: () => _showGetShuffleCoinsDialog(context,
-                              shuffleScreenWidget, databaseProvider, uid),
+    return StreamBuilder<UserData>(
+        stream: userDataStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && _initialized) {
+            if (snapshot.data.premiumTill != null) {
+              if (_currentTime.millisecondsSinceEpoch <
+                  snapshot.data.premiumTill.millisecondsSinceEpoch) {
+                premium = true;
+              }
+            }
+            userData = snapshot.data;
+            return Scaffold(
+              body: GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(
+                              top: 30, right: 15, left: 15),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Image(
-                                height: 42,
-                                image: AssetImage(
-                                    'assets/images/shuffleCoin+.png'),
+                              SafeArea(
+                                child: GestureDetector(
+                                  onTap: () => _showGetShuffleCoinsDialog(
+                                      context,
+                                      shuffleScreenWidget,
+                                      databaseProvider),
+                                  child: Row(
+                                    children: [
+                                      Image(
+                                        height: 42,
+                                        image: AssetImage(
+                                            'assets/images/shuffleCoin+.png'),
+                                      ),
+                                      SizedBox(
+                                        width: 3,
+                                      ),
+                                      Text(
+                                        snapshot.data.shuffleCoins.toString(),
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              SizedBox(
-                                width: 3,
-                              ),
-                              Text(
-                                userData.shuffleCoins.toString(),
-                                style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.w600),
+                              SafeArea(
+                                child: GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Settings.Settings(),
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    Icons.settings,
+                                    color: Colors.black,
+                                    size: 35.0,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      SafeArea(
-                        child: GestureDetector(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Settings.Settings(),
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.settings,
-                            color: Colors.black,
-                            size: 35.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.6,
-                        height: 55,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          color: const Color(0xffff9600),
-                        ),
-                        child: MaterialButton(
-                          textColor: Colors.white,
-                          onPressed: () {
-                            List<String> filterArray = buildFilterArray(
-                                selectedGender,
-                                selectedMinAge,
-                                selectedMaxAge,
-                                selectedIntrests);
-                            List<String> userDataArray =
-                                buildUserDataArray(userData);
+                        Container(
+                          height: MediaQuery.of(context).size.height / 3,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.6,
+                                height: 55,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  color: const Color(0xffff9600),
+                                ),
+                                child: MaterialButton(
+                                  textColor: Colors.white,
+                                  onPressed: () {
+                                    List<String> filterArray = buildFilterArray(
+                                        selectedGender,
+                                        selectedMinAge,
+                                        selectedMaxAge,
+                                        selectedInterests);
+                                    List<String> userDataArray =
+                                        buildUserDataArray(snapshot.data);
 
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ChatScreen(filterArray, userDataArray),
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ChatScreen(
+                                            filterArray, userDataArray),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'shuffle',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
                               ),
-                            );
-                          },
-                          child: Text(
-                            'shuffle',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w700),
+                              SizedBox(
+                                height: 20,
+                              )
+                            ],
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      )
-                    ],
-                  ),
-                ),
-                SafeArea(
-                  child: GestureDetector(
-                    onTap: () {
-                      if (!premium) {
-                        _showGetPremiumFunctionsDialog(context,
-                            shuffleScreenWidget, uid, databaseProvider);
-                      }
-                    },
-                    child: AbsorbPointer(
-                      absorbing: premium ? false : true,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 1.1,
-                        height: MediaQuery.of(context).size.height / 3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50.0),
-                          color: const Color(0xffff9600).withOpacity(0.2),
-                        ),
-                        child: Center(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 1.2,
-                            height: MediaQuery.of(context).size.height / 3.2,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  'genderFilter'.tr(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18),
+                        SafeArea(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (!premium) {
+                                _showGetPremiumFunctionsDialog(context,
+                                    shuffleScreenWidget, databaseProvider);
+                              }
+                            },
+                            child: AbsorbPointer(
+                              absorbing: premium ? false : true,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width / 1.1,
+                                height: MediaQuery.of(context).size.height / 3,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                  color:
+                                      const Color(0xffff9600).withOpacity(0.2),
                                 ),
-                                Container(
-                                  child: CustomRadioButton(
-                                    wrapAlignment: WrapAlignment.center,
-                                    elevation: 0,
-                                    height: 40,
-                                    width: 80,
-                                    buttonTextStyle: ButtonTextStyle(
-                                      selectedColor: Colors.white,
-                                      unSelectedColor: Colors.white,
-                                      textStyle: TextStyle(
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                    unSelectedColor: const Color(0xffffc069),
-                                    unSelectedBorderColor:
-                                        const Color(0xffffc069),
-                                    selectedColor: const Color(0xffff9600),
-                                    selectedBorderColor:
-                                        const Color(0xffff9600),
-                                    radioButtonValue: (value) {
-                                      selectedGender = value;
-                                    },
-                                    buttonLables: [
-                                      'any'.tr(),
-                                      'female'.tr(),
-                                      'male'.tr(),
-                                      'diverse'.tr(),
-                                    ],
-                                    buttonValues: [
-                                      9,
-                                      0,
-                                      1,
-                                      2,
-                                    ],
-                                    spacing: 0,
-                                    defaultSelected: 9,
-                                    horizontal: false,
-                                    enableButtonWrap: false,
-                                    enableShape: true,
-                                    absoluteZeroSpacing: false,
-                                    padding: 1,
-                                  ),
-                                ),
-                                Text(
-                                  'ageFilter'.tr(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 40,
-                                  child: FlutterSlider(
-                                    rangeSlider: true,
-                                    values: [
-                                      selectedMinAge.toDouble(),
-                                      selectedMaxAge.toDouble()
-                                    ],
-                                    min: 18,
-                                    max: 60,
-                                    onDragCompleted:
-                                        (handlerIndex, lowerValue, upperValue) {
-                                      selectedMinAge = lowerValue.round();
-                                      selectedMaxAge = upperValue.round();
-                                    },
-                                    trackBar: FlutterSliderTrackBar(
-                                        activeTrackBar: BoxDecoration(
-                                            color: Color(0xffff9600))),
-                                    tooltip: FlutterSliderTooltip(
-                                        format: (value) {
-                                          if (value == '60.0') {
-                                            return '60+';
-                                          }
-                                          return value.replaceAll('.0', '');
-                                        },
-                                        positionOffset:
-                                            FlutterSliderTooltipPositionOffset(
-                                                top: -10),
-                                        textStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 17,
-                                            color: Colors.white),
-                                        boxStyle: FlutterSliderTooltipBox(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50.0),
-                                                color: Color(0xffffac38)
-                                                    .withOpacity(0.9)))),
-                                  ),
-                                ),
-                                Text(
-                                  'intrestFilter'.tr(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: selectedIntrests.isEmpty
-                                          ? Container()
-                                          : Container(
+                                child: Center(
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.2,
+                                    height: MediaQuery.of(context).size.height /
+                                        3.2,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          'genderFilter'.tr(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18),
+                                        ),
+                                        Container(
+                                          child: CustomRadioButton(
+                                            wrapAlignment: WrapAlignment.center,
+                                            elevation: 0,
+                                            height: 40,
+                                            width: 80,
+                                            buttonTextStyle: ButtonTextStyle(
+                                              selectedColor: Colors.white,
+                                              unSelectedColor: Colors.white,
+                                              textStyle: TextStyle(
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                            unSelectedColor:
+                                                const Color(0xffffc069),
+                                            unSelectedBorderColor:
+                                                const Color(0xffffc069),
+                                            selectedColor:
+                                                const Color(0xffff9600),
+                                            selectedBorderColor:
+                                                const Color(0xffff9600),
+                                            radioButtonValue: (value) {
+                                              selectedGender = value;
+                                            },
+                                            buttonLables: [
+                                              'any'.tr(),
+                                              'female'.tr(),
+                                              'male'.tr(),
+                                              'diverse'.tr(),
+                                            ],
+                                            buttonValues: [
+                                              9,
+                                              0,
+                                              1,
+                                              2,
+                                            ],
+                                            spacing: 0,
+                                            defaultSelected: 9,
+                                            horizontal: false,
+                                            enableButtonWrap: false,
+                                            enableShape: true,
+                                            absoluteZeroSpacing: false,
+                                            padding: 1,
+                                          ),
+                                        ),
+                                        Text(
+                                          'ageFilter'.tr(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18),
+                                        ),
+                                        SizedBox(
+                                          height: 40,
+                                          child: FlutterSlider(
+                                            rangeSlider: true,
+                                            values: [
+                                              selectedMinAge.toDouble(),
+                                              selectedMaxAge.toDouble()
+                                            ],
+                                            min: 18,
+                                            max: 60,
+                                            onDragCompleted: (handlerIndex,
+                                                lowerValue, upperValue) {
+                                              selectedMinAge =
+                                                  lowerValue.round();
+                                              selectedMaxAge =
+                                                  upperValue.round();
+                                            },
+                                            trackBar: FlutterSliderTrackBar(
+                                                activeTrackBar: BoxDecoration(
+                                                    color: Color(0xffff9600))),
+                                            tooltip: FlutterSliderTooltip(
+                                                format: (value) {
+                                                  if (value == '60.0') {
+                                                    return '60+';
+                                                  }
+                                                  return value.replaceAll(
+                                                      '.0', '');
+                                                },
+                                                positionOffset:
+                                                    FlutterSliderTooltipPositionOffset(
+                                                        top: -10),
+                                                textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 17,
+                                                    color: Colors.white),
+                                                boxStyle: FlutterSliderTooltipBox(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50.0),
+                                                        color: Color(0xffffac38)
+                                                            .withOpacity(
+                                                                0.9)))),
+                                          ),
+                                        ),
+                                        Text(
+                                          'intrestFilter'.tr(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              child: selectedInterests.isEmpty
+                                                  ? Container()
+                                                  : Container(
+                                                      height: 38,
+                                                      width: 75,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15.0),
+                                                        color: const Color(
+                                                            0xffff9600),
+                                                      ),
+                                                      child: Center(
+                                                        child: MaterialButton(
+                                                          textColor:
+                                                              Colors.white,
+                                                          onPressed: () {
+                                                            selectedInterests =
+                                                                [];
+                                                            refresh();
+                                                          },
+                                                          child: Text(
+                                                            'clear'.tr(),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                            ),
+                                            SizedBox(
+                                              width: 7,
+                                            ),
+                                            Container(
                                               height: 38,
                                               width: 75,
                                               decoration: BoxDecoration(
@@ -312,72 +367,52 @@ class _ShuffleScreenState extends State<ShuffleScreen> {
                                                 child: MaterialButton(
                                                   textColor: Colors.white,
                                                   onPressed: () {
-                                                    selectedIntrests = [];
-                                                    refresh();
+                                                    _showInterestsDialog(
+                                                        context,
+                                                        selectedInterests,
+                                                        shuffleScreenWidget);
                                                   },
                                                   child: Text(
-                                                    'clear'.tr(),
+                                                    'edit'.tr(),
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w500),
+                                                      fontSize: 13,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                    ),
-                                    SizedBox(
-                                      width: 7,
-                                    ),
-                                    Container(
-                                      height: 38,
-                                      width: 75,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        color: const Color(0xffff9600),
-                                      ),
-                                      child: Center(
-                                        child: MaterialButton(
-                                          textColor: Colors.white,
-                                          onPressed: () {
-                                            _showIntrestsDialog(
-                                                context,
-                                                selectedIntrests,
-                                                shuffleScreenWidget);
-                                          },
-                                          child: Text(
-                                            'edit'.tr(),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                            ),
-                                          ),
+                                          ],
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        )
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                ),
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(const Color(0xffff9600)),
+                strokeWidth: 4,
+              ),
+            );
+          }
+        });
   }
 }
 
 List<String> buildFilterArray(int selectedGender, int selectedMinAge,
-    int selectedMaxAge, List<dynamic> selectedIntrests) {
+    int selectedMaxAge, List<dynamic> selectedInterests) {
   List<String> filterArray = ['any', 'any', 'any'];
 
   if (selectedGender != 9) {
@@ -389,13 +424,13 @@ List<String> buildFilterArray(int selectedGender, int selectedMinAge,
         selectedMinAge.toString() + '-' + selectedMaxAge.toString();
   }
 
-  if (selectedIntrests.isNotEmpty) {
-    String intrestsString = '';
-    for (var selectedIntrest in selectedIntrests) {
-      intrestsString += selectedIntrest.toString() + ',';
+  if (selectedInterests.isNotEmpty) {
+    String interestsString = '';
+    for (var selectedIntrest in selectedInterests) {
+      interestsString += selectedIntrest.toString() + ',';
     }
-    intrestsString = intrestsString.substring(0, intrestsString.length - 1);
-    filterArray[2] = intrestsString;
+    interestsString = interestsString.substring(0, interestsString.length - 1);
+    filterArray[2] = interestsString;
   }
 
   return filterArray;
@@ -408,13 +443,13 @@ List<String> buildUserDataArray(UserData userData) {
     ''
   ];
 
-  String intrestsString = '';
+  String interestsString = '';
   for (var intrest in userData.interests) {
-    intrestsString += intrest.toString() + ',';
+    interestsString += intrest.toString() + ',';
   }
-  if (intrestsString.length > 2) {
-    intrestsString = intrestsString.substring(0, intrestsString.length - 1);
-    userDataArray[2] = intrestsString;
+  if (interestsString.length > 2) {
+    interestsString = interestsString.substring(0, interestsString.length - 1);
+    userDataArray[2] = interestsString;
   }
 
   return userDataArray;
@@ -445,7 +480,6 @@ int calculateAge(Timestamp birthday) {
 void _showGetPremiumFunctionsDialog(
     context,
     _ShuffleScreenState shuffleScreenWidget,
-    String uid,
     DatabaseProvider databaseProvider) {
   final image = Image(
     height: 30,
@@ -541,27 +575,19 @@ void _showGetPremiumFunctionsDialog(
                                         shuffleScreenWidget.userData.premiumTill
                                             .toDate()
                                             .add(Duration(days: premiumDays)));
-                                    databaseProvider.setPremiumTill(
-                                        uid, premiumTill);
-                                    shuffleScreenWidget.userData.premiumTill =
-                                        premiumTill;
+                                    databaseProvider
+                                        .setPremiumTill(premiumTill);
                                   } else {
                                     final premiumTill = Timestamp.fromDate(
                                         shuffleScreenWidget._currentTime
                                             .add(Duration(days: premiumDays)));
-                                    databaseProvider.setPremiumTill(
-                                        uid, premiumTill);
-                                    shuffleScreenWidget.userData.premiumTill =
-                                        premiumTill;
+                                    databaseProvider
+                                        .setPremiumTill(premiumTill);
                                   }
                                   databaseProvider.setShuffleCoins(
-                                      uid,
                                       shuffleScreenWidget
                                               .userData.shuffleCoins -
                                           price);
-                                  shuffleScreenWidget.userData.shuffleCoins -=
-                                      price;
-                                  shuffleScreenWidget.refresh();
                                   Navigator.pop(context);
                                 },
                                 child: Text(
@@ -605,8 +631,7 @@ void _showGetPremiumFunctionsDialog(
                                       _showGetShuffleCoinsDialog(
                                           context,
                                           shuffleScreenWidget,
-                                          databaseProvider,
-                                          uid);
+                                          databaseProvider);
                                       return;
                                     } else {
                                       setState(() {
@@ -665,8 +690,7 @@ void _showGetPremiumFunctionsDialog(
                                       _showGetShuffleCoinsDialog(
                                           context,
                                           shuffleScreenWidget,
-                                          databaseProvider,
-                                          uid);
+                                          databaseProvider);
                                       return;
                                     } else {
                                       setState(() {
@@ -725,8 +749,7 @@ void _showGetPremiumFunctionsDialog(
                                       _showGetShuffleCoinsDialog(
                                           context,
                                           shuffleScreenWidget,
-                                          databaseProvider,
-                                          uid);
+                                          databaseProvider);
                                       return;
                                     } else {
                                       setState(() {
@@ -774,8 +797,7 @@ void _showGetPremiumFunctionsDialog(
 void _showGetShuffleCoinsDialog(
     context,
     _ShuffleScreenState shuffleScreenWidget,
-    DatabaseProvider databaseProvider,
-    String uid) {
+    DatabaseProvider databaseProvider) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -824,10 +846,8 @@ void _showGetShuffleCoinsDialog(
                       child: MaterialButton(
                         textColor: Colors.white,
                         onPressed: () {
-                          databaseProvider.setShuffleCoins(uid,
+                          databaseProvider.setShuffleCoins(
                               shuffleScreenWidget.userData.shuffleCoins + 5);
-                          shuffleScreenWidget.userData.shuffleCoins += 5;
-                          shuffleScreenWidget.refresh();
                           Navigator.pop(context);
                         },
                         child: Center(
@@ -876,11 +896,8 @@ void _showGetShuffleCoinsDialog(
                       child: MaterialButton(
                         textColor: Colors.white,
                         onPressed: () {
-                          databaseProvider.setShuffleCoins(uid,
+                          databaseProvider.setShuffleCoins(
                               shuffleScreenWidget.userData.shuffleCoins + 10);
-                          shuffleScreenWidget.userData.shuffleCoins += 10;
-
-                          shuffleScreenWidget.refresh();
                           Navigator.pop(context);
                         },
                         child: Text(
@@ -927,11 +944,8 @@ void _showGetShuffleCoinsDialog(
                       child: MaterialButton(
                         textColor: Colors.white,
                         onPressed: () {
-                          databaseProvider.setShuffleCoins(uid,
+                          databaseProvider.setShuffleCoins(
                               shuffleScreenWidget.userData.shuffleCoins + 60);
-                          shuffleScreenWidget.userData.shuffleCoins += 60;
-
-                          shuffleScreenWidget.refresh();
                           Navigator.pop(context);
                         },
                         child: Text(
@@ -955,9 +969,9 @@ void _showGetShuffleCoinsDialog(
   );
 }
 
-void _showIntrestsDialog(context, List<dynamic> selectedIntrests,
+void _showInterestsDialog(context, List<dynamic> selectedInterests,
     _ShuffleScreenState shuffleScreenWidget) {
-  List<dynamic> selectedWidgetIntrests = selectedIntrests;
+  List<dynamic> selectedWidgetInterests = selectedInterests;
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -977,13 +991,13 @@ void _showIntrestsDialog(context, List<dynamic> selectedIntrests,
                 fontSize: 16,
               ),
             ),
-            defaultSelected: selectedIntrests,
+            defaultSelected: selectedInterests,
             unSelectedColor: Colors.white,
             unSelectedBorderColor: Colors.black,
             selectedColor: const Color(0xffff9600),
             selectedBorderColor: const Color(0xffff9600),
             checkBoxButtonValues: (values) {
-              selectedWidgetIntrests = values;
+              selectedWidgetInterests = values;
               if (values.length > 5) {
                 values.removeLast();
               }
@@ -1117,7 +1131,8 @@ void _showIntrestsDialog(context, List<dynamic> selectedIntrests,
                   style: TextStyle(color: Colors.black),
                 ),
                 onPressed: () async {
-                  shuffleScreenWidget.selectedIntrests = selectedWidgetIntrests;
+                  shuffleScreenWidget.selectedInterests =
+                      selectedWidgetInterests;
                   shuffleScreenWidget.refresh();
                   Navigator.pop(context);
                 }),

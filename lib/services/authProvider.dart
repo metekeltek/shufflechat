@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthProvider {
   final FirebaseAuth firebaseAuth;
-  //final FirebaseFirestore db;
 
   AuthProvider(
     this.firebaseAuth,

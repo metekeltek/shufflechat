@@ -132,18 +132,20 @@ class _Register6State extends State<Register6> {
                             setState(() {
                               isLoading = true;
                             });
-                            final uid = context.read<AuthProvider>().getUID();
                             if (toUploadFile != null) {
-                              userData.setUserDataModel(userData);
-                              await databaseProvider.uploadFile(
-                                  uid, toUploadFile);
+                              await databaseProvider.uploadFile(toUploadFile);
                               userData.profilePictureURL =
-                                  await databaseProvider.getFile(uid);
+                                  await databaseProvider.getFile();
                               toUploadFile = null;
                               userData.premiumTill = null;
                               userData.shuffleCoins = 0;
+                              userData.messagesSent = 0;
+                              userData.messagesReceived = 0;
+                              userData.peopleTalkedTo = 0;
+                              userData.nextClaim = null;
+                              userData.isWriting = false;
                             }
-                            await databaseProvider.setUser(uid, userData);
+                            await databaseProvider.setUser(userData);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

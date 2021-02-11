@@ -59,10 +59,10 @@
     "intrestFilterSubHeader": "Intrest-Filter",
 
 
-    "yourIntrests": "Deine Interessen",
-    "chooseIntrests": "Wähle 3 bis 5 Interessen",
+    "yourInterests": "Deine Interessen",
+    "chooseInterests": "Wähle 3 bis 5 Interessen",
     "scroll": "Scrolle um mehr zu sehen...",
-    "choose3Intrests": "Wähle mindestens 3 Interessen",
+    "choose3Interests": "Wähle mindestens 3 Interessen",
 
 
     "music": "Musik",
@@ -129,7 +129,7 @@
     "deleteAccount": "Account löschen",
     "changePicture": "Profilbild ändern",
     "changeName": "Name ändern",
-    "changeIntrests": "Interessen ändern",
+    "changeInterests": "Interessen ändern",
     "save": "speichern",
     "sure?": "Bist du sicher?",
     "dontGo": "Da draußen sind viel Leute die mit dir Reden wollen!",
@@ -174,7 +174,7 @@
     "userWriting": "schreibt...",
 
     "sendMessage": "Sende eine Nachricht...",
-    "intrests": "Interessen:",
+    "interests": "Interessen:",
     "terms": "AGB / Impressum",
     "privacy": "Datenschutzerklärung",
     "communityGuidlines": "Community Richtlinien"

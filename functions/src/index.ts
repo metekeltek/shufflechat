@@ -56,10 +56,8 @@ document('shuffleUser/{id}').onCreate(async (snap, context) => {
         //create ChatRoom
         const docId = shuffleUser.shuffleUserId + '_' + shufflePartner.shuffleUserId;
         const users: Array<any> = [shuffleUser.shuffleUserId, shufflePartner.shuffleUserId];
-        const usersTyping: Array<any> = [false, false];
         const chatRoom : ChatRoom = {
             users : users,
-            usersTyping : usersTyping,
             chatRoomId : docId
         };
         firestore
@@ -115,21 +113,21 @@ document('chatRoom/{id}').onDelete(async (snap, context) => {
     static matchingUser(user: ShuffleUser, possibleUserPartner: ShuffleUser){
         const userGender = user.userData[0].toString();
         const userAge = user.userData[1].toString();
-        const userIntrests = user.userData[2].toString();
+        const userInterests = user.userData[2].toString();
 
         const userRequestedGender = user.filter[0].toString();
         const userRequestedAgeRange = user.filter[1].toString();
-        const userRequestedIntrests = user.filter[2].toString();
+        const userRequestedInterests = user.filter[2].toString();
 
         const partnerGender = possibleUserPartner.userData[0].toString();
         const partnerAge = possibleUserPartner.userData[1].toString();
-        const partnerIntrests = possibleUserPartner.userData[2].toString();
+        const partnerInterests = possibleUserPartner.userData[2].toString();
 
         const partnerRequestedGender = possibleUserPartner.filter[0].toString();
         const partnerRequestedAgeRange = possibleUserPartner.filter[1].toString();
-        const partnerRequestedIntrests = possibleUserPartner.filter[2].toString();
+        const partnerRequestedInterests = possibleUserPartner.filter[2].toString();
 
-        if(userRequestedGender === 'any' && userRequestedAgeRange === 'any' && userRequestedIntrests === 'any' && partnerRequestedGender === 'any' && partnerRequestedAgeRange === 'any' && partnerRequestedIntrests === 'any') {
+        if(userRequestedGender === 'any' && userRequestedAgeRange === 'any' && userRequestedInterests === 'any' && partnerRequestedGender === 'any' && partnerRequestedAgeRange === 'any' && partnerRequestedInterests === 'any') {
             return true;
         } 
 
@@ -155,11 +153,11 @@ document('chatRoom/{id}').onDelete(async (snap, context) => {
             }
         }
 
-        if(userRequestedIntrests !== 'any'){
+        if(userRequestedInterests !== 'any'){
             let anyMatchingIntrest = false;
-            const intrests = partnerIntrests.split(',');
-            for(let intrest of intrests){
-                if(userRequestedIntrests.includes(intrest)){
+            const interests = partnerInterests.split(',');
+            for(let intrest of interests){
+                if(userRequestedInterests.includes(intrest)){
                     anyMatchingIntrest = true;
                     break;
                 }
@@ -191,11 +189,11 @@ document('chatRoom/{id}').onDelete(async (snap, context) => {
             }
         }
 
-        if(partnerRequestedIntrests !== 'any'){
+        if(partnerRequestedInterests !== 'any'){
             let anyMatchingIntrest = false;
-            const intrests = userIntrests.split(',');
-            for(let intrest of intrests){
-                if(partnerRequestedIntrests.includes(intrest)){
+            const interests = userInterests.split(',');
+            for(let intrest of interests){
+                if(partnerRequestedInterests.includes(intrest)){
                     anyMatchingIntrest = true;
                     break;
                 }
@@ -212,12 +210,10 @@ document('chatRoom/{id}').onDelete(async (snap, context) => {
 
 class ChatRoom {
     users: Array<any>;
-    usersTyping: Array<any>;
     chatRoomId: string;
 
-    constructor(users: Array<any>, usersTyping: Array<any>, chatRoomId: string){
+    constructor(users: Array<any>, chatRoomId: string){
         this.users = users;
-        this.usersTyping = usersTyping;
         this.chatRoomId = chatRoomId;
     }
   }

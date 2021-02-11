@@ -34,15 +34,21 @@ void main() async {
                 create: (_) => AuthProvider(FirebaseAuth.instance)),
             Provider<DatabaseProvider>(
                 create: (_) => DatabaseProvider(
-                    FirebaseFirestore.instance, FirebaseStorage.instance)),
-            FutureProvider<UserData>(
-              initialData: UserData(),
-              create: (_) => DatabaseProvider(
-                      FirebaseFirestore.instance, FirebaseStorage.instance)
-                  .getUserData(FirebaseAuth.instance.currentUser.uid),
-            ),
+                    FirebaseFirestore.instance,
+                    FirebaseStorage.instance,
+                    FirebaseAuth.instance.currentUser.uid)),
+            Provider<UserData>(create: (_) => UserData()),
+            // FutureProvider<UserData>(
+            //   initialData: UserData(),
+            //   create: (_) => DatabaseProvider(
+            //           FirebaseFirestore.instance, FirebaseStorage.instance, FirebaseAuth.instance.currentUser.uid)
+            //       .getUserData(FirebaseAuth.instance.currentUser.uid),
+            // ),
             StreamProvider(
                 create: (context) => context.read<AuthProvider>().authState),
+            StreamProvider(
+                create: (context) =>
+                    context.read<DatabaseProvider>().userDataStream),
           ],
           child: Main(),
         ),

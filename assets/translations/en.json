@@ -55,15 +55,15 @@
     "ageFilter": "Age-Filter",
     "intrestFilter": "Intrest-Filter",
 
-    "intrestFilterHeader": "Choose the Intrests of your Chat Partner",
+    "intrestFilterHeader": "Choose the Interests of your Chat Partner",
     "intrestFilterSubHeader": "Intrest-Filter",
 
 
 
-    "yourIntrests": "Your Intrests",
-    "chooseIntrests": "Choose 3 to 5 Intrests",
+    "yourInterests": "Your Interests",
+    "chooseInterests": "Choose 3 to 5 Interests",
     "scroll": "Scroll to see more...",
-    "choose3Intrests": "Choose at least 3 Intrests",
+    "choose3Interests": "Choose at least 3 Interests",
 
 
     "music": "Music",
@@ -130,7 +130,7 @@
     "deleteAccount": "delete account",
     "changePicture": "Change profile picture",
     "changeName": "Change name",
-    "changeIntrests": "Change Intrests",
+    "changeInterests": "Change Interests",
     "save": "save",
     "sure?": "Are you sure?",
     "dontGo": "There are a lot of people out there that want to talk with you!",
@@ -170,12 +170,12 @@
 
     "clear": "clear",
     "edit": "edit",
-    "chooseMax5": "Choose up to 5 intrests",
+    "chooseMax5": "Choose up to 5 interests",
     "clickHereForMore": "Click here to see more",
     "userWriting": "writing...",
 
     "sendMessage": "Send a message...",
-    "intrests": "Intrests:",
+    "interests": "Interests:",
     "terms": "Terms and Conditions / Legal Notice",
     "privacy": "Privacy Policy",
     "communityGuidlines": "Community Guidlines"

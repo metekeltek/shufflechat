@@ -21,7 +21,6 @@ class _ChatScreenState extends State<ChatScreen> {
   TextEditingController _chatMessageController = TextEditingController();
   ScrollController _scrollController = ScrollController();
   String uid;
-  UserData chatPartner;
   String chatPartnerId = '';
   Stream chatMessagesStream;
   bool isTyping = false;
@@ -59,19 +58,16 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void checkIfIsTyping(DatabaseProvider databaseProvider, usersTyping,
-      userNumber, String chatRoomId) {
+  void checkIfIsTyping(DatabaseProvider databaseProvider) {
     if (_chatMessageController.text == '') {
       if (isTyping) {
         isTyping = false;
-        usersTyping[userNumber] = false;
-        databaseProvider.updateWritingState(chatRoomId, usersTyping);
+        databaseProvider.setIsWriting(false);
       }
     } else {
       if (!isTyping) {
         isTyping = true;
-        usersTyping[userNumber] = true;
-        databaseProvider.updateWritingState(chatRoomId, usersTyping);
+        databaseProvider.setIsWriting(true);
       }
     }
   }
@@ -87,11 +83,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
     final databaseProvider = context.watch<DatabaseProvider>();
-    uid = firebaseUser.uid;
+    uid = databaseProvider.uid;
 
-    Stream<ChatRoom> chatRoomStream = databaseProvider.streamChatRooms(uid);
+    Stream<ChatRoom> chatRoomStream = databaseProvider.streamChatRooms();
 
     return StreamBuilder<ChatRoom>(
         stream: chatRoomStream,
@@ -99,12 +94,10 @@ class _ChatScreenState extends State<ChatScreen> {
           if (snapshot.hasData) {
             chatMessagesStream =
                 chatFunctions.getConversationMessages(snapshot.data.chatRoomId);
-            var partnerUserNumber = snapshot.data.users[0] == uid ? 1 : 0;
-            var userNumber = snapshot.data.users[0] == uid ? 0 : 1;
 
             chatPartnerId = snapshot.data.users[0] == uid
-                ? snapshot.data.users[partnerUserNumber]
-                : snapshot.data.users[partnerUserNumber];
+                ? snapshot.data.users[1]
+                : snapshot.data.users[0];
 
             return Scaffold(
               appBar: AppBar(
@@ -118,25 +111,25 @@ class _ChatScreenState extends State<ChatScreen> {
                     Navigator.pop(context);
                   },
                 ),
-                title: FutureBuilder(
-                    future: databaseProvider.getUserData(chatPartnerId),
-                    builder: (context, userDataSnapshot) {
-                      if (userDataSnapshot.connectionState ==
+                title: StreamBuilder<UserData>(
+                    stream: databaseProvider.streamUserData(chatPartnerId),
+                    builder: (context, chatPartnerSnapshot) {
+                      if (chatPartnerSnapshot.connectionState ==
                           ConnectionState.done) {
-                        if (userDataSnapshot.hasError) {
+                        if (chatPartnerSnapshot.hasError) {
                           return Container();
                         }
-                        chatPartner = userDataSnapshot.data;
-                        if (chatPartner.profilePictureURL != null &&
-                            chatPartner.name != null) {
-                          var image =
-                              NetworkImage(chatPartner.profilePictureURL);
+                        if (chatPartnerSnapshot.data.profilePictureURL !=
+                                null &&
+                            chatPartnerSnapshot.data.name != null) {
+                          var image = NetworkImage(
+                              chatPartnerSnapshot.data.profilePictureURL);
                           return GestureDetector(
                             onTap: () async {
                               await showDialog(
                                   context: context,
-                                  builder: (_) => ImageIntrestsDialog(
-                                      image, chatPartner.interests));
+                                  builder: (_) => ImageInterestsDialog(image,
+                                      chatPartnerSnapshot.data.interests));
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -155,7 +148,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   children: [
                                     FittedBox(
                                       fit: BoxFit.scaleDown,
-                                      child: Text(chatPartner.name,
+                                      child: Text(chatPartnerSnapshot.data.name,
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                               fontSize: 20,
@@ -166,8 +159,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                       height: 3,
                                     ),
                                     Text(
-                                        snapshot.data
-                                                .usersTyping[partnerUserNumber]
+                                        chatPartnerSnapshot.data.isWriting
                                             ? chatPartnerWritingInfo
                                             : clickHereForMoreInfo,
                                         textAlign: TextAlign.start,
@@ -180,11 +172,11 @@ class _ChatScreenState extends State<ChatScreen> {
                               ],
                             ),
                           );
-                        } else if (chatPartner.name != null) {
+                        } else if (chatPartnerSnapshot.data.name != null) {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(chatPartner.name,
+                              Text(chatPartnerSnapshot.data.name,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 20,
@@ -194,7 +186,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 height: 3,
                               ),
                               Text(
-                                  snapshot.data.usersTyping[partnerUserNumber]
+                                  chatPartnerSnapshot.data.isWriting
                                       ? chatPartnerWritingInfo
                                       : clickHereForMoreInfo,
                                   textAlign: TextAlign.center,
@@ -207,7 +199,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         }
                         return Container(
                           child: Text(
-                              snapshot.data.usersTyping[partnerUserNumber] ??
+                              chatPartnerSnapshot.data.isWriting ??
                                   chatPartnerWritingInfo,
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -292,11 +284,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                   constraints: BoxConstraints(maxHeight: 250),
                                   child: Container(
                                     child: TextFormField(
-                                      onChanged: (_) => checkIfIsTyping(
-                                          databaseProvider,
-                                          snapshot.data.usersTyping,
-                                          userNumber,
-                                          snapshot.data.chatRoomId),
+                                      onChanged: (_) =>
+                                          checkIfIsTyping(databaseProvider),
                                       maxLines: null,
                                       textCapitalization:
                                           TextCapitalization.sentences,
@@ -329,11 +318,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             GestureDetector(
                               onTap: () {
                                 sendMessage(snapshot.data.chatRoomId);
-                                checkIfIsTyping(
-                                    databaseProvider,
-                                    snapshot.data.usersTyping,
-                                    userNumber,
-                                    snapshot.data.chatRoomId);
+                                checkIfIsTyping(databaseProvider);
                               },
                               child: Container(
                                 height: 50,
@@ -359,11 +344,11 @@ class _ChatScreenState extends State<ChatScreen> {
           } else {
             if (chatRoomStream != null) {
               if (chatPartnerId != '') {
-                databaseProvider.createShuffleUser(uid, chatPartnerId,
-                    widget.filterArray, widget.userDataArray);
+                databaseProvider.createShuffleUser(
+                    chatPartnerId, widget.filterArray, widget.userDataArray);
               } else {
                 databaseProvider.createShuffleUser(
-                    uid, '', widget.filterArray, widget.userDataArray);
+                    '', widget.filterArray, widget.userDataArray);
               }
             }
             return Scaffold(
@@ -372,7 +357,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () {
-                    context.read<DatabaseProvider>().deleteShuffleUser(uid);
+                    context.read<DatabaseProvider>().deleteShuffleUser();
                     Navigator.pop(context);
                   },
                 ),
@@ -421,11 +406,11 @@ class MessageTile extends StatelessWidget {
   }
 }
 
-class ImageIntrestsDialog extends StatelessWidget {
+class ImageInterestsDialog extends StatelessWidget {
   final profileImage;
-  final intrests;
+  final interests;
 
-  ImageIntrestsDialog(this.profileImage, this.intrests);
+  ImageInterestsDialog(this.profileImage, this.interests);
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -453,7 +438,7 @@ class ImageIntrestsDialog extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Text('intrests'.tr(),
+            Text('interests'.tr(),
                 style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -463,7 +448,7 @@ class ImageIntrestsDialog extends StatelessWidget {
             ),
             Container(
               width: 200,
-              child: Text(listToString(intrests),
+              child: Text(listToString(interests),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 15,
@@ -477,12 +462,12 @@ class ImageIntrestsDialog extends StatelessWidget {
   }
 }
 
-String listToString(List<dynamic> intrests) {
-  var intrestsString = '';
-  for (var intrest in intrests) {
-    intrestsString += intrest.toString().tr() + ', ';
+String listToString(List<dynamic> interests) {
+  var interestsString = '';
+  for (var intrest in interests) {
+    interestsString += intrest.toString().tr() + ', ';
   }
 
-  intrestsString = intrestsString.substring(0, intrestsString.length - 2);
-  return intrestsString;
+  interestsString = interestsString.substring(0, interestsString.length - 2);
+  return interestsString;
 }

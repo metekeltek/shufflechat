@@ -67,7 +67,7 @@ class _Register5State extends State<Register5> {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    'yourIntrests'.tr(),
+                    'yourInterests'.tr(),
                     style:
                         TextStyle(fontSize: 60.0, fontWeight: FontWeight.w500),
                     textAlign: TextAlign.left,
@@ -82,7 +82,7 @@ class _Register5State extends State<Register5> {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    'chooseIntrests'.tr(),
+                    'chooseInterests'.tr(),
                     style:
                         TextStyle(fontSize: 23.0, fontWeight: FontWeight.w400),
                     textAlign: TextAlign.left,
@@ -238,7 +238,7 @@ class _Register5State extends State<Register5> {
                 child: Visibility(
                   visible: _isVisible,
                   child: Text(
-                    _isError ? 'choose3Intrests'.tr() : 'scroll'.tr(),
+                    _isError ? 'choose3Interests'.tr() : 'scroll'.tr(),
                     style: TextStyle(
                         color: _isError ? Colors.red : Color(0xffff9600),
                         fontSize: 17,

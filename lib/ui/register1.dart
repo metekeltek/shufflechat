@@ -169,8 +169,7 @@ class _Register1State extends State<Register1> {
                                       UserData userData = UserData();
                                       await context
                                           .read<DatabaseProvider>()
-                                          .setUser(
-                                              registerResult.uid, userData);
+                                          .setUser(userData);
                                     } else {
                                       var errorMessage = translateError(
                                           registerResult.errorMessage);

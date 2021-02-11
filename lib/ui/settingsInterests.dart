@@ -2,22 +2,23 @@ import 'package:custom_radio_grouped_button/CustomButtons/ButtonTextStyle.dart';
 import 'package:custom_radio_grouped_button/CustomButtons/CustomCheckBoxGroup.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:shufflechat/models/UserData.dart';
 import 'package:provider/provider.dart';
-import 'package:shufflechat/services/authProvider.dart';
 import 'package:shufflechat/services/dbProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class SettingsIntrests extends StatefulWidget {
+class SettingsInterests extends StatefulWidget {
+  final List<dynamic> interests;
+
+  SettingsInterests(this.interests);
   @override
-  _SettingsIntrestsState createState() => _SettingsIntrestsState();
+  _SettingsInterestsState createState() => _SettingsInterestsState();
 }
 
-class _SettingsIntrestsState extends State<SettingsIntrests> {
+class _SettingsInterestsState extends State<SettingsInterests> {
   TextEditingController _intrestField = TextEditingController();
   bool _isError = false;
   bool _isVisible = true;
-  bool _intrestsChanged = false;
+  bool _interestsChanged = false;
 
   void showField() {
     setState(() {
@@ -33,8 +34,8 @@ class _SettingsIntrestsState extends State<SettingsIntrests> {
 
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<UserData>(context);
     _intrestField.text = '';
+    List<dynamic> interests = widget.interests;
 
     return Scaffold(
       body: Container(
@@ -54,17 +55,12 @@ class _SettingsIntrestsState extends State<SettingsIntrests> {
                     SafeArea(
                       child: GestureDetector(
                         onTap: () async {
-                          if (userData.interests != null &&
-                              userData.interests.length > 2) {
-                            if (_intrestsChanged) {
+                          if (interests != null && interests.length > 2) {
+                            if (_interestsChanged) {
                               _isError = false;
-                              final uid = context.read<AuthProvider>().getUID();
-                              context
-                                  .read<UserData>()
-                                  .setUserDataModel(userData);
                               await context
                                   .read<DatabaseProvider>()
-                                  .setUser(uid, userData);
+                                  .setInterests(interests);
                             }
                             Navigator.pop(context);
                           } else {
@@ -90,7 +86,7 @@ class _SettingsIntrestsState extends State<SettingsIntrests> {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    'yourIntrests'.tr(),
+                    'yourInterests'.tr(),
                     style:
                         TextStyle(fontSize: 60.0, fontWeight: FontWeight.w500),
                     textAlign: TextAlign.left,
@@ -105,7 +101,7 @@ class _SettingsIntrestsState extends State<SettingsIntrests> {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    'chooseIntrests'.tr(),
+                    'chooseInterests'.tr(),
                     style:
                         TextStyle(fontSize: 23.0, fontWeight: FontWeight.w400),
                     textAlign: TextAlign.left,
@@ -127,17 +123,17 @@ class _SettingsIntrestsState extends State<SettingsIntrests> {
                       fontSize: 16,
                     ),
                   ),
-                  defaultSelected: userData.interests,
+                  defaultSelected: interests,
                   unSelectedColor: Theme.of(context).canvasColor,
                   unSelectedBorderColor: Colors.black,
                   selectedColor: const Color(0xffff9600),
                   selectedBorderColor: const Color(0xffff9600),
                   checkBoxButtonValues: (values) {
-                    userData.interests = values;
+                    interests = values;
                     if (values.length > 5) {
                       values.removeLast();
                     }
-                    _intrestsChanged = true;
+                    _interestsChanged = true;
                   },
                   buttonLables: [
                     'music'.tr(),
@@ -261,7 +257,7 @@ class _SettingsIntrestsState extends State<SettingsIntrests> {
                 child: Visibility(
                   visible: _isVisible,
                   child: Text(
-                    _isError ? 'choose3Intrests'.tr() : 'scroll'.tr(),
+                    _isError ? 'choose3Interests'.tr() : 'scroll'.tr(),
                     style: TextStyle(
                         color: _isError ? Colors.red : Color(0xffff9600),
                         fontSize: 17,

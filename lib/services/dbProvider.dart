@@ -9,10 +9,13 @@ import 'dart:async';
 class DatabaseProvider {
   final FirebaseFirestore _db;
   final FirebaseStorage _firebaseStorage;
+  final String uid;
 
-  DatabaseProvider(this._db, this._firebaseStorage);
+  DatabaseProvider(this._db, this._firebaseStorage, this.uid);
 
   //*UserData Methods
+
+  Stream<UserData> get userDataStream => this.streamUserData(uid);
 
   Stream<UserData> streamUserData(String uid) {
     return _db
@@ -22,7 +25,7 @@ class DatabaseProvider {
         .map((doc) => UserData.fromFirestore(doc));
   }
 
-  Future<UserData> getUserData(String uid) async {
+  Future<UserData> getUserData() async {
     UserData userData;
     try {
       var snap = await _db.collection('userData').doc(uid).get();
@@ -33,37 +36,45 @@ class DatabaseProvider {
     }
   }
 
-  Future<void> deleteUserData(String uid) async {
+  Future<void> deleteUserData() async {
     await _db.collection('userData').doc(uid).delete();
   }
 
-  Future<void> setUser(String uid, UserData userData) {
+  Future<void> setUser(UserData userData) {
     return _db.collection('userData').doc(uid).set(userData.toJson());
   }
 
-  Future<void> setShuffleCoins(String uid, int shuffleCoins) {
+  Future<void> setShuffleCoins(int shuffleCoins) {
     return _db
         .collection('userData')
         .doc(uid)
         .update({'shuffleCoins': shuffleCoins});
   }
 
-  Future<void> setPremiumTill(String uid, Timestamp premiumTill) {
+  Future<void> setPremiumTill(Timestamp premiumTill) {
     return _db
         .collection('userData')
         .doc(uid)
         .update({'premiumTill': premiumTill});
   }
 
+  Future<void> setIsWriting(bool isWriting) {
+    return _db.collection('userData').doc(uid).update({'isWriting': isWriting});
+  }
+
+  Future<void> setInterests(List<dynamic> interests) {
+    return _db.collection('userData').doc(uid).update({'interests': interests});
+  }
+
   //*FirebaseStorage Methods
 
-  Future<void> uploadFile(String uid, File file) async {
+  Future<void> uploadFile(File file) async {
     try {
       await _firebaseStorage.ref('profilePictures/$uid.png').putFile(file);
     } catch (e) {}
   }
 
-  Future<String> getFile(String uid) async {
+  Future<String> getFile() async {
     try {
       return await _firebaseStorage
           .ref('profilePictures/$uid.png')
@@ -73,10 +84,18 @@ class DatabaseProvider {
     }
   }
 
+  Future<void> deleteFile() async {
+    try {
+      return await _firebaseStorage.ref('profilePictures/$uid.png').delete();
+    } catch (e) {
+      return '';
+    }
+  }
+
   //*ShuffleUser Methods
 
-  Future<void> createShuffleUser(String uid, String lastShuffle,
-      List<String> filter, List<String> userData) {
+  Future<void> createShuffleUser(
+      String lastShuffle, List<String> filter, List<String> userData) {
     ShuffleUser shuffleUser = ShuffleUser();
     shuffleUser.shuffleUserId = uid;
     shuffleUser.lastShuffle = lastShuffle;
@@ -85,30 +104,15 @@ class DatabaseProvider {
     return _db.collection('shuffleUser').doc(uid).set(shuffleUser.toJson());
   }
 
-  void deleteShuffleUser(String uid) async {
+  void deleteShuffleUser() async {
     try {
       await _db.collection('shuffleUser').doc(uid).delete();
     } catch (e) {}
   }
 
-////Delete this
-  // void getShuffleUser(String uid) async {
-  //   try {
-  //     var thisId = await _db
-  //         .collection('shuffleUser')
-  //         .where('shuffleUserId', isNotEqualTo: uid)
-  //         .limit(1)
-  //         .get();
-
-  //     createChatRoom(uid, thisId.docs.first.id);
-  //   } catch (e) {
-  //     createShuffleUser(uid, '');
-  //   }
-  // }
-
   //*ChatRoom Methods
 
-  Stream<ChatRoom> streamChatRooms(String uid) {
+  Stream<ChatRoom> streamChatRooms() {
     var chatRoom = _db
         .collection('chatRoom')
         .where('users', arrayContains: uid)
@@ -118,36 +122,7 @@ class DatabaseProvider {
     return chatRoom;
   }
 
-  void updateWritingState(String chatRoomId, List<dynamic> usersTyping) {
-    _db
-        .collection('chatRoom')
-        .doc(chatRoomId)
-        .update({'usersTyping': usersTyping});
-  }
-
-  // String createChatRoom(String uid0, String uid1) {
-  //   String docId = uid0 + '_' + uid1;
-  //   ChatRoom chatRoom = ChatRoom();
-  //   chatRoom.user0 = uid0;
-  //   chatRoom.user1 = uid1;
-  //   chatRoom.chatRoomId = docId;
-  //   _db.collection('chatRoom').doc(docId).set(chatRoom.toJson());
-  //   return chatRoom.chatRoomId;
-  // }
-
   deleteChatRoom(String docId) {
     _db.collection('chatRoom').doc(docId).delete();
   }
-
-  // deleteChat(String docId) {
-  //   //Consider deleting this method and moving to cloud functions, if too many db requests
-  //   _db
-  //       .collection('chatRoom')
-  //       .doc(docId)
-  //       .collection('chat')
-  //       .get()
-  //       .then((value) => value.docs.forEach((doc) {
-  //             doc.reference.delete();
-  //           }));
-  // }
 }

@@ -58,10 +58,7 @@ class _Register2State extends State<Register2> {
                         SafeArea(
                           child: GestureDetector(
                             onTap: () async {
-                              final uid = context.read<User>().uid;
-                              context
-                                  .read<DatabaseProvider>()
-                                  .deleteUserData(uid);
+                              context.read<DatabaseProvider>().deleteUserData();
                               await context.read<AuthProvider>().deleteUser();
                               Phoenix.rebirth(context);
                             },
